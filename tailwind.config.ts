@@ -98,10 +98,12 @@ export default {
 				'fade-in-right': 'fade-in-right 0.8s ease-out forwards',
 				'neon-pulse': 'neon-pulse 4s infinite ease-in-out'
 			},
-			fontFamily: {
-				sans: ['Space Grotesk', 'sans-serif'],
-				heading: ['Space Grotesk', 'sans-serif'],
-			},
+		fontFamily: {
+			sans: ['Space Grotesk', 'sans-serif'],
+			heading: ['Space Grotesk', 'sans-serif'],
+			mono: ['Space Mono', 'monospace'],
+			cairo: ['Cairo', 'sans-serif'],
+		},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
