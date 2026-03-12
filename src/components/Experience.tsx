@@ -88,6 +88,8 @@ const Experience = () => {
                 </div>
               </div>
 
+              <AliensDeepDive />
+
               {/* Community & Program Role */}
               <div className="pt-6 border-t border-white/10">
                 <h4 className="text-lg font-bold mb-4 flex items-center gap-2 text-white">
