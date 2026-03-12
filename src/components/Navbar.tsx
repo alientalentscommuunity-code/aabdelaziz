@@ -41,10 +41,10 @@ const Navbar = () => {
         ))}
         <div className="w-px h-5 bg-white/10" />
         <Link
-          to="/career-framework"
-          className="text-[10px] font-bold uppercase tracking-widest text-orange-500 hover:text-orange-400 px-3 py-2 rounded-full hover:bg-orange-500/10 transition-all duration-300"
+          to="/career"
+          className="text-[10px] font-bold uppercase tracking-widest text-[#4A9EFF] hover:text-[#6BB3FF] px-3 py-2 rounded-full hover:bg-[#4A9EFF]/10 transition-all duration-300"
         >
-          Framework
+          Career
         </Link>
         <a
           href="mailto:ahmad@alientalents.com"
@@ -83,11 +83,11 @@ const Navbar = () => {
               </a>
             ))}
             <Link
-              to="/career-framework"
-              className="text-2xl font-black italic uppercase tracking-tighter text-orange-500 hover:text-orange-400 transition-colors"
+              to="/career"
+              className="text-2xl font-black italic uppercase tracking-tighter text-[#4A9EFF] hover:text-[#6BB3FF] transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Framework
+              Career
             </Link>
             <a
               href="mailto:ahmad@alientalents.com"

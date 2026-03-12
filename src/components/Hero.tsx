@@ -69,6 +69,13 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-wrap gap-4 mt-10 animate-fade-in" style={{ animationDelay: "0.4s" }}>
+            <Link 
+              to="/career" 
+              className="btn bg-[#4A9EFF] text-black hover:bg-[#6BB3FF] shadow-[0_0_20px_rgba(74,158,255,0.3)] hover:shadow-[0_0_30px_rgba(74,158,255,0.6)] active:scale-95 flex items-center gap-2"
+            >
+              <Rocket size={14} />
+              Career Dimension
+            </Link>
             <a 
               href="#projects" 
               className="btn btn-primary flex items-center gap-2"
@@ -76,13 +83,6 @@ const Hero = () => {
               View Projects
               <ExternalLink size={14} />
             </a>
-            <Link 
-              to="/career-framework" 
-              className="btn btn-secondary flex items-center gap-2"
-            >
-              <Rocket size={14} />
-              Career Framework
-            </Link>
             <a 
               href="#contact" 
               className="btn btn-outline"
