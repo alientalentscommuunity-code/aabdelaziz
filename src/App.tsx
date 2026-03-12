@@ -13,6 +13,9 @@ import CareerPortfolio from "./pages/CareerPortfolio";
 import CareerICP from "./pages/CareerICP";
 import CareerProgress from "./pages/CareerProgress";
 import CareerVision from "./pages/CareerVision";
+import HumanSide from "./pages/HumanSide";
+import Partners from "./pages/Partners";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -30,6 +33,8 @@ const App = () => (
           <Route path="/career/icp" element={<CareerICP />} />
           <Route path="/career/progress" element={<CareerProgress />} />
           <Route path="/career/vision" element={<CareerVision />} />
+          <Route path="/human" element={<HumanSide />} />
+          <Route path="/partners" element={<Partners />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

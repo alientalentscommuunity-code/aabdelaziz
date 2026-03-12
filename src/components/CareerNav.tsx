@@ -6,6 +6,10 @@ const careerLinks = [
   { name: "Overview", path: "/career" },
   { name: "CV", path: "/career/cv" },
   { name: "Portfolio", path: "/career/portfolio" },
+];
+
+const partnerLinks = [
+  { name: "Overview", path: "/partners" },
   { name: "ICP", path: "/career/icp" },
   { name: "Progress", path: "/career/progress" },
   { name: "Vision", path: "/career/vision" },
@@ -13,6 +17,9 @@ const careerLinks = [
 
 const CareerNav = () => {
   const location = useLocation();
+  const isPartners = location.pathname === "/partners" || location.pathname.startsWith("/career/icp") || location.pathname.startsWith("/career/progress") || location.pathname.startsWith("/career/vision");
+  const links = isPartners ? partnerLinks : careerLinks;
+  const label = isPartners ? "Friends & Partners" : "Career Side";
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-xl border-b border-white/5">
@@ -26,8 +33,10 @@ const CareerNav = () => {
             <span className="hidden sm:inline">Home</span>
           </Link>
           <div className="w-px h-6 bg-white/10 shrink-0" />
+          <span className="text-[10px] font-bold uppercase tracking-widest text-[#4A9EFF] shrink-0">{label}</span>
+          <div className="w-px h-6 bg-white/10 shrink-0" />
           <div className="flex items-center gap-1 overflow-x-auto scrollbar-hide">
-            {careerLinks.map((link) => {
+            {links.map((link) => {
               const isActive = location.pathname === link.path;
               return (
                 <Link
