@@ -83,11 +83,11 @@ const Navbar = () => {
               </a>
             ))}
             <Link
-              to="/career-framework"
-              className="text-2xl font-black italic uppercase tracking-tighter text-orange-500 hover:text-orange-400 transition-colors"
+              to="/career"
+              className="text-2xl font-black italic uppercase tracking-tighter text-[#4A9EFF] hover:text-[#6BB3FF] transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Framework
+              Career
             </Link>
             <a
               href="mailto:ahmad@alientalents.com"
