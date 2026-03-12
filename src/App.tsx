@@ -7,7 +7,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import CareerFramework from "./pages/CareerFramework";
-
+import CareerLanding from "./pages/CareerLanding";
+import CareerCV from "./pages/CareerCV";
+import CareerPortfolio from "./pages/CareerPortfolio";
+import CareerICP from "./pages/CareerICP";
+import CareerProgress from "./pages/CareerProgress";
+import CareerVision from "./pages/CareerVision";
 const queryClient = new QueryClient();
 
 const App = () => (
