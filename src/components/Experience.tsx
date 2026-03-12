@@ -1,5 +1,6 @@
 import React from "react";
 import { Briefcase, TrendingUp, Users, Award, Youtube, ExternalLink } from "lucide-react";
+import AliensDeepDive from "@/components/career/AliensDeepDive";
 
 const Experience = () => {
   return (
