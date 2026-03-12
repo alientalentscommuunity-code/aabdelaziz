@@ -1,5 +1,6 @@
 import React from "react";
 import { Briefcase, TrendingUp, Users, Award, Youtube, ExternalLink } from "lucide-react";
+import AliensDeepDive from "@/components/career/AliensDeepDive";
 
 const Experience = () => {
   return (
@@ -86,6 +87,8 @@ const Experience = () => {
                   </p>
                 </div>
               </div>
+
+              <AliensDeepDive />
 
               {/* Community & Program Role */}
               <div className="pt-6 border-t border-white/10">
