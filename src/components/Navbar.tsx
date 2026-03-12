@@ -19,26 +19,29 @@ const Navbar = () => {
     { name: "Human Side", href: "/human" },
     { name: "Career Side", href: "/career" },
     { name: "Friends & Partners", href: "/partners" },
+    { name: "Handbook", href: "/handbook" },
   ];
 
-  const isActive = (href: string) => location.pathname.startsWith(href);
+  const isActive = (href: string) => location.pathname === href || location.pathname.startsWith(href + "/");
 
   return (
     <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[100]">
       {/* Desktop Navigation Pill */}
       <div className={`hidden md:flex items-center gap-1 glass px-2 py-2 shadow-[0_30px_60px_rgba(0,0,0,0.5)] transition-all duration-300 ${isScrolled ? 'border-white/20' : ''}`}>
-        <Link to="/" className="text-sm font-black italic uppercase tracking-tighter text-green-500 px-4">
-          Ahmad
+        <Link to="/" className="text-sm font-mono font-bold text-white/60 px-4 tracking-[0.1em]">
+          ALIEN<span className="text-amber-400">S</span>
         </Link>
         <div className="w-px h-5 bg-white/10" />
         {navLinks.map((link) => (
           <Link
             key={link.name}
             to={link.href}
-            className={`text-[10px] font-bold uppercase tracking-widest px-3 py-2 rounded-full transition-all duration-300 ${
+            className={`text-[10px] font-bold uppercase tracking-widest px-3 py-2 rounded-full transition-all duration-300 font-mono ${
               isActive(link.href)
-                ? "bg-[#4A9EFF]/20 text-[#4A9EFF]"
-                : "text-white/40 hover:text-white hover:bg-white/5"
+                ? link.href === "/handbook"
+                  ? "bg-amber-400/[0.12] text-amber-400 border border-amber-400/35"
+                  : "bg-white/[0.07] text-white/90 border border-white/15"
+                : "text-white/35 hover:text-white hover:bg-white/5 border border-transparent"
             }`}
           >
             {link.name}
@@ -56,8 +59,8 @@ const Navbar = () => {
 
       {/* Mobile Navigation */}
       <div className="md:hidden flex items-center gap-3">
-        <Link to="/" className="glass-sm px-4 py-2 text-sm font-black italic uppercase tracking-tighter text-green-500">
-          Ahmad
+        <Link to="/" className="glass-sm px-4 py-2 text-sm font-mono font-bold text-white/60 tracking-[0.1em]">
+          ALIEN<span className="text-amber-400">S</span>
         </Link>
         <button
           className="glass-sm px-3 py-2 text-white"
@@ -75,8 +78,8 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 to={link.href}
-                className={`text-2xl font-black italic uppercase tracking-tighter transition-colors ${
-                  isActive(link.href) ? "text-[#4A9EFF]" : "text-white/40 hover:text-white"
+                className={`text-2xl font-bold transition-colors font-cairo ${
+                  isActive(link.href) ? "text-white/90" : "text-white/40 hover:text-white"
                 }`}
                 onClick={() => setMobileMenuOpen(false)}
               >
