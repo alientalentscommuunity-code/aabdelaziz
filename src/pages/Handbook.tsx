@@ -10,7 +10,7 @@ const Handbook = () => {
   const subs = ["intro", "what we do", "how it started", "where we are", "where we're going", "the product"];
 
   useEffect(() => {
-    document.title = "ALIENs Venture Handbook — Ahmad Abdelaziz";
+    document.title = "Startup Handbook — Ahmad Abdelaziz";
   }, []);
 
   return (
