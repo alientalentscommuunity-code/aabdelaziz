@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SubNav from "@/components/shared/SubNav";
 import PlatformSection from "@/components/career/PlatformSection";
-import { EXPERIENCE, METRICS, DOMAINS, GEOS } from "@/lib/data";
+import { EXPERIENCE, METRICS, DOMAINS, GEOS, SUB_ROLES, EXPERTISE_SECTIONS } from "@/lib/data";
 
 const CareerLanding = () => {
   const [sub, setSub] = useState("intro");
@@ -22,23 +22,40 @@ const CareerLanding = () => {
           <SubNav items={subs} active={sub} onSelect={setSub} />
 
           {sub === "intro" && (
-            <div className="flex flex-col gap-7">
-              {/* Hero */}
+            <div className="flex flex-col gap-8">
+              {/* ── HERO BLOCK ── */}
               <div>
-                <div className="font-mono text-[10px] text-white/[0.38] tracking-[0.2em] uppercase mb-2.5">Ahmad Abdelaziz</div>
-                <h2 className="font-cairo text-[28px] font-bold text-white/90 leading-[1.2] mb-2">
-                  AI-enabled Product Manager<br />
-                  <span className="text-white/40 font-normal text-xl">Community-Led Growth · Entrepreneur in Residence</span>
-                </h2>
+                <h1 className="font-cairo text-[32px] sm:text-[38px] font-bold text-white/90 leading-[1.15] mb-1">
+                  Ahmad Abdelaziz
+                </h1>
+                <p className="font-cairo text-lg sm:text-xl text-white/70 font-semibold mb-1">
+                  AI Product Manager | Founder & Entrepreneur in Residence
+                </p>
 
-                {/* Contacts */}
-                <div className="flex flex-wrap gap-3 mt-4">
+                {/* Sub-role chips */}
+                <div className="flex flex-wrap gap-2 mt-3 mb-3">
+                  {SUB_ROLES.map((r) => (
+                    <span key={r} className="font-mono text-[10px] text-violet-300 border border-violet-400/25 rounded-full px-2.5 py-[3px]">
+                      {r}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Sub-tagged headlines */}
+                <p className="font-cairo text-sm text-white/50 leading-relaxed">
+                  AI Product Manager | Community Growth | Entrepreneur In Residence
+                </p>
+                <p className="font-cairo text-sm text-white/35 italic leading-relaxed">
+                  Learning by doing → Curious • Kind • Wild
+                </p>
+
+                {/* Contact row */}
+                <div className="flex flex-wrap gap-2.5 mt-4">
                   {[
-                    { label: "ahmad@alientalents.com", href: "mailto:ahmad@alientalents.com" },
-                    { label: "LinkedIn", href: "https://www.linkedin.com/in/ahmad96abdelaziz/" },
-                    { label: "Portfolio", href: "https://ahmad96.lovable.app/" },
-                    { label: "YouTube", href: "https://www.youtube.com/@ALIENs.venture" },
-                    { label: "(20) 106 715 6747", href: "tel:+201067156747" },
+                    { label: "📧 ahmad@alientalents.com", href: "mailto:ahmad@alientalents.com" },
+                    { label: "💼 LinkedIn", href: "https://www.linkedin.com/in/ahmad96abdelaziz/" },
+                    { label: "🎥 YouTube", href: "https://www.youtube.com/@ALIENs.venture" },
+                    { label: "📞 (+20) 1067156747", href: "tel:+201067156747" },
                   ].map((c) => (
                     <a key={c.label} href={c.href} target="_blank" rel="noreferrer"
                       className="font-mono text-[11px] text-white/45 border border-white/10 rounded-md px-3 py-[5px] hover:text-white/90 hover:border-white/30 transition-all">
@@ -48,11 +65,11 @@ const CareerLanding = () => {
                 </div>
               </div>
 
-              {/* Experience strip */}
+              {/* ── EXPERTISE SUMMARY MAP ── */}
               <div className="flex gap-6 flex-wrap py-4 border-t border-b border-white/[0.06]">
                 <div>
-                  <div className="font-mono text-[22px] font-bold text-white/90">12</div>
-                  <div className="font-mono text-[10px] text-white/[0.38] mt-0.5">Years of experience</div>
+                  <div className="font-mono text-[22px] font-bold text-white/90">+12</div>
+                  <div className="font-mono text-[10px] text-white/[0.38] mt-0.5">Years of Experience</div>
                 </div>
                 <div className="w-px bg-white/[0.08]" />
                 <div>
@@ -74,35 +91,50 @@ const CareerLanding = () => {
                 </div>
               </div>
 
-              {/* Summary */}
-              <div>
-                <div className="font-mono text-[10px] text-white/[0.38] tracking-[0.15em] uppercase mb-3">Summary</div>
-                <div className="flex flex-col gap-2">
-                  {[
-                    "1+ year prototyping with LLMs & vibe coding — building AI copilots for global talent & hiring managers.",
-                    "Shipped Jobs & Companies boards, Talent Marketplace, Mini ATS, and 2+ in-progress MVPs.",
-                    "30K+ visits · 3K+ applies · 500 signups · $2K+ monetized · Winner @ Cairo AI Hackathon by Athar Accelerator.",
-                    "2 closed-won partnerships (nsave.co + Athar Accelerator) · $5K inbound MRR pipeline.",
-                  ].map((line, i) => (
-                    <div key={i} className="flex gap-2.5 items-start">
-                      <span className="text-violet-300 opacity-50 text-xs mt-[3px] shrink-0">→</span>
-                      <span className="font-cairo text-sm text-white/60 leading-[1.7]">{line}</span>
+              {/* ── EXPERTISE SECTIONS ── */}
+              <div className="flex flex-col gap-6">
+                {EXPERTISE_SECTIONS.map((sec, i) => (
+                  <div key={i} className="bg-white/[0.025] border border-white/[0.07] rounded-lg p-5">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-lg">{sec.icon}</span>
+                      <h3 className="font-cairo text-[15px] font-semibold text-white/90">{sec.title}</h3>
                     </div>
-                  ))}
-                </div>
-              </div>
+                    <p className="font-mono text-[11px] text-white/[0.38] mb-3">{sec.subtitle}</p>
 
-              {/* Metrics */}
-              <div className="grid grid-cols-3 gap-2.5">
-                {METRICS.map((m) => (
-                  <div key={m.label} className="bg-white/[0.025] border border-white/[0.07] rounded-lg p-3.5">
-                    <div className="font-mono text-xl font-bold text-white/90">{m.value}</div>
-                    <div className="font-mono text-[10px] text-white/[0.38] mt-1 leading-[1.4]">{m.label}</div>
+                    <div className="flex flex-col gap-1.5">
+                      {sec.bullets.map((b, j) => (
+                        <div key={j} className="flex gap-2 items-start">
+                          <span className="text-violet-300 opacity-50 text-[11px] mt-[3px] shrink-0">→</span>
+                          <span className="font-cairo text-[13px] text-white/[0.55] leading-[1.7]">{b}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {sec.highlight && (
+                      <p className="font-cairo text-[13px] text-amber-400 font-semibold mt-3">{sec.highlight}</p>
+                    )}
+                    {sec.stack && (
+                      <p className="font-mono text-[10px] text-white/30 mt-2">{sec.stack}</p>
+                    )}
+
+                    {sec.extra && (
+                      <div className="mt-4 pt-3 border-t border-white/[0.06]">
+                        <p className="font-mono text-[11px] text-white/[0.38] mb-2">{sec.extra.subtitle}</p>
+                        <div className="flex flex-col gap-1.5">
+                          {sec.extra.bullets.map((b, j) => (
+                            <div key={j} className="flex gap-2 items-start">
+                              <span className="text-violet-300 opacity-50 text-[11px] mt-[3px] shrink-0">→</span>
+                              <span className="font-cairo text-[13px] text-white/[0.55] leading-[1.7]">{b}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
 
-              {/* CTA — view full CV toggle */}
+              {/* 🔒 FULL CV VIEW — DO NOT EDIT */}
               <div>
                 <button onClick={() => setCvOpen(o => !o)}
                   className={`font-mono text-xs border border-white/15 rounded-lg px-5 py-2.5 flex items-center gap-2 transition-all ${

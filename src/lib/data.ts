@@ -163,4 +163,57 @@ export const METRICS = [
 ];
 
 export const DOMAINS = ["EdTech","SW House","Marketing Agency","HR Tech","FinTech"];
-export const GEOS = ["SMEs & Tech","SaaS Startups","MENA · US · UK"];
+export const GEOS = ["SMEs & Tech/SaaS Startups","Egypt","GCC","EMEA","USA"];
+
+export const SUB_ROLES = [
+  "Full-Stack Vibe Coding",
+  "Community-Led Growth Builder",
+  "Commercial & GTM Background",
+];
+
+export const EXPERTISE_SECTIONS = [
+  {
+    icon: "🧠",
+    title: "Product Expertise",
+    subtitle: 'Acting "Entrepreneur in Residence" (Learning) | Jul 2025 – Present',
+    bullets: [
+      "Shipped an AI-enabled talent & hiring platform — 20K+ visits, 500+ signups, $2K revenue at 100% margin",
+      "$5K inbound MRR pipeline across 3 leads: talent referrals, employment academy, and AI subscription",
+      "Placed 2 talents in USD roles — $8K total earnings; 16+ talents secured interviews",
+      "5+ startups consulted on remote hiring; 10+ recruiter referral requests supported",
+    ],
+    highlight: "🏆 Winner — Cairo AI Hackathon by Athar Accelerator",
+    stack: "Stack: Claude · Lovable.dev · Supabase · Airtable · Softr · Notion",
+  },
+  {
+    icon: "🌍",
+    title: "Community Management Expertise",
+    subtitle: "Jul 2024 – Oct 2025",
+    bullets: [
+      "Managed end-to-end program ops — 70+ newsletters, 100+ hours of weekly meetups & 1-to-1 calls",
+      "Host & Creator of ALIENs Talks Podcast — 50 episodes, 250 YouTube subs, 6.3K views",
+      "Moderated 36K-member Reddit community",
+      "Secured 2 formal partnerships: nsave.co & Athar Accelerator",
+    ],
+    highlight: null,
+    stack: null,
+  },
+  {
+    icon: "💼",
+    title: "Commercial Experience",
+    subtitle: "Customer Lifecycle & GTM Roles | Tech & SaaS | Egypt, GCC, EMEA | 2020–2024",
+    bullets: [
+      "B2B: Delivered 40+ Sales Qualified Opportunities and built a $240K pipeline",
+      "B2C: Generated $10K revenue (60% new acquisition · 25% retention · 15% referrals) & 90%+ CSAT",
+    ],
+    highlight: null,
+    stack: null,
+    extra: {
+      subtitle: "Early Career in SMEs & Startups | 2014–2020",
+      bullets: [
+        "Validated MVPs (AI/Bot therapist, VR Montessori), built internal processes, and secured partnerships",
+        "Hands-on in sales, support, ops, stakeholder management, and 1 year of digital marketing & community growth",
+      ],
+    },
+  },
+];
