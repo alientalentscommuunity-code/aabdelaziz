@@ -20,14 +20,14 @@ const Partners = () => {
   const seg = SEGMENTS.find((s) => s.id === active)!;
 
   useEffect(() => {
-    document.title = "Friends & Partners — Ahmad Abdelaziz";
+    document.title = "Work With Me — Ahmad Abdelaziz";
   }, []);
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       <Navbar />
       <main className="pt-28 pb-20">
-        <div className="max-w-[780px] mx-auto px-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Sub-nav: segment pills */}
           <div className="flex gap-1.5 flex-wrap mb-8">
             {SEGMENTS.map((s) => (
