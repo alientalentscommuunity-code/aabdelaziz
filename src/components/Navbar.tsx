@@ -18,8 +18,8 @@ const Navbar = () => {
   const navLinks = [
     { name: "Human Side", href: "/human" },
     { name: "Career Side", href: "/career" },
-    { name: "Friends & Partners", href: "/partners" },
-    { name: "Handbook", href: "/handbook" },
+    { name: "Work With Me", href: "/partners" },
+    { name: "Startup Handbook", href: "/handbook" },
   ];
 
   const isActive = (href: string) => location.pathname === href || location.pathname.startsWith(href + "/");

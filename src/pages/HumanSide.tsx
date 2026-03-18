@@ -15,7 +15,7 @@ const HumanSide = () => {
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       <Navbar />
       <main className="pt-28 pb-20">
-        <div className="max-w-[780px] mx-auto px-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <SubNav items={subs} active={sub} onSelect={setSub} />
 
           {sub === "intro" && (
