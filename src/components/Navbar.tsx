@@ -15,6 +15,21 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileMenuOpen]);
+
   const navLinks = [
     { name: "Human Side", href: "/human" },
     { name: "Career Side", href: "/career" },
@@ -25,70 +40,76 @@ const Navbar = () => {
   const isActive = (href: string) => location.pathname === href || location.pathname.startsWith(href + "/");
 
   return (
-    <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[100]">
-      {/* Desktop Navigation Pill */}
-      <div className={`hidden md:flex items-center gap-1 glass px-2 py-2 shadow-[0_30px_60px_rgba(0,0,0,0.5)] transition-all duration-300 ${isScrolled ? 'border-white/20' : ''}`}>
-        <Link to="/" className="text-sm font-mono font-bold text-white/60 px-4 tracking-[0.1em]">
-          ALIEN<span className="text-amber-400">S</span>
-        </Link>
-        <div className="w-px h-5 bg-white/10" />
-        {navLinks.map((link) => (
-          <Link
-            key={link.name}
-            to={link.href}
-            className={`text-[10px] font-bold uppercase tracking-widest px-3 py-2 rounded-full transition-all duration-300 font-mono ${
-              isActive(link.href)
-                ? link.href === "/handbook"
-                  ? "bg-amber-400/[0.12] text-amber-400 border border-amber-400/35"
-                  : "bg-white/[0.07] text-white/90 border border-white/15"
-                : "text-white/35 hover:text-white hover:bg-white/5 border border-transparent"
-            }`}
-          >
-            {link.name}
+    <>
+      <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-2rem)] max-w-5xl">
+        {/* Desktop Navigation Pill */}
+        <div className={`hidden md:flex items-center gap-1 glass px-3 py-2 shadow-[0_30px_60px_rgba(0,0,0,0.5)] transition-all duration-300 ${isScrolled ? 'border-white/20' : ''}`}>
+          <Link to="/" className="text-sm font-mono font-bold text-white/60 px-3 tracking-[0.1em] shrink-0">
+            ALIEN<span className="text-primary">S</span>
           </Link>
-        ))}
-        <div className="w-px h-5 bg-white/10" />
-        <a
-          href="mailto:ahmad@alientalents.com"
-          className="flex items-center gap-2 px-4 py-2 bg-green-500 text-black rounded-full text-[10px] font-black uppercase tracking-widest italic hover:bg-green-400 hover:shadow-[0_0_20px_rgba(34,197,94,0.6)] transition-all duration-300 active:scale-95"
-        >
-          <Mail size={14} />
-          Hire Me
-        </a>
-      </div>
-
-      {/* Mobile Navigation */}
-      <div className="md:hidden flex items-center gap-3">
-        <Link to="/" className="glass-sm px-4 py-2 text-sm font-mono font-bold text-white/60 tracking-[0.1em]">
-          ALIEN<span className="text-amber-400">S</span>
-        </Link>
-        <button
-          className="glass-sm px-3 py-2 text-white"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-20 bg-black/95 backdrop-blur-2xl z-[1000] animate-fade-in">
-          <div className="flex flex-col items-center justify-center h-full gap-6">
+          <div className="w-px h-5 bg-white/10 shrink-0" />
+          <div className="flex items-center gap-1 flex-1 justify-center">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 to={link.href}
-                className={`text-2xl font-bold transition-colors font-cairo ${
-                  isActive(link.href) ? "text-white/90" : "text-white/40 hover:text-white"
+                className={`text-[10px] font-bold uppercase tracking-widest px-3 py-2 rounded-full transition-all duration-300 font-mono whitespace-nowrap ${
+                  isActive(link.href)
+                    ? link.href === "/handbook"
+                      ? "bg-secondary/[0.12] text-secondary border border-secondary/35"
+                      : "bg-white/[0.07] text-white/90 border border-white/15"
+                    : "text-white/35 hover:text-white hover:bg-white/5 border border-transparent"
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+          <div className="w-px h-5 bg-white/10 shrink-0" />
+          <a
+            href="mailto:ahmad@alientalents.com"
+            className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-full text-[10px] font-black uppercase tracking-widest italic hover:opacity-90 hover:shadow-[0_0_20px_hsl(var(--primary)/0.6)] transition-all duration-300 active:scale-95 shrink-0"
+          >
+            <Mail size={14} />
+            Hire Me
+          </a>
+        </div>
+
+        {/* Mobile Navigation */}
+        <div className="md:hidden flex items-center justify-between glass px-4 py-2.5">
+          <Link to="/" className="text-sm font-mono font-bold text-white/60 tracking-[0.1em]">
+            ALIEN<span className="text-primary">S</span>
+          </Link>
+          <button
+            className="text-white/60 hover:text-white transition-colors p-1"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 z-[99] bg-black/98 backdrop-blur-2xl animate-fade-in">
+          <div className="flex flex-col items-center justify-center h-full gap-5 px-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.href}
+                className={`text-xl font-bold uppercase tracking-wider font-cairo transition-all duration-300 ${
+                  isActive(link.href) ? "text-primary" : "text-white/30 hover:text-white/70"
                 }`}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.name}
               </Link>
             ))}
+            <div className="w-16 h-px bg-white/10 my-2" />
             <a
               href="mailto:ahmad@alientalents.com"
-              className="btn btn-primary mt-4"
+              className="btn btn-primary flex items-center gap-2 mt-2"
               onClick={() => setMobileMenuOpen(false)}
             >
               <Mail size={14} />
@@ -97,7 +118,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
-    </nav>
+    </>
   );
 };
 
