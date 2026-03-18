@@ -20,7 +20,7 @@ const Partners = () => {
   const seg = SEGMENTS.find((s) => s.id === active)!;
 
   useEffect(() => {
-    document.title = "Friends & Partners — Ahmad Abdelaziz";
+    document.title = "Work With Me — Ahmad Abdelaziz";
   }, []);
 
   return (
