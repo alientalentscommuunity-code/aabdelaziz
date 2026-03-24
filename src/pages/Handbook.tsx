@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import SubNav from "@/components/shared/SubNav";
+import SubNav, { type SubNavItem } from "@/components/shared/SubNav";
 import BulletList from "@/components/shared/BulletList";
 import InfoCard from "@/components/shared/InfoCard";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Link } from "react-router-dom";
 
 const GlassBullets = ({ accentColor, items }: { accentColor: string; items: string[] }) => (
   <div className="space-y-2 text-white/40 font-medium italic">
@@ -24,9 +26,418 @@ const GlassCard = ({ title, accentColor, subtitle, children }: { title: string; 
   </div>
 );
 
+const HiringCoFounder = () => {
+  const sections = useMemo(
+    () => [
+      { id: "who-were-looking-for", label: "🎯 Who We're Looking For" },
+      { id: "are-you-an-alien", label: "💫 Are You an ALIEN?" },
+      { id: "the-role", label: "🧑‍🚀 The Role" },
+      { id: "competencies-tools", label: "🛠 Competencies & Tools" },
+      { id: "revenue-equity", label: "💰 Revenue & Equity" },
+      { id: "ownership-model", label: "📊 Ownership Model" },
+      { id: "commitment-location", label: "⏱ Commitment & Location" },
+      { id: "who-are-aliens-venture", label: "🌍 Who Are ALIENs Venture?" },
+      { id: "how-it-started", label: "🧭 How It Started" },
+      { id: "what-were-building", label: "🤖 What We're Building" },
+      { id: "our-impact", label: "📈 Our Impact" },
+      { id: "apply", label: "📝 Apply" },
+    ],
+    []
+  );
+
+  const [activeId, setActiveId] = useState(sections[0]?.id ?? "");
+
+  useEffect(() => {
+    const sectionElements = sections
+      .map((s) => document.getElementById(s.id))
+      .filter(Boolean) as HTMLElement[];
+
+    if (sectionElements.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0));
+
+        const nextId = (visible[0]?.target as HTMLElement | undefined)?.id;
+        if (nextId) setActiveId(nextId);
+      },
+      {
+        root: null,
+        threshold: [0.1, 0.2, 0.35, 0.5, 0.65, 0.8],
+        rootMargin: "-25% 0px -65% 0px",
+      }
+    );
+
+    sectionElements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [sections]);
+
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="md:hidden glass-sm px-3 py-2 overflow-x-auto">
+        <div className="flex gap-2 w-max">
+          {sections.map((s) => (
+            <button
+              key={s.id}
+              onClick={() => scrollTo(s.id)}
+              className={`px-4 py-2 rounded-full text-[10px] font-black tracking-widest italic whitespace-nowrap border transition-all ${
+                activeId === s.id
+                  ? "bg-secondary/10 text-secondary border-secondary/30"
+                  : "bg-transparent text-white/35 border-transparent hover:text-white/70 hover:bg-white/[0.03]"
+              }`}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-[280px,1fr] gap-6 items-start">
+        <aside className="hidden md:block">
+          <div className="glass-sm p-4 sticky top-28">
+            <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-3">🚀 Hiring Co-Founder</p>
+            <div className="space-y-1">
+              {sections.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => scrollTo(s.id)}
+                  className={`w-full text-left px-3 py-2 rounded-2xl text-xs font-bold italic transition-all border ${
+                    activeId === s.id
+                      ? "bg-secondary/10 text-secondary border-secondary/30"
+                      : "bg-transparent text-white/40 border-transparent hover:text-white/70 hover:bg-white/[0.03]"
+                  }`}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </aside>
+
+        <div className="space-y-6 min-w-0">
+          <section id="who-were-looking-for" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-5">
+              <div className="space-y-2">
+                <h2 className="text-2xl sm:text-3xl font-black italic tracking-tighter text-white">🚀 Looking for a CO-FOUNDER</h2>
+                <p className="text-white/40 font-medium italic">
+                  <strong>Partner in Crime to ARCHITECT LIVES & Communities with ART OF HUMANITY</strong>
+                </p>
+              </div>
+
+              <div className="border-t border-white/10 pt-5 space-y-3">
+                <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">🎯 Someone who brings:</h3>
+                <p className="text-white/40 font-medium italic leading-relaxed">
+                  Curiosity, wildness, kindness — and comes with SW, AI/ML competencies.
+                  <br />
+                  💡 Feel free to reach out if you own a different gift/craft but you think it's your awesome.
+                </p>
+              </div>
+
+              <div className="border-t border-white/10 pt-5 space-y-3">
+                <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">🧪 Joining us means you wanna try something out</h3>
+                <p className="text-white/40 font-medium italic leading-relaxed">
+                  Learn it, validate it, or execute it. It's a space for trial & error, learning by doing.
+                </p>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2">
+                    <span className="text-secondary mt-0.5">•</span> 🎭 Me, myself, tried this out because I enjoy it — doing it Heisenberg style.
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-secondary mt-0.5">•</span> 🔄 I do this as a learning-by-doing approach, breaking into product management.
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-secondary mt-0.5">•</span> 🌟 Likewise, starting over my life with something unique and aligned.
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-secondary mt-0.5">•</span> 🌍 Same time we (me & you) have the opportunity to change people's lives — FOR REAL. Making people happy, find gratitude, and make money — much more of it.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section id="are-you-an-alien" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
+              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">💫 You're the kind of human being who:</h3>
+              <ul className="space-y-2 text-white/40 font-medium italic">
+                <li className="flex items-start gap-2">
+                  <span className="text-secondary mt-0.5">•</span> ✨ Has a purpose / intention
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-secondary mt-0.5">•</span> 💚 Loves yourself & kinda does for others too
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-secondary mt-0.5">•</span> 🎨 Has an obsession with building ARCHITECTURE & ART
+                </li>
+              </ul>
+              <p className="text-white/40 font-medium italic leading-relaxed">
+                Both obsessions could be in paintings, buildings, systems, designs, tech, and human minds. Or whatever — how do you perceive it?
+              </p>
+            </div>
+          </section>
+
+          <section id="the-role" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-3">
+              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">🧑‍🚀 Co-Founder — Junior to Senior (Seniority Agnostic)</h3>
+              <p className="text-white/40 font-medium italic leading-relaxed">
+                We're looking for a Tech Co-Founder who is curious, kind, and grounded in humanity. Someone who enjoys building, experimenting, and turning chaos into systems that actually help people.
+                <br />
+                <br />
+                You don't need to be perfect at everything — but you should be strong in at least one area and excited to grow into more.
+              </p>
+            </div>
+          </section>
+
+          <section id="competencies-tools" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-5">
+              <div className="space-y-3">
+                <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">🛠 Core Competencies (One or More)</h3>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💻 Software Engineering (Generalist)</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ⚙️ Backend Engineering</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🤖 AI / ML background or strong applied expertise</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🧠 LLMs, Automations & AI Agent crafting</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🌐 Full-Stack vibe coding</li>
+                </ul>
+              </div>
+
+              <div className="border-t border-white/10 pt-5 space-y-3">
+                <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">🧰 Tools You Already Hang With</h3>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🛠 Cursor, Antigravity, Windsurf</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💻 Lovable, Bolt, Replit</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🔗 n8n / Make / Activepieces</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🤖 ChatGPT, Claude, Genspark, Perplexity</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 📊 Airtable, Notion, Google Workspace, Lark Suite</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section id="revenue-equity" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-3">
+              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">💰 Revenue & Equity</h3>
+              <ul className="space-y-2 text-white/40 font-medium italic">
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ✅ Revenue & equity are guaranteed</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 📈 So far: $2,000+ monetized with only a prototype</li>
+              </ul>
+            </div>
+          </section>
+
+          <section id="ownership-model" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
+              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">📊 How Ownership Is Calculated — Fair & Transparent</h3>
+
+              <div className="space-y-2 text-white/40 font-medium italic">
+                <p>You will:</p>
+                <ol className="space-y-2 pl-5 list-decimal">
+                  <li>⏰ Estimate how many hours you can commit</li>
+                  <li>💵 Define your hourly rate in USD</li>
+                  <li>🤝 We compare your inputs with 2 active peers to split percentages</li>
+                </ol>
+              </div>
+
+              <div className="space-y-2 text-white/40 font-medium italic">
+                <p>Ownership is calculated across:</p>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💰 Revenue</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 📈 Equity</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🏢 Assets</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ⚖️ Rights</li>
+                </ul>
+              </div>
+
+              <p className="text-white/40 font-medium italic leading-relaxed">Everything is based on real contribution — not titles or seniority.</p>
+            </div>
+          </section>
+
+          <section id="commitment-location" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
+              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">⏱ Commitment & Work Style</h3>
+
+              <div className="space-y-2 text-white/40 font-medium italic">
+                <p><strong>📅 Commitment</strong></p>
+                <p>Minimum 10 hours per week</p>
+              </div>
+
+              <div className="space-y-2 text-white/40 font-medium italic">
+                <p><strong>💬 Communication</strong></p>
+                <p>Async | Sync — flexible, outcome-driven</p>
+              </div>
+
+              <div className="space-y-2 text-white/40 font-medium italic">
+                <p><strong>🌐 Commute Model</strong></p>
+                <p>Hybrid (mainly remote)</p>
+                <p>☕ On-site coffee chats from time to time are preferred</p>
+              </div>
+
+              <div className="space-y-2 text-white/40 font-medium italic">
+                <p><strong>📍 Location</strong></p>
+                <p>Anywhere in MENA</p>
+              </div>
+
+              <div className="border-t border-white/10 pt-4 space-y-2 text-white/40 font-medium italic">
+                <p><strong>🎁 Bonus Points</strong></p>
+                <ul className="space-y-2">
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ➕ 05 pts if you're based in Egypt</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ➕ 10 pts if you live in Cairo</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ➕ 25 pts if you live in, or within one hour of, Minia / Samalout</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ➕ 25 pts if you scored in our top 25% of ALIENs Squad with AALN Assessment</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ➕ 25 pts if you have a genuine interest in education, employment, wealth, or wellbeing</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section id="who-are-aliens-venture" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
+              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">🌍 Who Are ALIENs Venture?</h3>
+              <p className="text-white/40 font-medium italic leading-relaxed">
+                We are ALIENs Venture. We prototype thoughts, emotions, and chaos using:
+              </p>
+              <ul className="space-y-2 text-white/40 font-medium italic">
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💻 Code</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🤖 AI</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🔧 No-Code tools</li>
+              </ul>
+              <p className="text-white/40 font-medium italic leading-relaxed">
+                Our mission is to turn uncertainty in global employment, wealth, and wellbeing into clear wins for talents and hiring managers across MENA and emerging markets.
+              </p>
+            </div>
+          </section>
+
+          <section id="how-it-started" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
+              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">🧭 How It Started</h3>
+              <p className="text-white/40 font-medium italic leading-relaxed">
+                We began as a one-man community hub with a $0 budget — sharing:
+              </p>
+              <ul className="space-y-2 text-white/40 font-medium italic">
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 📚 Lessons learned</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🚪 Opportunities</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 📞 1-to-1 calls</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 👥 Group meetups</li>
+              </ul>
+              <p className="text-white/40 font-medium italic leading-relaxed">
+                All in search of a like-minded, human-first community that truly cares about:
+              </p>
+              <ul className="space-y-2 text-white/40 font-medium italic">
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💼 Employment</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💰 Wealth</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🌱 Wellbeing</li>
+              </ul>
+            </div>
+          </section>
+
+          <section id="what-were-building" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-5">
+              <div className="space-y-2">
+                <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">🤖 What We're Building Today</h3>
+                <p className="text-white/40 font-medium italic leading-relaxed">
+                  An <strong>AI-enabled, Human-First Venture Hub</strong>
+                </p>
+              </div>
+
+              <div className="border-t border-white/10 pt-4 space-y-3">
+                <p className="text-white/40 font-medium italic"><strong>For Talents:</strong></p>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🌍 Global Jobs, $£€ Wallet, Meetups</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🤖 AI-powered Employment & Wellbeing feedback & Mentorship</li>
+                </ul>
+              </div>
+
+              <div className="border-t border-white/10 pt-4 space-y-3">
+                <p className="text-white/40 font-medium italic"><strong>For Hiring Managers & Employers:</strong></p>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🤝 Hire Referrals</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🌟 Top 1% Humanity</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 📉 Cut 90% of candidate acquisition cost & time-to-hire</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section id="our-impact" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
+              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">📈 Our Impact So Far</h3>
+              <ul className="space-y-2 text-white/40 font-medium italic">
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🌍 2,500+ global remote jobs shared</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🏢 1,000+ companies added</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 👥 19,000+ platform visitors</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🖱️ 3,000+ apply clicks</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🎯 16+ talents secured one or multiple interviews</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 📋 50+ total interviews secured</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💼 1 gig secured — $1,800+ total earnings</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🧳 1 job secured — $1,500/month</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ☕ 70 weekly meetups held</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ⏰ 100+ hours of 1-to-1 sessions</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💰 $2,000+ monetized so far</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🤝 5 referral opportunities secured for talents</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💵 $5,000 potential pipeline from 3 inbound leads (closed-lost)</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ✍️ 500+ talents signed up</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🌟 100 Class-A talents identified</li>
+              </ul>
+            </div>
+          </section>
+
+          <section id="apply" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
+              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">📝 Learn More — Apply</h3>
+
+              <div className="grid sm:grid-cols-2 gap-3">
+                <Link to="/human" className="btn btn-outline w-full text-center">Meet Ahmad (Human)</Link>
+                <Link to="/career" className="btn btn-outline w-full text-center">Career Journey</Link>
+                <Link to="/handbook" className="btn btn-outline w-full text-center">ALIENs Venture Handbook</Link>
+
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <button className="btn btn-primary w-full">Open Application Form</button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl w-[95vw] p-0 overflow-hidden bg-black border-white/10">
+                    <DialogHeader className="p-4 sm:p-6">
+                      <DialogTitle className="text-white">Apply</DialogTitle>
+                    </DialogHeader>
+                    <div className="px-4 pb-5 sm:px-6 sm:pb-6">
+                      <div className="glass-sm overflow-hidden">
+                        <iframe
+                          title="Tally Apply Form"
+                          src="https://tally.so/r/1AWrkL"
+                          className="w-full h-[70vh]"
+                          style={{ border: 0 }}
+                          allow="clipboard-read; clipboard-write; fullscreen"
+                        />
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Handbook = () => {
   const [sub, setSub] = useState("intro");
-  const subs = ["intro", "what we do", "how it started", "where we are", "where we're going", "the product"];
+  const subs: SubNavItem[] = [
+    "intro",
+    "what we do",
+    "how it started",
+    "where we are",
+    "where we're going",
+    "the product",
+    { id: "hiring-co-founder", label: "🚀 Hiring Co-Founder", className: "normal-case" },
+  ];
 
   useEffect(() => {
     document.title = "Startup Handbook — Ahmad Abdelaziz";
@@ -384,6 +795,9 @@ const Handbook = () => {
               </div>
             </div>
           )}
+
+          {/* HIRING CO-FOUNDER */}
+          {sub === "hiring-co-founder" && <HiringCoFounder />}
         </div>
       </main>
       <Footer />
