@@ -46,6 +46,7 @@ const HiringCoFounder = () => {
   );
 
   const [activeId, setActiveId] = useState(sections[0]?.id ?? "");
+  const activeIndex = useMemo(() => sections.findIndex((s) => s.id === activeId), [activeId, sections]);
 
   useEffect(() => {
     const sectionElements = sections
@@ -66,7 +67,7 @@ const HiringCoFounder = () => {
       {
         root: null,
         threshold: [0.1, 0.2, 0.35, 0.5, 0.65, 0.8],
-        rootMargin: "-25% 0px -65% 0px",
+        rootMargin: "-30% 0px -55% 0px",
       }
     );
 
@@ -77,39 +78,73 @@ const HiringCoFounder = () => {
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    setActiveId(id);
+    const navbarOffset = 120;
+    const y = el.getBoundingClientRect().top + window.scrollY - navbarOffset;
+    window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
+  };
+
+  const goPrev = () => {
+    const prev = sections[Math.max(0, activeIndex - 1)];
+    if (prev) scrollTo(prev.id);
+  };
+
+  const goNext = () => {
+    const next = sections[Math.min(sections.length - 1, activeIndex + 1)];
+    if (next) scrollTo(next.id);
   };
 
   return (
     <div className="space-y-6">
-      <div className="md:hidden glass-sm px-3 py-2 overflow-x-auto">
-        <div className="flex gap-2 w-max">
-          {sections.map((s) => (
-            <button
-              key={s.id}
-              onClick={() => scrollTo(s.id)}
-              className={`px-4 py-2 rounded-full text-[10px] font-black tracking-widest italic whitespace-nowrap border transition-all ${
-                activeId === s.id
-                  ? "bg-secondary/10 text-secondary border-secondary/30"
-                  : "bg-transparent text-white/35 border-transparent hover:text-white/70 hover:bg-white/[0.03]"
-              }`}
-            >
-              {s.label}
-            </button>
-          ))}
+      <div className="md:hidden sticky top-24 z-40">
+        <div className="glass-sm px-3 py-2 overflow-x-auto">
+          <div className="flex gap-2 w-max">
+            {sections.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => scrollTo(s.id)}
+                className={`px-4 py-2 rounded-full text-[10px] font-black tracking-widest italic whitespace-nowrap border transition-all ${
+                  activeId === s.id
+                    ? "bg-secondary/10 text-secondary border-secondary/30"
+                    : "bg-transparent text-white/35 border-transparent hover:text-white/70 hover:bg-white/[0.03]"
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="mt-2 flex items-center justify-between gap-2">
+          <button
+            type="button"
+            onClick={goPrev}
+            disabled={activeIndex <= 0}
+            className="glass-sm px-3 py-2 rounded-full text-[10px] font-black tracking-widest italic text-white/70 disabled:opacity-30 disabled:cursor-not-allowed hover:text-white transition-colors"
+          >
+            ← Prev
+          </button>
+          <button
+            type="button"
+            onClick={goNext}
+            disabled={activeIndex < 0 || activeIndex >= sections.length - 1}
+            className="glass-sm px-3 py-2 rounded-full text-[10px] font-black tracking-widest italic text-white/70 disabled:opacity-30 disabled:cursor-not-allowed hover:text-white transition-colors"
+          >
+            Next →
+          </button>
         </div>
       </div>
 
       <div className="grid md:grid-cols-[280px,1fr] gap-6 items-start">
         <aside className="hidden md:block">
-          <div className="glass-sm p-4 sticky top-28">
+          <div className="glass-sm p-4 sticky top-24 max-h-[calc(100vh-8rem)] overflow-auto">
             <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-3">🚀 Hiring Co-Founder</p>
             <div className="space-y-1">
               {sections.map((s) => (
                 <button
                   key={s.id}
                   onClick={() => scrollTo(s.id)}
-                  className={`w-full text-left px-3 py-2 rounded-2xl text-xs font-bold italic transition-all border ${
+                  className={`w-full text-left px-3 py-2 rounded-2xl text-xs font-bold italic transition-all border focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary/40 ${
                     activeId === s.id
                       ? "bg-secondary/10 text-secondary border-secondary/30"
                       : "bg-transparent text-white/40 border-transparent hover:text-white/70 hover:bg-white/[0.03]"
@@ -118,6 +153,25 @@ const HiringCoFounder = () => {
                   {s.label}
                 </button>
               ))}
+            </div>
+
+            <div className="mt-4 pt-4 border-t border-white/10 flex items-center gap-2">
+              <button
+                type="button"
+                onClick={goPrev}
+                disabled={activeIndex <= 0}
+                className="flex-1 bg-white/5 border border-white/10 text-white/70 hover:text-white hover:bg-white/10 hover:border-white/30 rounded-full px-4 py-2 text-[10px] font-black uppercase tracking-widest italic transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                ← Prev
+              </button>
+              <button
+                type="button"
+                onClick={goNext}
+                disabled={activeIndex < 0 || activeIndex >= sections.length - 1}
+                className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-full px-4 py-2 text-[10px] font-black uppercase tracking-widest italic transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                Next →
+              </button>
             </div>
           </div>
         </aside>
