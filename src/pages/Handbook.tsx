@@ -27,7 +27,7 @@ const GlassCard = ({ title, accentColor, subtitle, children }: { title: string; 
   </div>
 );
 
-const HiringCoFounder = () => {
+const HiringCoFounder = ({ onBackToHandbook }: { onBackToHandbook: () => void }) => {
   const sections = useMemo(
     () => [
       { id: "who-were-looking-for", label: "🎯 Who We're Looking For" },
@@ -470,7 +470,9 @@ const HiringCoFounder = () => {
               <div className="grid sm:grid-cols-2 gap-3">
                 <Link to="/human" className="btn btn-outline w-full text-center">Meet Ahmad (Human)</Link>
                 <Link to="/career" className="btn btn-outline w-full text-center">Career Journey</Link>
-                <Link to="/handbook" className="btn btn-outline w-full text-center">ALIENs Venture Handbook</Link>
+                <Link to="/handbook" onClick={onBackToHandbook} className="btn btn-outline w-full text-center">
+                  ALIENs Venture Handbook
+                </Link>
 
                 <Dialog>
                   <DialogTrigger asChild>
@@ -517,6 +519,13 @@ const Handbook = () => {
   useEffect(() => {
     document.title = "Startup Handbook — Ahmad Abdelaziz";
   }, []);
+
+  const backToHandbook = () => {
+    setSub("intro");
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-clip">
@@ -872,7 +881,7 @@ const Handbook = () => {
           )}
 
           {/* HIRING CO-FOUNDER */}
-          {sub === "hiring-co-founder" && <HiringCoFounder />}
+          {sub === "hiring-co-founder" && <HiringCoFounder onBackToHandbook={backToHandbook} />}
         </div>
       </main>
       <Footer />
