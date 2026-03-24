@@ -5,6 +5,7 @@ import SubNav, { type SubNavItem } from "@/components/shared/SubNav";
 import BulletList from "@/components/shared/BulletList";
 import InfoCard from "@/components/shared/InfoCard";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "react-router-dom";
 
 const GlassBullets = ({ accentColor, items }: { accentColor: string; items: string[] }) => (
@@ -47,41 +48,58 @@ const HiringCoFounder = () => {
 
   const [activeId, setActiveId] = useState(sections[0]?.id ?? "");
   const activeIndex = useMemo(() => sections.findIndex((s) => s.id === activeId), [activeId, sections]);
+  const [stickyTop, setStickyTop] = useState(120);
 
   useEffect(() => {
-    const sectionElements = sections
-      .map((s) => document.getElementById(s.id))
-      .filter(Boolean) as HTMLElement[];
+    const measure = () => {
+      const nav = document.querySelector("nav");
+      if (!nav) return;
+      const rect = nav.getBoundingClientRect();
+      const next = Math.max(88, Math.ceil(rect.bottom + 12));
+      setStickyTop(next);
+    };
 
-    if (sectionElements.length === 0) return;
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0));
+  useEffect(() => {
+    let raf = 0;
 
-        const nextId = (visible[0]?.target as HTMLElement | undefined)?.id;
-        if (nextId) setActiveId(nextId);
-      },
-      {
-        root: null,
-        threshold: [0.1, 0.2, 0.35, 0.5, 0.65, 0.8],
-        rootMargin: "-30% 0px -55% 0px",
+    const updateActiveFromScroll = () => {
+      const y = window.scrollY + stickyTop + 24;
+      let currentId = sections[0]?.id ?? "";
+
+      for (const s of sections) {
+        const el = document.getElementById(s.id);
+        if (!el) continue;
+        if (el.offsetTop <= y) currentId = s.id;
       }
-    );
 
-    sectionElements.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [sections]);
+      setActiveId((prev) => (prev === currentId ? prev : currentId));
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(updateActiveFromScroll);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    updateActiveFromScroll();
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, [sections, stickyTop]);
 
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
 
     setActiveId(id);
-    const navbarOffset = 120;
-    const y = el.getBoundingClientRect().top + window.scrollY - navbarOffset;
+    const y = el.getBoundingClientRect().top + window.scrollY - (stickyTop + 24);
     window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
   };
 
@@ -97,47 +115,50 @@ const HiringCoFounder = () => {
 
   return (
     <div className="space-y-6">
-      <div className="md:hidden sticky top-24 z-40">
-        <div className="glass-sm px-3 py-2 overflow-x-auto">
-          <div className="flex gap-2 w-max">
-            {sections.map((s) => (
-              <button
-                key={s.id}
-                onClick={() => scrollTo(s.id)}
-                className={`px-4 py-2 rounded-full text-[10px] font-black tracking-widest italic whitespace-nowrap border transition-all ${
-                  activeId === s.id
-                    ? "bg-secondary/10 text-secondary border-secondary/30"
-                    : "bg-transparent text-white/35 border-transparent hover:text-white/70 hover:bg-white/[0.03]"
-                }`}
-              >
-                {s.label}
-              </button>
-            ))}
+      <div className="md:hidden sticky z-40" style={{ top: stickyTop }}>
+        <div className="glass-sm p-3 space-y-2">
+          <Select value={activeId} onValueChange={scrollTo}>
+            <SelectTrigger className="bg-white/[0.03] border-white/10 text-white/80 focus:ring-secondary/40">
+              <SelectValue placeholder="Jump to section" />
+            </SelectTrigger>
+            <SelectContent className="bg-black border-white/10">
+              <SelectGroup>
+                {sections.map((s) => (
+                  <SelectItem key={s.id} value={s.id}>
+                    {s.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+          <div className="flex items-center justify-between gap-2">
+            <button
+              type="button"
+              onClick={goPrev}
+              disabled={activeIndex <= 0}
+              className="flex-1 glass-sm px-3 py-2 rounded-full text-[10px] font-black tracking-widest italic text-white/70 disabled:opacity-30 disabled:cursor-not-allowed hover:text-white transition-colors"
+            >
+              ← Prev
+            </button>
+            <button
+              type="button"
+              onClick={goNext}
+              disabled={activeIndex < 0 || activeIndex >= sections.length - 1}
+              className="flex-1 glass-sm px-3 py-2 rounded-full text-[10px] font-black tracking-widest italic text-white/70 disabled:opacity-30 disabled:cursor-not-allowed hover:text-white transition-colors"
+            >
+              Next →
+            </button>
           </div>
-        </div>
-        <div className="mt-2 flex items-center justify-between gap-2">
-          <button
-            type="button"
-            onClick={goPrev}
-            disabled={activeIndex <= 0}
-            className="glass-sm px-3 py-2 rounded-full text-[10px] font-black tracking-widest italic text-white/70 disabled:opacity-30 disabled:cursor-not-allowed hover:text-white transition-colors"
-          >
-            ← Prev
-          </button>
-          <button
-            type="button"
-            onClick={goNext}
-            disabled={activeIndex < 0 || activeIndex >= sections.length - 1}
-            className="glass-sm px-3 py-2 rounded-full text-[10px] font-black tracking-widest italic text-white/70 disabled:opacity-30 disabled:cursor-not-allowed hover:text-white transition-colors"
-          >
-            Next →
-          </button>
         </div>
       </div>
 
       <div className="grid md:grid-cols-[280px,1fr] gap-6 items-start">
-        <aside className="hidden md:block">
-          <div className="glass-sm p-4 sticky top-24 max-h-[calc(100vh-8rem)] overflow-auto">
+        <aside className="hidden md:block self-stretch">
+          <div
+            className="glass-sm p-4 sticky overflow-auto"
+            style={{ top: stickyTop, maxHeight: `calc(100vh - ${stickyTop}px - 1.5rem)` }}
+          >
             <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-3">🚀 Hiring Co-Founder</p>
             <div className="space-y-1">
               {sections.map((s) => (
@@ -498,7 +519,7 @@ const Handbook = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground overflow-x-clip">
       <Navbar />
       <main className="pt-28 pb-20">
         <div className="section-container !py-0">
