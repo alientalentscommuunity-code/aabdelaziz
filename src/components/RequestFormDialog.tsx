@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Mail, X, Upload, Send, User, Building2, Briefcase, GraduationCap, Users, Coffee, Handshake, Rocket, MessageCircle, Lightbulb, AlertTriangle } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogContent,
@@ -115,29 +117,75 @@ export function RequestFormDialog({ open, onOpenChange }: RequestFormDialogProps
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate submission
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setHasChanges(false);
-    
-    // Reset after showing success
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        persona: "",
-        purpose: "",
-        name: "",
-        email: "",
-        phone: "",
-        linkedin: "",
-        organization: "",
-        details: "",
-      });
-      setFile(null);
-      onOpenChange(false);
-    }, 2000);
+    try {
+      // Upload file if present
+      let fileUrl = null;
+      let fileName = null;
+      
+      if (file) {
+        fileName = file.name;
+        const fileExt = file.name.split('.').pop();
+        const filePath = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+        
+        const { error: uploadError } = await supabase.storage
+          .from('request-attachments')
+          .upload(filePath, file);
+        
+        if (uploadError) throw uploadError;
+        
+        const { data: urlData } = supabase.storage
+          .from('request-attachments')
+          .getPublicUrl(filePath);
+        
+        fileUrl = urlData.publicUrl;
+      }
+      
+      // Submit request to database
+      const { error: insertError } = await supabase
+        .from('requests')
+        .insert({
+          persona: formData.persona,
+          purpose: formData.purpose,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || null,
+          linkedin: formData.linkedin || null,
+          organization: formData.organization || null,
+          details: formData.details,
+          file_name: fileName,
+          file_url: fileUrl,
+          status: 'new',
+          priority: 'medium',
+        });
+      
+      if (insertError) throw insertError;
+      
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+      setHasChanges(false);
+      toast.success("Request submitted successfully!");
+      
+      // Reset after showing success
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          persona: "",
+          purpose: "",
+          name: "",
+          email: "",
+          phone: "",
+          linkedin: "",
+          organization: "",
+          details: "",
+        });
+        setFile(null);
+        onOpenChange(false);
+      }, 2000);
+    } catch (error) {
+      console.error('Error submitting request:', error);
+      setIsSubmitting(false);
+      toast.error("Failed to submit request. Please try again.");
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
