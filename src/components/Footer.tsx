@@ -1,5 +1,6 @@
 import React from "react";
 import { Heart, Linkedin, Mail, Youtube } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -38,7 +39,7 @@ const Footer = () => {
             </a>
           </div>
 
-          {/* Copyright */}
+          {/* Copyright + Sweet Spice */}
           <div className="text-center md:text-right">
             <p className="text-white/20 text-xs font-medium italic flex items-center gap-1 justify-center md:justify-end">
               Made with <Heart size={12} className="text-red-500" /> by Ahmad
@@ -46,6 +47,12 @@ const Footer = () => {
             <p className="text-white/10 text-[10px] mt-1">
               © {new Date().getFullYear()} All rights reserved
             </p>
+            <Link 
+              to="/sweet-spice" 
+              className="text-[10px] text-pink-400/40 hover:text-pink-400 transition-colors mt-2 inline-block"
+            >
+              🌶️ Sweet Spice
+            </Link>
           </div>
         </div>
       </div>

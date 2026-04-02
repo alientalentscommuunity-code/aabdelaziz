@@ -35,9 +35,10 @@ A personal portfolio and career framework website for Ahmad Abdelaziz, an AIProd
 | UI Components | shadcn/ui + Radix UI primitives |
 | Icons | Lucide React |
 | Routing | React Router DOM 6.26.2 |
-| State/Data | TanStack Query 5.56.2 |
+| State/Data | TanStack Query 5.56.2 + Supabase |
 | Animation | CSS animations + Tailwind |
 | Fonts | Space Grotesk, Space Mono, DM Sans, Playfair Display, Cairo |
+| Backend | Supabase (PostgreSQL + Auth + Storage) |
 
 ## 2.2 Project Structure
 ```
@@ -46,19 +47,26 @@ src/
 │   ├── ui/              # shadcn/ui components (49 items)
 │   ├── career/          # Career section components
 │   ├── human/           # Human side components
-│   └── shared/          # Shared components
+│   ├── shared/          # Shared components
+│   └── RequestFormDialog.tsx  # Contact form modal
 ├── pages/
+│   ├── Home.tsx
 │   ├── CareerLanding.tsx
 │   ├── CareerCV.tsx
 │   ├── CareerPortfolio.tsx
 │   ├── HumanSide.tsx
 │   ├── Partners.tsx
 │   ├── Handbook.tsx
-│   └── NotFound.tsx
+│   ├── NotFound.tsx
+│   └── admin/
+│       ├── Login.tsx    # Admin login page
+│       └── Dashboard.tsx # Request management dashboard
 ├── lib/
 │   ├── utils.ts
-│   └── data.ts
+│   ├── data.ts
+│   └── supabase.ts      # Supabase client & types
 ├── hooks/
+│   └── useSupabase.ts   # Custom hooks for auth & requests
 ├── App.tsx
 └── index.css
 ```
@@ -68,6 +76,7 @@ src/
 {
   "@hookform/resolvers": "^3.9.0",
   "@radix-ui/react-*": "^1.1.x",
+  "@supabase/supabase-js": "^2.x.x",
   "@tanstack/react-query": "^5.56.2",
   "class-variance-authority": "^0.7.1",
   "clsx": "^2.1.1",
@@ -227,16 +236,18 @@ hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]
 
 ## 4.1 Route Structure
 
-| Route | Component | Title |
-|-------|-----------|-------|
-| `/` | Home | "Ahmad Abdelaziz \| AI Product Manager & Builder" |
-| `/career` | CareerLanding | "Career Side — Ahmad Abdelaziz" |
-| `/career/cv` | CareerCV | "CV — Ahmad Abdelaziz" |
-| `/career/portfolio` | CareerPortfolio | "Portfolio — Ahmad Abdelaziz" |
-| `/human` | HumanSide | "Human Side — Ahmad Abdelaziz" |
-| `/partners` | Partners | "Work With Me — Ahmad Abdelaziz" |
-| `/handbook` | Handbook | "Startup Handbook" |
-| `*` | NotFound | "404" |
+| Route | Component | Title | Access |
+|-------|-----------|-------|--------|
+| `/` | Home | "Ahmad Abdelaziz \| AI Product Manager & Builder" | Public |
+| `/career` | CareerLanding | "Career Side — Ahmad Abdelaziz" | Public |
+| `/career/cv` | CareerCV | "CV — Ahmad Abdelaziz" | Public |
+| `/career/portfolio` | CareerPortfolio | "Portfolio — Ahmad Abdelaziz" | Public |
+| `/human` | HumanSide | "Human Side — Ahmad Abdelaziz" | Public |
+| `/partners` | Partners | "Work With Me — Ahmad Abdelaziz" | Public |
+| `/handbook` | Handbook | "Startup Handbook" | Public |
+| `/admin` | AdminLogin | "Admin Login" | Public |
+| `/admin/dashboard` | AdminDashboard | "Request Inbox" | Authenticated |
+| `*` | NotFound | "404" | Public |
 
 ## 4.2 Navigation Structure
 
@@ -248,7 +259,9 @@ hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]
 | Career Side | `/career` | White |
 | Work With Me | `/partners` | White |
 | Startup Handbook | `/handbook` | Orange (secondary) |
-| Hire Me (CTA) | `mailto:ahmad@alientalents.com` | Green button |
+| Request Form (CTA) | Opens dialog | Green button |
+
+**Request Form Dialog**: Replaces previous "Hire Me" button. Opens a modal with persona-based form for contact requests.
 
 ### Navigation Styling
 - Desktop: Glass pill, centered, floating at `top-4`
@@ -606,6 +619,112 @@ interface SubNavProps {
 - Active: `bg-white/[0.07] text-white/90 border border-white/15`
 - Inactive: `text-white/30 border border-transparent hover:text-white/60 hover:bg-white/[0.03]`
 - Font: `font-mono text-[10px] font-bold uppercase tracking-widest rounded-full px-4 py-2`
+
+---
+
+## 5.8 RequestFormDialog Component (`src/components/RequestFormDialog.tsx`)
+
+### Purpose
+Multi-step contact form that replaces the "Hire Me" CTA. Collects persona, purpose, contact info, and message details. Submits to Supabase database.
+
+### Dialog Specifications
+- Width: `max-w-2xl` (wider than standard dialogs)
+- Confirm on close: AlertDialog prompts if form has unsaved changes
+- Animation: Fade in with scale
+
+### Form Fields
+
+**Step 1: Persona & Purpose**
+| Field | Type | Options |
+|-------|------|---------|
+| Persona | Select | Peer, Talent Hunter, VC, Co-founder, Educational, Mentor, Mentee, Community, Other |
+| Purpose | Select | Dynamically filtered based on persona |
+
+**Step 2: Contact Information**
+| Field | Type | Required | Validation |
+|-------|------|----------|------------|
+| Name | Input | Yes | Min 2 chars |
+| Email | Input | Yes | Email format |
+| Phone | Input | No | - |
+| LinkedIn | Input | No | URL format |
+| Organization | Input | No | - |
+
+**Step 3: Details**
+| Field | Type | Required | Max |
+|-------|------|----------|-----|
+| Message | Textarea | Yes | 2000 chars |
+| File Upload | File | No | 5MB |
+
+### Persona → Purpose Mapping
+```typescript
+const PERSONA_PURPOSES = {
+  peer: ['Collaborate', 'Peer Review', 'Networking'],
+  'talent-hunter': ['Job Opportunity', 'Consulting', 'Full-time Role'],
+  vc: ['Pitch Deck Review', 'Investment', 'Mentorship'],
+  'co-founder': ['Co-founder Match', 'Idea Validation'],
+  educational: ['Guest Lecture', 'Workshop', 'Curriculum Review'],
+  mentor: ['Mentorship Request', 'Advice', 'Career Guidance'],
+  mentee: ['Reverse Mentorship', 'Skill Exchange'],
+  community: ['Event Speaking', 'Community Partnership'],
+  other: ['Other']
+}
+```
+
+### Submission Flow
+1. Validate all required fields
+2. Upload file to Supabase Storage (if present) → `request-attachments` bucket
+3. Insert request record to `requests` table
+4. Show success toast
+5. Auto-close dialog after 2 seconds
+
+---
+
+## 5.9 Admin Dashboard Component (`src/pages/admin/Dashboard.tsx`)
+
+### Purpose
+Admin interface for managing incoming contact requests. Requires authentication.
+
+### Layout Structure
+```
+┌─────────────────────────────────────────────────────────────┐
+│ HEADER (sticky)                                               │
+│ [Logo] Request Inbox                      [Refresh] [Logout]  │
+├─────────────────────────────────────────────────────────────┤
+│ STATS BAR                                                   │
+│ [● New] [⏱ In Review] [✓ Responded] [⊘ Archived]           │
+├─────────────────────────────────────────────────────────────┤
+│ FILTERS                                                     │
+│ [Search...] [Status Filter ▼]                               │
+├──────────────────────────────┬──────────────────────────────┤
+│ REQUEST LIST                 │ REQUEST DETAIL               │
+│ ┌──────────────────────────┐ │ ┌──────────────────────────┐ │
+│ │ ● John Doe               │ │ │ John Doe                   │ │
+│ │ Talent Hunter • Hiring   │ │ │ [New] [Medium]             │ │
+│ │ 2 hours ago              │ │ │                            │ │
+│ └──────────────────────────┘ │ │  john@example.com        │ │
+│ ┌──────────────────────────┐ │ │  Tech Corp               │ │
+│ │ Sarah Smith              │ │ │                            │ │
+│ │ VC • Investment          │ │ │ Message:                   │ │
+│ │ 5 hours ago              │ │ │ Hey Ahmad, interested...   │ │
+│ └──────────────────────────┘ │ │                            │ │
+│                              │ │ [Mark Responded] [Archive] │ │
+│                              │ │ [Delete]                   │ │
+│                              │ └──────────────────────────┘ │
+└──────────────────────────────┴──────────────────────────────┘
+```
+
+### Features
+- **Real-time updates**: Supabase realtime subscription to `requests` table
+- **Status management**: `new` → `in_review` → `responded` → `archived`
+- **Priority levels**: `low` | `medium` | `high` | `urgent`
+- **Search**: Filter by name, email, or content
+- **File viewing**: Direct link to attachments in Supabase Storage
+- **Metadata**: View timestamps (created, viewed, responded)
+
+### Authentication
+- Login at `/admin` with Supabase Auth
+- Protected route: redirects to `/admin` if not authenticated
+- User created via SQL: `ahmad@alientalents.com`
 
 ---
 
@@ -998,7 +1117,22 @@ Winner of Cairo AI Hackathon by Athar Accelerator.
 
 ## 10.2 Key Messaging
 
-### Personal Tagline
+### Personal Tagline (3-Line Animated)
+```
+Line 1: 0→1 • AI Products • Vibe Coding Craft • Community-Led
+Line 2: ✧ Learning by doing → Curious • Kind • Wild ✧
+Line 3: Palestine ⚖ 🇵🇸 Sudan 🇸🇩 | ⏣ ⦿ ⌬ ⌖ ⌘ ⧉ ⚘ ✺ ⚚
+```
+- **Line 1**: Primary color (white), italic, uppercase, tracking-tighter
+- **Line 2**: Secondary color (orange-400), smaller, subtle
+- **Line 3**: Mixed colors (green for Palestine/Sudan), symbols aligned
+
+### Quote Card (Hero)
+- **Text**: "🔥 Crafting with taste & high standards — like House Targaryen 🐉 or House Stark 🐺 ❄️. I execute relentlessly."
+- **Video**: Click to open YouTube video in modal popup
+- **Styling**: Glass card, gradient play button, hover glow
+
+### Personal Tagline (Legacy)
 "AI-enabled Product Manager | Community-Led Growth"
 
 ### Value Proposition
@@ -1091,8 +1225,77 @@ preview: vite preview
 - GitHub Pages
 
 ## Environment Variables
-None required for static deployment.
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `VITE_SUPABASE_URL` | Supabase project URL | Yes |
+| `VITE_SUPABASE_ANON_KEY` | Supabase anonymous/public key | Yes |
+
+### Netlify Configuration (`netlify.toml`)
+```toml
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+```
 
 ---
 
 *End of PRD — ALIENs Portfolio*
+
+---
+
+# 15. DATABASE SCHEMA (Supabase)
+
+## 15.1 Tables
+
+### `requests` — Contact Form Submissions
+| Column | Type | Default | Description |
+|--------|------|---------|-------------|
+| `id` | UUID | gen_random_uuid() | Primary key |
+| `created_at` | timestamptz | now() | Submission timestamp |
+| `updated_at` | timestamptz | now() | Last update |
+| `persona` | text | - | User's role (peer, vc, etc.) |
+| `purpose` | text | - | Reason for contact |
+| `name` | text | - | Full name |
+| `email` | text | - | Email address |
+| `phone` | text | null | Phone number |
+| `linkedin` | text | null | LinkedIn URL |
+| `organization` | text | null | Company/institution |
+| `details` | text | - | Message content |
+| `file_name` | text | null | Attachment filename |
+| `file_url` | text | null | Attachment URL |
+| `status` | text | 'new' | new/in_review/responded/archived |
+| `priority` | text | 'medium' | low/medium/high/urgent |
+| `notes` | text | null | Admin notes |
+| `viewed_at` | timestamptz | null | When admin first viewed |
+| `responded_at` | timestamptz | null | When marked as responded |
+
+### `request_stats` — View for Dashboard
+```sql
+CREATE VIEW request_stats AS
+SELECT status, COUNT(*) as count, MAX(created_at) as latest_request
+FROM requests GROUP BY status;
+```
+
+## 15.2 RLS Policies
+
+### requests table
+- **INSERT**: Public (anyone can submit)
+- **SELECT**: Authenticated users only
+- **UPDATE**: Authenticated users only
+- **DELETE**: Authenticated users only
+
+### storage.request-attachments
+- **INSERT**: Public (for file uploads)
+- **SELECT**: Authenticated users only
+
+## 15.3 Storage Buckets
+- `request-attachments` — Form file uploads (5MB limit)

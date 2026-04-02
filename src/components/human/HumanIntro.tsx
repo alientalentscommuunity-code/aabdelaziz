@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 const HumanIntro = () => (
   <div className="space-y-8">
@@ -50,6 +52,21 @@ const HumanIntro = () => (
         ))}
       </div>
     </div>
+
+    {/* Sweet Spice Easter Egg */}
+    <Link to="/sweet-spice" className="block">
+      <div className="glass border-pink-500/20 hover:border-pink-500/50 hover:shadow-[0_0_30px_rgba(244,114,182,0.15)] transition-all duration-300 p-4 rounded-xl cursor-pointer group">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="text-xl">🌶️</span>
+            <span className="text-sm font-medium italic text-white/60 group-hover:text-pink-400 transition-colors">
+              There's one more dimension
+            </span>
+          </div>
+          <ArrowRight className="w-4 h-4 text-pink-400/60 group-hover:text-pink-400 group-hover:translate-x-1 transition-all" />
+        </div>
+      </div>
+    </Link>
 
     {/* Stand */}
     <div className="border-t border-white/10 pt-6">

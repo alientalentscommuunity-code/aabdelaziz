@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Mail, X, Upload, Send, User, Building2, Briefcase, GraduationCap, Users, Coffee, Handshake, Rocket, MessageCircle, Lightbulb, AlertTriangle } from "lucide-react";
+import { Mail, X, Upload, Send, User, Building2, Briefcase, GraduationCap, Users, Coffee, Handshake, Rocket, MessageCircle, Lightbulb, AlertTriangle, Heart, Sparkles } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "sonner";
 import {
@@ -46,6 +46,7 @@ const personas = [
   { value: "mentor", label: "Mentor", icon: Lightbulb, description: "Experienced professionals willing to mentor" },
   { value: "mentee", label: "Mentee", icon: User, description: "Seeking guidance and mentorship" },
   { value: "community", label: "Community Member", icon: Users, description: "ALIENs community members and followers" },
+  { value: "sweet-spice", label: "Sweet Spice", icon: Heart, description: "An honest, open signal from the heart" },
   { value: "other", label: "Other", icon: MessageCircle, description: "Something else entirely" },
 ];
 
@@ -59,7 +60,11 @@ const allPurposes = [
   { value: "advisory", label: "Advisory / Consulting", icon: Building2, description: "Advisory roles or consulting projects", relevantFor: ["vc", "educational", "talent-hunter", "peer"] },
   { value: "speaking", label: "Speaking / Workshop", icon: Users, description: "Conference talks, workshops, or panels", relevantFor: ["educational", "vc", "peer", "community"] },
   { value: "media", label: "Media / Interview", icon: MessageCircle, description: "Podcasts, articles, or interviews", relevantFor: ["community", "peer", "vc", "other"] },
-  { value: "other", label: "Other", icon: MessageCircle, description: "Something else", relevantFor: ["peer", "talent-hunter", "vc", "co-founder", "educational", "mentor", "mentee", "community", "other"] },
+  { value: "say-hi", label: "Just saying hi", icon: Heart, description: "A simple hello, no expectations", relevantFor: ["sweet-spice"] },
+  { value: "grab-coffee", label: "Let's grab coffee", icon: Coffee, description: "Casual meetup, see where it goes", relevantFor: ["sweet-spice"] },
+  { value: "something-more", label: "Maybe something more", icon: Sparkles, description: "Looking for a genuine connection", relevantFor: ["sweet-spice"] },
+  { value: "referral", label: "I know someone you should meet", icon: Users, description: "Playing matchmaker for a friend", relevantFor: ["sweet-spice"] },
+  { value: "other", label: "Other", icon: MessageCircle, description: "Something else", relevantFor: ["peer", "talent-hunter", "vc", "co-founder", "educational", "mentor", "mentee", "community", "other", "sweet-spice"] },
 ];
 
 export function RequestFormDialog({ open, onOpenChange }: RequestFormDialogProps) {
