@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X, Mail } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { RequestFormDialog } from "./RequestFormDialog";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [requestFormOpen, setRequestFormOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -66,13 +68,13 @@ const Navbar = () => {
             ))}
           </div>
           <div className="w-px h-5 bg-white/10 shrink-0" />
-          <a
-            href="mailto:ahmad@alientalents.com"
+          <button
+            onClick={() => setRequestFormOpen(true)}
             className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-full text-[10px] font-black uppercase tracking-widest italic hover:opacity-90 hover:shadow-[0_0_20px_hsl(var(--primary)/0.6)] transition-all duration-300 active:scale-95 shrink-0"
           >
             <Mail size={14} />
-            Hire Me
-          </a>
+            Request Form
+          </button>
         </div>
 
         {/* Mobile Navigation */}
@@ -107,17 +109,22 @@ const Navbar = () => {
               </Link>
             ))}
             <div className="w-16 h-px bg-white/10 my-2" />
-            <a
-              href="mailto:ahmad@alientalents.com"
+            <button
               className="btn btn-primary flex items-center gap-2 mt-2"
-              onClick={() => setMobileMenuOpen(false)}
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setRequestFormOpen(true);
+              }}
             >
               <Mail size={14} />
-              Hire Me
-            </a>
+              Request Form
+            </button>
           </div>
         </div>
       )}
+
+      {/* Request Form Dialog */}
+      <RequestFormDialog open={requestFormOpen} onOpenChange={setRequestFormOpen} />
     </>
   );
 };

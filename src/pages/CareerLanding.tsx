@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SubNav from "@/components/shared/SubNav";
-import PlatformSection from "@/components/career/PlatformSection";
 import CareerIntro from "@/components/career/CareerIntro";
 import CareerExperienceTab from "@/components/career/CareerExperienceTab";
 import CareerEducationTab from "@/components/career/CareerEducationTab";
@@ -11,7 +10,7 @@ import { EXPERIENCE } from "@/lib/data";
 const CareerLanding = () => {
   const [sub, setSub] = useState("intro");
   const [cvOpen, setCvOpen] = useState(false);
-  const subs = ["intro", "platform", "experience", "education"];
+  const subs = ["intro", "experience", "education"];
 
   useEffect(() => {
     document.title = "Career Side — Ahmad Abdelaziz";
@@ -27,8 +26,6 @@ const CareerLanding = () => {
           {sub === "intro" && (
             <CareerIntro cvOpen={cvOpen} setCvOpen={setCvOpen} />
           )}
-
-          {sub === "platform" && <PlatformSection />}
 
           {sub === "experience" && <CareerExperienceTab />}
 
