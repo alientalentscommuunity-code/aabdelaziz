@@ -246,7 +246,10 @@ hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]
 | `/partners` | Partners | "Work With Me — Ahmad Abdelaziz" | Public |
 | `/handbook` | Handbook | "Startup Handbook" | Public |
 | `/admin` | AdminLogin | "Admin Login" | Public |
-| `/admin/dashboard` | AdminDashboard | "Request Inbox" | Authenticated |
+| `/admin/dashboard` | AdminDashboard | "Admin Dashboard" | Authenticated |
+| `/vision-board` | VisionBoard | "Vision Board" | Public |
+| `/blog` | Blog | "Blog" | Public |
+| `/sweet-spice` | SweetSpice | "Sweet Spice" | Public |
 | `*` | NotFound | "404" | Public |
 
 ## 4.2 Navigation Structure
@@ -259,6 +262,8 @@ hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]
 | Career Side | `/career` | White |
 | Work With Me | `/partners` | White |
 | Sweet Spice | `/sweet-spice` | Pink |
+| Vision Board | `/vision-board` | Purple |
+| Blog | `/blog` | Purple |
 | Startup Handbook | `/handbook` | Orange (secondary) |
 | Request Form (CTA) | Opens dialog | Green button |
 
@@ -272,6 +277,7 @@ hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]
 - Inactive: `text-white/35 hover:text-white hover:bg-white/5`
 - Special (Handbook): `bg-secondary/[0.12] text-secondary border border-secondary/35`
 - Special (Sweet Spice): `bg-pink-500/10 text-pink-400 border border-pink-500/30`
+- Special (Vision/Blog): `bg-purple-500/10 text-purple-400 border border-purple-500/30`
 
 ---
 
@@ -685,49 +691,73 @@ const PERSONA_PURPOSES = {
 ## 5.9 Admin Dashboard Component (`src/pages/admin/Dashboard.tsx`)
 
 ### Purpose
-Admin interface for managing incoming contact requests. Requires authentication.
+Comprehensive admin interface for managing the entire platform. Requires authentication via Supabase Auth.
 
 ### Layout Structure
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ HEADER (sticky)                                               │
-│ [Logo] Request Inbox                      [Refresh] [Logout]  │
+│ SIDEBAR (left, 280px)                                        │
+│ [Logo] Ahmad's Dashboard                                    │
+│                                                              │
+│ ── REQUESTS ───────────────────────────────────────────────  │
+│    ● Requests                    [count badge]              │
+│                                                              │
+│ ── CONTENT ────────────────────────────────────────────────  │
+│    ○ Vision Board                                           │
+│    ○ Blog                                                   │
+│    ○ Universe Sections                                      │
+│                                                              │
+│ ── SYSTEM ─────────────────────────────────────────────────  │
+│    [Logout]                                                  │
 ├─────────────────────────────────────────────────────────────┤
-│ STATS BAR                                                   │
-│ [● New] [⏱ In Review] [✓ Responded] [⊘ Archived]           │
-├─────────────────────────────────────────────────────────────┤
-│ FILTERS                                                     │
-│ [Search...] [Status Filter ▼]                               │
-├──────────────────────────────┬──────────────────────────────┤
-│ REQUEST LIST                 │ REQUEST DETAIL               │
-│ ┌──────────────────────────┐ │ ┌──────────────────────────┐ │
-│ │ ● John Doe               │ │ │ John Doe                   │ │
-│ │ Talent Hunter • Hiring   │ │ │ [New] [Medium]             │ │
-│ │ 2 hours ago              │ │ │                            │ │
-│ └──────────────────────────┘ │ │  john@example.com        │ │
-│ ┌──────────────────────────┐ │ │  Tech Corp               │ │
-│ │ Sarah Smith              │ │ │                            │ │
-│ │ VC • Investment          │ │ │ Message:                   │ │
-│ │ 5 hours ago              │ │ │ Hey Ahmad, interested...   │ │
-│ └──────────────────────────┘ │ │                            │ │
-│                              │ │ [Mark Responded] [Archive] │ │
-│                              │ │ [Delete]                   │ │
-│                              │ └──────────────────────────┘ │
-└──────────────────────────────┴──────────────────────────────┘
+│ MAIN CONTENT (right, flex-1)                                 │
+│ ┌───────────────────────────────────────────────────────────┐│
+│ │ Tab Title + Action Button                                 ││
+│ ├───────────────────────────────────────────────────────────┤│
+│ │                                                           ││
+│ │  [Content based on active tab]                            ││
+│ │                                                           ││
+│ └───────────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────────┘
 ```
 
-### Features
-- **Real-time updates**: Supabase realtime subscription to `requests` table
-- **Status management**: `new` → `in_review` → `responded` → `archived`
-- **Priority levels**: `low` | `medium` | `high` | `urgent`
-- **Search**: Filter by name, email, or content
-- **File viewing**: Direct link to attachments in Supabase Storage
-- **Metadata**: View timestamps (created, viewed, responded)
+### Tab: Requests
+Same functionality as previous dashboard:
+- Request list with filters
+- Status management: `new` → `in_review` → `responded` → `archived`
+- Priority levels: `low` | `medium` | `high` | `urgent`
+- Search and file viewing
+
+### Tab: Vision Board
+Full CRUD for vision items:
+- Create/edit visions with title, description, category, status, priority
+- Progress tracking (0-100%)
+- Target dates
+- Links and file attachments
+- Subtasks management
+- Privacy settings: `private` | `shared` | `public`
+
+### Tab: Blog
+Full CRUD for blog posts:
+- Create/edit posts with title, excerpt, content
+- Category selection (human, career, sweet-spice, universe)
+- Tags management
+- Cover image URL
+- Media URLs
+- Privacy settings: `private` | `shared` | `public`
+- Published date
+
+### Tab: Universe Sections
+Management for site sections:
+- Toggle section visibility (Active/Hidden)
+- View section metadata: name, path, description, accent color, order
+- Sections stored in localStorage for persistence
+- Manual instructions for adding new sections via code edits
 
 ### Authentication
 - Login at `/admin` with Supabase Auth
 - Protected route: redirects to `/admin` if not authenticated
-- User created via SQL: `ahmad@alientalents.com`
+- Auto-redirect after successful login
 
 ---
 
@@ -935,7 +965,138 @@ Each segment has:
 
 ---
 
-## 6.4 Handbook Page (`/handbook`)
+## 6.5 Sweet Spice Page (`/sweet-spice`)
+
+### Purpose
+Personal connection page with a different, more intimate vibe. Uses pink accent instead of green.
+
+### Content Sections
+
+**Hero Section**
+- Headline: "Not Just Business." (pink accent on "Just")
+- Subtitle about exploring the personal side
+- Icons representing different interests (ChefHat, Gamepad2, Globe, Coffee)
+
+**Statement Card**
+```
+"Hey, curious stalker—I'm Ahmad • Human being."
+```
+
+**Quick Facts Grid**
+| Item | Icon | Text |
+|------|------|------|
+| ✌🏻 | Hand | Doing Product Management • Community Growth |
+| 🏇 | Trophy | Shipped AI Sr. Recruiter w/ psychometrics (MVP) |
+| 🎖 | Award | $2K ROI (Partnerships & AI Hackathon Winner) |
+
+**Handbook Section**
+- Label: "My ALIEN-Style Handbook" (pink)
+- Tagline: "Non-Linear | Good Taste | High Standards"
+- Items:
+  - 🌵 Starting over.. from 0. But like an ALIEN.
+  - 🎖 Surviving uncertainty w/ unstoppable resilience
+
+**Personal Section**
+- Heart icon: "Obsessed with Knowledge • Trying things out"
+- ✧ "+ Any kind of: Art • Architecture • Adventures"
+- ✧ "24/7 active to Connect & initiate talks/activities."
+- 🇵🇸 "Stand for Humanity • My ppl • Palestine"
+- Sparkles: "Exploring diverse lives & universe(s)."
+
+**Closing**
+```
+🦄 Would it help? Yep.
+Curious? Aligned? Resonate with my journey? 🙃
+```
+
+### Styling
+- Accent: Pink (`text-pink-400`, `bg-pink-500/10`)
+- Layout: Centered content, glass cards
+- Standard Navbar and Footer (not minimal)
+
+---
+
+## 6.6 Vision Board Page (`/vision-board`)
+
+### Purpose
+Showcase dreams, goals, and plans with progress tracking. Personal vision tracker with privacy controls.
+
+### Features
+- **Vision Grid**: Card-based display of all vision items
+- **Category Filtering**: human, career, sweet-spice, universe
+- **Privacy Filtering**: private, shared, public (admin only)
+- **Status Filtering**: not-started, in-progress, completed, on-hold
+- **Progress Visualization**: Visual progress bars (0-100%)
+- **CRUD Operations**: Create, edit, delete (admin only)
+
+### Vision Card Structure
+```
+┌─────────────────────────────────────┐
+│ [Category Icon]      [Privacy Icon] │
+│                                     │
+│ VISION TITLE                        │
+│ Description...                      │
+│                                     │
+│ Progress: [████████░░░░] 65%       │
+│                                     │
+│ Due: Dec 2024  •  3 subtasks       │
+│                                     │
+│ [Edit] [Delete] (admin only)       │
+└─────────────────────────────────────┘
+```
+
+### Privacy Levels
+| Level | Icon | Visibility |
+|-------|------|------------|
+| Private | Lock | Admin only |
+| Shared | Users | Logged-in users |
+| Public | Globe | Everyone |
+
+### Category Icons
+- Human: `User`
+- Career: `Briefcase`
+- Sweet Spice: `Heart`
+- Universe: `Zap`
+
+---
+
+## 6.7 Blog Page (`/blog`)
+
+### Purpose
+Personal blog for thoughts, stories, and insights. Content management with privacy controls.
+
+### Features
+- **Post Grid**: Card-based display with cover images
+- **Category Filtering**: human, career, sweet-spice, universe
+- **Privacy Filtering**: private, shared, public (admin only)
+- **Tag System**: Filter posts by tags
+- **CRUD Operations**: Create, edit, delete (admin only)
+
+### Post Card Structure
+```
+┌─────────────────────────────────────┐
+│ [Cover Image]                      │
+├─────────────────────────────────────┤
+│ [Category Icon] [Privacy Icon]      │
+│                                     │
+│ POST TITLE                          │
+│ Excerpt preview...                  │
+│                                     │
+│ [tag] [tag]                         │
+│                                     │
+│ Jan 1, 2024  •  5 min read         │
+└─────────────────────────────────────┘
+```
+
+### Post Detail View (Modal/Dialog)
+- Full cover image header
+- Category badge
+- Title and metadata
+- Full content (markdown-like)
+- Tags
+- Media gallery (if media_urls present)
+
+---
 
 ### Purpose
 Comprehensive startup guide/resource hub.
@@ -1107,9 +1268,13 @@ https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&disp
 | Career | Career Side — Ahmad Abdelaziz |
 | Human Side | Human Side — Ahmad Abdelaziz |
 | Partners | Work With Me — Ahmad Abdelaziz |
+| Sweet Spice | Sweet Spice — Ahmad Abdelaziz |
+| Vision Board | Vision Board — Ahmad Abdelaziz |
+| Blog | Blog — Ahmad Abdelaziz |
 | Handbook | Startup Handbook |
 | CV | CV — Ahmad Abdelaziz |
 | Portfolio | Portfolio — Ahmad Abdelaziz |
+| Admin | Admin Dashboard |
 
 ### Meta Description (Recommended)
 ```
@@ -1173,7 +1338,59 @@ interface Project {
 }
 ```
 
-## 11.2 Segment Interface (Partners)
+## 11.2 VisionItem Interface
+```typescript
+interface VisionItem {
+  id: string;
+  title: string;
+  description?: string;
+  category: 'human' | 'career' | 'sweet-spice' | 'universe';
+  status: 'not-started' | 'in-progress' | 'completed' | 'on-hold';
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  progress: number; // 0-100
+  target_date?: string;
+  links: string[];
+  files: string[];
+  privacy: 'private' | 'shared' | 'public';
+  created_at: string;
+  updated_at: string;
+}
+```
+
+## 11.3 BlogPost Interface
+```typescript
+interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt?: string;
+  content: string;
+  category: 'human' | 'career' | 'sweet-spice' | 'universe';
+  tags: string[];
+  cover_image?: string;
+  media_urls: string[];
+  privacy: 'private' | 'shared' | 'public';
+  published_at?: string;
+  created_at: string;
+  updated_at: string;
+}
+```
+
+## 11.4 UniverseSection Interface
+```typescript
+interface UniverseSection {
+  id: string;
+  name: string;
+  path: string;
+  description: string;
+  icon: string;
+  accent: 'white' | 'green' | 'pink' | 'purple' | 'orange';
+  isActive: boolean;
+  order: number;
+}
+```
+
+## 11.5 Segment Interface (Partners)
 ```typescript
 interface Segment {
   id: string;
@@ -1281,6 +1498,49 @@ preview: vite preview
 | `viewed_at` | timestamptz | null | When admin first viewed |
 | `responded_at` | timestamptz | null | When marked as responded |
 
+### `vision_board_items` — Vision Board Items
+| Column | Type | Default | Description |
+|--------|------|---------|-------------|
+| `id` | UUID | gen_random_uuid() | Primary key |
+| `title` | text | - | Vision title |
+| `description` | text | null | Description |
+| `category` | text | - | human/career/sweet-spice/universe |
+| `status` | text | 'not-started' | not-started/in-progress/completed/on-hold |
+| `priority` | text | 'medium' | low/medium/high/urgent |
+| `progress` | integer | 0 | 0-100 percentage |
+| `target_date` | date | null | Target completion date |
+| `links` | jsonb | '[]' | Array of URL strings |
+| `files` | jsonb | '[]' | Array of file objects |
+| `privacy` | text | 'private' | private/shared/public |
+| `created_at` | timestamptz | now() | Creation timestamp |
+| `updated_at` | timestamptz | now() | Last update |
+
+### `vision_board_subtasks` — Vision Subtasks
+| Column | Type | Default | Description |
+|--------|------|---------|-------------|
+| `id` | UUID | gen_random_uuid() | Primary key |
+| `vision_item_id` | UUID | - | FK to vision_board_items |
+| `title` | text | - | Subtask title |
+| `completed` | boolean | false | Completion status |
+| `created_at` | timestamptz | now() | Creation timestamp |
+
+### `blog_posts` — Blog Posts
+| Column | Type | Default | Description |
+|--------|------|---------|-------------|
+| `id` | UUID | gen_random_uuid() | Primary key |
+| `title` | text | - | Post title |
+| `slug` | text | - | URL slug (unique) |
+| `excerpt` | text | null | Short preview |
+| `content` | text | - | Full post content |
+| `category` | text | - | human/career/sweet-spice/universe |
+| `tags` | text[] | '{}' | Array of tags |
+| `cover_image` | text | null | Cover image URL |
+| `media_urls` | jsonb | '[]' | Additional media URLs |
+| `privacy` | text | 'private' | private/shared/public |
+| `published_at` | timestamptz | null | When published |
+| `created_at` | timestamptz | now() | Creation timestamp |
+| `updated_at` | timestamptz | now() | Last update |
+
 ### `request_stats` — View for Dashboard
 ```sql
 CREATE VIEW request_stats AS
@@ -1295,6 +1555,24 @@ FROM requests GROUP BY status;
 - **SELECT**: Authenticated users only
 - **UPDATE**: Authenticated users only
 - **DELETE**: Authenticated users only
+
+### vision_board_items table
+- **INSERT**: Authenticated users only (admin)
+- **SELECT**: Public can view public items; admin can view all
+- **UPDATE**: Authenticated users only (admin)
+- **DELETE**: Authenticated users only (admin)
+
+### vision_board_subtasks table
+- **INSERT**: Authenticated users only (admin)
+- **SELECT**: Follows parent item visibility
+- **UPDATE**: Authenticated users only (admin)
+- **DELETE**: Authenticated users only (admin)
+
+### blog_posts table
+- **INSERT**: Authenticated users only (admin)
+- **SELECT**: Public can view public posts; admin can view all
+- **UPDATE**: Authenticated users only (admin)
+- **DELETE**: Authenticated users only (admin)
 
 ### storage.request-attachments
 - **INSERT**: Public (for file uploads)
