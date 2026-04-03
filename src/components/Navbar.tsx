@@ -37,6 +37,8 @@ const Navbar = () => {
     { name: "Career Side", href: "/career" },
     { name: "Work With Me", href: "/partners" },
     { name: "Sweet Spice", href: "/sweet-spice", accent: "pink" },
+    { name: "Vision Board", href: "/vision-board", accent: "purple" },
+    { name: "Blog", href: "/blog", accent: "purple" },
     { name: "Startup Handbook", href: "/handbook", accent: "orange" },
   ];
 
@@ -62,9 +64,13 @@ const Navbar = () => {
                       ? "bg-secondary/[0.12] text-secondary border border-secondary/35"
                       : link.accent === "pink"
                       ? "bg-pink-500/10 text-pink-400 border border-pink-500/30"
+                      : link.accent === "purple"
+                      ? "bg-purple-500/10 text-purple-400 border border-purple-500/30"
                       : "bg-white/[0.07] text-white/90 border border-white/15"
                     : link.accent === "pink"
                     ? "text-pink-400/60 hover:text-pink-400 hover:bg-pink-500/5 border border-transparent"
+                    : link.accent === "purple"
+                    ? "text-purple-400/60 hover:text-purple-400 hover:bg-purple-500/5 border border-transparent"
                     : "text-white/35 hover:text-white hover:bg-white/5 border border-transparent"
                 }`}
               >
@@ -109,6 +115,8 @@ const Navbar = () => {
                   isActive(link.href) 
                     ? link.accent === "pink" 
                       ? "text-pink-400" 
+                      : link.accent === "purple"
+                      ? "text-purple-400"
                       : "text-primary" 
                     : "text-white/30 hover:text-white/70"
                 }`}

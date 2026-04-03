@@ -12,6 +12,8 @@ import HumanSide from "./pages/HumanSide";
 import Partners from "./pages/Partners";
 import Handbook from "./pages/Handbook";
 import SweetSpice from "./pages/SweetSpice";
+import VisionBoard from "./pages/VisionBoard";
+import Blog from "./pages/Blog";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
@@ -33,6 +35,8 @@ const App = () => (
           <Route path="/partners" element={<Partners />} />
           <Route path="/handbook" element={<Handbook />} />
           <Route path="/sweet-spice" element={<SweetSpice />} />
+          <Route path="/vision-board" element={<VisionBoard />} />
+          <Route path="/blog" element={<Blog />} />
           <Route path="/admin" element={<AdminLogin />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
