@@ -36,7 +36,8 @@ const Navbar = () => {
     { name: "Human Side", href: "/human" },
     { name: "Career Side", href: "/career" },
     { name: "Work With Me", href: "/partners" },
-    { name: "Startup Handbook", href: "/handbook" },
+    { name: "Sweet Spice", href: "/sweet-spice", accent: "pink" },
+    { name: "Startup Handbook", href: "/handbook", accent: "orange" },
   ];
 
   const isActive = (href: string) => location.pathname === href || location.pathname.startsWith(href + "/");
@@ -57,9 +58,13 @@ const Navbar = () => {
                 to={link.href}
                 className={`text-[10px] font-bold uppercase tracking-widest px-3 py-2 rounded-full transition-all duration-300 font-mono whitespace-nowrap ${
                   isActive(link.href)
-                    ? link.href === "/handbook"
+                    ? link.accent === "orange"
                       ? "bg-secondary/[0.12] text-secondary border border-secondary/35"
+                      : link.accent === "pink"
+                      ? "bg-pink-500/10 text-pink-400 border border-pink-500/30"
                       : "bg-white/[0.07] text-white/90 border border-white/15"
+                    : link.accent === "pink"
+                    ? "text-pink-400/60 hover:text-pink-400 hover:bg-pink-500/5 border border-transparent"
                     : "text-white/35 hover:text-white hover:bg-white/5 border border-transparent"
                 }`}
               >
@@ -101,7 +106,11 @@ const Navbar = () => {
                 key={link.name}
                 to={link.href}
                 className={`text-xl font-bold uppercase tracking-wider font-cairo transition-all duration-300 ${
-                  isActive(link.href) ? "text-primary" : "text-white/30 hover:text-white/70"
+                  isActive(link.href) 
+                    ? link.accent === "pink" 
+                      ? "text-pink-400" 
+                      : "text-primary" 
+                    : "text-white/30 hover:text-white/70"
                 }`}
                 onClick={() => setMobileMenuOpen(false)}
               >

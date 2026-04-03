@@ -258,6 +258,7 @@ hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]
 | Human Side | `/human` | White |
 | Career Side | `/career` | White |
 | Work With Me | `/partners` | White |
+| Sweet Spice | `/sweet-spice` | Pink |
 | Startup Handbook | `/handbook` | Orange (secondary) |
 | Request Form (CTA) | Opens dialog | Green button |
 
@@ -270,6 +271,7 @@ hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]
 - Active state: `bg-white/[0.07] text-white/90 border border-white/15`
 - Inactive: `text-white/35 hover:text-white hover:bg-white/5`
 - Special (Handbook): `bg-secondary/[0.12] text-secondary border border-secondary/35`
+- Special (Sweet Spice): `bg-pink-500/10 text-pink-400 border border-pink-500/30`
 
 ---
 
@@ -666,6 +668,7 @@ const PERSONA_PURPOSES = {
   mentor: ['Mentorship Request', 'Advice', 'Career Guidance'],
   mentee: ['Reverse Mentorship', 'Skill Exchange'],
   community: ['Event Speaking', 'Community Partnership'],
+  'sweet-spice': ['Just saying hi', "Let's grab coffee", 'Maybe something more', 'I know someone you should meet'],
   other: ['Other']
 }
 ```

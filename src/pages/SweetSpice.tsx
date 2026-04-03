@@ -1,45 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, MapPin, Brain, Sprout, MessageCircle, Target, Globe, ChefHat, Users, Flag, Shield, XCircle, CheckCircle2, Heart, Sparkles } from 'lucide-react';
+import { MapPin, Brain, Sprout, MessageCircle, Target, Globe, ChefHat, Users, Flag, Shield, XCircle, CheckCircle2, Heart, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { RequestFormDialog } from '@/components/RequestFormDialog';
-
-// Minimal Navbar Component
-const MinimalNavbar = () => (
-  <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50">
-    <div className="glass px-4 py-2 flex items-center gap-4 rounded-full">
-      <Link to="/" className="font-black italic text-lg tracking-tighter">
-        ALIEN<span className="text-pink-400">S</span>
-      </Link>
-      <div className="h-4 w-px bg-white/20" />
-      <Link 
-        to="/human" 
-        className="flex items-center gap-1.5 text-xs text-white/40 hover:text-white transition-colors"
-      >
-        <ArrowLeft className="w-3 h-3" />
-        <span className="hidden sm:inline">Back to my universe</span>
-        <span className="sm:hidden">Back</span>
-      </Link>
-    </div>
-  </nav>
-);
-
-// Minimal Footer Component
-const MinimalFooter = () => (
-  <footer className="py-12 border-t border-white/10">
-    <div className="max-w-4xl mx-auto px-6 text-center space-y-4">
-      <p className="text-sm font-black italic">
-        Ahmad Abdelaziz · <span className="text-pink-400">Non-Linear · Authentic</span> · Still figuring it out 🤍
-      </p>
-      <p className="text-xs text-white/30 italic">
-        ahmad@alientalents.com
-      </p>
-      <p className="text-[10px] text-white/20 uppercase tracking-widest">
-        © 2025
-      </p>
-    </div>
-  </footer>
-);
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export default function SweetSpice() {
   const [isRequestOpen, setIsRequestOpen] = useState(false);
@@ -98,9 +63,9 @@ export default function SweetSpice() {
         />
       </div>
 
-      <MinimalNavbar />
+      <Navbar />
 
-      <main className="relative z-10 pt-24 pb-16 px-6">
+      <main className="relative z-10 pt-28 pb-16 px-6">
         <div className="max-w-4xl mx-auto space-y-20">
 
           {/* HERO SECTION */}
@@ -297,7 +262,7 @@ export default function SweetSpice() {
         </div>
       </main>
 
-      <MinimalFooter />
+      <Footer />
 
       <RequestFormDialog
         open={isRequestOpen}

@@ -1,91 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Footer from "@/components/Footer";
-import { ArrowRight, Briefcase, Users, GraduationCap, Heart, Rocket, Handshake, Target, Sparkles, Globe, Mail, Linkedin, Menu, X, Play } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import { ArrowRight, Briefcase, Users, GraduationCap, Heart, Rocket, Handshake, Target, Sparkles, Globe, Mail, Linkedin, X, Play } from "lucide-react";
 import { Link } from "react-router-dom";
 import { RequestFormDialog } from "@/components/RequestFormDialog";
-
-const BottomNav = ({ onOpenRequestForm }: { onOpenRequestForm: () => void }) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Career", href: "/career" },
-    { name: "Human", href: "/human" },
-    { name: "Partners", href: "/partners" },
-    { name: "Handbook", href: "/handbook" },
-  ];
-
-  return (
-    <>
-      {/* Desktop Bottom Nav */}
-      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] hidden md:block">
-        <div className="glass px-4 py-3 flex items-center gap-2 shadow-[0_30px_60px_rgba(0,0,0,0.5)]">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.href}
-              className="text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-full transition-all duration-300 font-mono whitespace-nowrap text-white/60 hover:text-white hover:bg-white/10"
-            >
-              {link.name}
-            </Link>
-          ))}
-          <div className="w-px h-4 bg-white/20 mx-1" />
-          <button
-            onClick={() => onOpenRequestForm()}
-            className="flex items-center gap-2 px-4 py-2 bg-green-500 text-black rounded-full text-[10px] font-black uppercase tracking-widest italic hover:opacity-90 hover:shadow-[0_0_20px_hsla(142,71%,45%,0.6)] transition-all duration-300 active:scale-95"
-          >
-            <Briefcase size={12} />
-            Request Form
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Bottom Nav */}
-      <nav className="fixed bottom-4 left-4 right-4 z-[100] md:hidden">
-        <div className="glass px-4 py-3 flex items-center justify-between">
-          <Link to="/" className="text-sm font-mono font-bold text-white/60 tracking-[0.1em]">
-            ALIEN<span className="text-green-500">S</span>
-          </Link>
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-white/60 hover:text-white transition-colors p-1"
-          >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
-          </button>
-        </div>
-
-        {/* Mobile Menu Overlay */}
-        {mobileMenuOpen && (
-          <div className="fixed inset-0 bottom-20 z-[99] bg-black/98 backdrop-blur-2xl animate-fade-in">
-            <div className="flex flex-col items-center justify-center h-full gap-5 px-8">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.href}
-                  className="text-xl font-bold uppercase tracking-wider font-cairo text-white/30 hover:text-green-500 transition-all"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.name}
-                </Link>
-              ))}
-              <div className="w-16 h-px bg-white/10 my-2" />
-              <button
-                className="btn btn-primary flex items-center gap-2"
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenRequestForm();
-                }}
-              >
-                <Briefcase size={14} />
-                Request Form
-              </button>
-            </div>
-          </div>
-        )}
-      </nav>
-    </>
-  );
-};
 
 const personaCards = [{
     id: "hiring",
@@ -134,8 +52,10 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden pb-24">
+      <Navbar />
+
       {/* Hero Section - Redesigned */}
-      <section className="pt-4 pb-8 bg-black">
+      <section className="pt-24 pb-8 bg-black">
         <div className="section-container w-full !py-8">
           <div className="max-w-6xl mx-auto">
             
@@ -225,11 +145,11 @@ const Home = () => {
               </div>
 
               {/* Right: Photo (5 cols) */}
-              <div className="lg:col-span-5 order-1 lg:order-2">
-                <div className="scroll-animation delay-200 relative max-w-sm mx-auto lg:max-w-none">
+              <div className="lg:col-span-5 order-1 lg:order-2 mb-6 lg:mb-0">
+                <div className="scroll-animation delay-200 relative max-w-xs sm:max-w-sm mx-auto lg:max-w-none">
                   {/* Photo with gradient border */}
-                  <div className="relative p-[3px] rounded-3xl bg-gradient-to-br from-green-500/30 via-white/10 to-orange-500/30">
-                    <div className="relative aspect-[4/5] rounded-3xl overflow-hidden bg-black">
+                  <div className="relative p-[2px] sm:p-[3px] rounded-2xl sm:rounded-3xl bg-gradient-to-br from-green-500/30 via-white/10 to-orange-500/30">
+                    <div className="relative aspect-[3/4] sm:aspect-[4/5] rounded-2xl sm:rounded-3xl overflow-hidden bg-black">
                       {/* Replace src with your photo path */}
                       <img 
                         src="/ahmad-photo.jpg" 
@@ -260,8 +180,8 @@ const Home = () => {
                   </div>
                   
                   {/* Floating tag */}
-                  <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 glass px-4 py-2 whitespace-nowrap">
-                    <span className="text-xs font-black uppercase tracking-widest text-white/80">ALIENs Entrepreneur</span>
+                  <div className="absolute -bottom-2 sm:-bottom-3 left-1/2 -translate-x-1/2 glass px-3 sm:px-4 py-1.5 sm:py-2 whitespace-nowrap">
+                    <span className="text-[10px] sm:text-xs font-black uppercase tracking-widest text-white/80">ALIENs Entrepreneur</span>
                   </div>
                 </div>
               </div>
@@ -443,7 +363,6 @@ const Home = () => {
       </section>
 
       <Footer />
-      <BottomNav onOpenRequestForm={() => setRequestFormOpen(true)} />
       <RequestFormDialog open={requestFormOpen} onOpenChange={setRequestFormOpen} />
       
       {/* Video Modal */}
