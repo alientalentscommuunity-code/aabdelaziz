@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Menu, X, Mail } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { RequestFormDialog } from "./RequestFormDialog";
+import { trackNavClick, trackButtonClick } from "@/lib/analytics";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -58,6 +59,7 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 to={link.href}
+                onClick={() => trackNavClick(link.name, "main")}
                 className={`text-[10px] font-bold uppercase tracking-widest px-3 py-2 rounded-full transition-all duration-300 font-mono whitespace-nowrap ${
                   isActive(link.href)
                     ? link.accent === "orange"
@@ -80,7 +82,10 @@ const Navbar = () => {
           </div>
           <div className="w-px h-5 bg-white/10 shrink-0" />
           <button
-            onClick={() => setRequestFormOpen(true)}
+            onClick={() => {
+              trackButtonClick("Request Form", "navbar_request_form", "navbar");
+              setRequestFormOpen(true);
+            }}
             className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-full text-[10px] font-black uppercase tracking-widest italic hover:opacity-90 hover:shadow-[0_0_20px_hsl(var(--primary)/0.6)] transition-all duration-300 active:scale-95 shrink-0"
           >
             <Mail size={14} />
@@ -120,7 +125,10 @@ const Navbar = () => {
                       : "text-primary" 
                     : "text-white/30 hover:text-white/70"
                 }`}
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  trackNavClick(link.name, "mobile");
+                  setMobileMenuOpen(false);
+                }}
               >
                 {link.name}
               </Link>
@@ -129,6 +137,7 @@ const Navbar = () => {
             <button
               className="btn btn-primary flex items-center gap-2 mt-2"
               onClick={() => {
+                trackButtonClick("Request Form", "mobile_nav_request_form", "mobile_nav");
                 setMobileMenuOpen(false);
                 setRequestFormOpen(true);
               }}

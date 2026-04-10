@@ -30,18 +30,20 @@ const GlassCard = ({ title, accentColor, subtitle, children }: { title: string; 
 const HiringCoFounder = ({ onBackToHandbook }: { onBackToHandbook: () => void }) => {
   const sections = useMemo(
     () => [
-      { id: "who-were-looking-for", label: "🎯 Who We're Looking For" },
-      { id: "are-you-an-alien", label: "💫 Are You an ALIEN?" },
-      { id: "the-role", label: "🧑‍🚀 The Role" },
-      { id: "competencies-tools", label: "🛠 Competencies & Tools" },
-      { id: "revenue-equity", label: "💰 Revenue & Equity" },
-      { id: "ownership-model", label: "📊 Ownership Model" },
-      { id: "commitment-location", label: "⏱ Commitment & Location" },
-      { id: "who-are-aliens-venture", label: "🌍 Who Are ALIENs Venture?" },
-      { id: "how-it-started", label: "🧭 How It Started" },
+      { id: "looking-for", label: "🚀 Looking for a CO-FOUNDER" },
+      { id: "who-we-are", label: "🌍 Who We Are" },
       { id: "what-were-building", label: "🤖 What We're Building" },
-      { id: "our-impact", label: "📈 Our Impact" },
-      { id: "apply", label: "📝 Apply" },
+      { id: "the-role", label: "🎯 The Role: Backend & AI Co-Founder" },
+      { id: "technology", label: "🔧 Technology" },
+      { id: "ai-tools", label: "🤖 AI Tools & Platforms" },
+      { id: "what-youll-build", label: "🌍 What You'll Actually Build" },
+      { id: "who-you-are", label: "💫 Who You Are" },
+      { id: "tools-we-use", label: "🧰 Tools We Use" },
+      { id: "revenue-equity", label: "💰 Revenue & Equity" },
+      { id: "commitment", label: "⏱ Commitment & Work Style" },
+      { id: "bonus-points", label: "🎁 Bonus Points" },
+      { id: "what-we-promise", label: "🚀 What We Promise" },
+      { id: "how-to-apply", label: "📝 How to Apply" },
     ],
     []
   );
@@ -198,7 +200,8 @@ const HiringCoFounder = ({ onBackToHandbook }: { onBackToHandbook: () => void })
         </aside>
 
         <div className="space-y-6 min-w-0">
-          <section id="who-were-looking-for" className="scroll-mt-32">
+          {/* 🚀 Looking for a CO-FOUNDER */}
+          <section id="looking-for" className="scroll-mt-32">
             <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-5">
               <div className="space-y-2">
                 <h2 className="text-2xl sm:text-3xl font-black italic tracking-tighter text-white">🚀 Looking for a CO-FOUNDER</h2>
@@ -210,9 +213,9 @@ const HiringCoFounder = ({ onBackToHandbook }: { onBackToHandbook: () => void })
               <div className="border-t border-white/10 pt-5 space-y-3">
                 <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">🎯 Someone who brings:</h3>
                 <p className="text-white/40 font-medium italic leading-relaxed">
-                  Curiosity, wildness, kindness — and comes with SW, AI/ML competencies.
+                  Curiosity, wildness, kindness — and comes with <strong>Backend & AI competencies</strong>.
                   <br />
-                  💡 Feel free to reach out if you own a different gift/craft but you think it's your awesome.
+                  💡 Feel free to reach out if you own a different gift/craft but you think it's awesome.
                 </p>
               </div>
 
@@ -239,262 +242,529 @@ const HiringCoFounder = ({ onBackToHandbook }: { onBackToHandbook: () => void })
             </div>
           </section>
 
-          <section id="are-you-an-alien" className="scroll-mt-32">
-            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
-              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">💫 You're the kind of human being who:</h3>
-              <ul className="space-y-2 text-white/40 font-medium italic">
-                <li className="flex items-start gap-2">
-                  <span className="text-secondary mt-0.5">•</span> ✨ Has a purpose / intention
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-secondary mt-0.5">•</span> 💚 Loves yourself & kinda does for others too
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-secondary mt-0.5">•</span> 🎨 Has an obsession with building ARCHITECTURE & ART
-                </li>
-              </ul>
-              <p className="text-white/40 font-medium italic leading-relaxed">
-                Both obsessions could be in paintings, buildings, systems, designs, tech, and human minds. Or whatever — how do you perceive it?
-              </p>
-            </div>
-          </section>
-
-          <section id="the-role" className="scroll-mt-32">
-            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-3">
-              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">🧑‍🚀 Co-Founder — Junior to Senior (Seniority Agnostic)</h3>
-              <p className="text-white/40 font-medium italic leading-relaxed">
-                We're looking for a Tech Co-Founder who is curious, kind, and grounded in humanity. Someone who enjoys building, experimenting, and turning chaos into systems that actually help people.
-                <br />
-                <br />
-                You don't need to be perfect at everything — but you should be strong in at least one area and excited to grow into more.
-              </p>
-            </div>
-          </section>
-
-          <section id="competencies-tools" className="scroll-mt-32">
+          {/* 🌍 Who We Are — ALIENs Venture */}
+          <section id="who-we-are" className="scroll-mt-32">
             <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-5">
-              <div className="space-y-3">
-                <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">🛠 Core Competencies (One or More)</h3>
+              <div className="space-y-2">
+                <h2 className="text-xl sm:text-2xl font-black italic tracking-tighter text-white">🌍 Who We Are — ALIENs Venture</h2>
+                <p className="text-white/40 font-medium italic">
+                  <strong>We're prototyping thoughts, emotions, and chaos using Code × AI × No-Code tools.</strong>
+                </p>
+              </div>
+              
+              <p className="text-white/40 font-medium italic leading-relaxed">
+                Our mission: turn uncertainty in global employment, wealth, and wellbeing into clear wins for talents and hiring managers across MENA and emerging markets.
+              </p>
+
+              <div className="border-t border-white/10 pt-5 space-y-3">
+                <h3 className="text-lg font-black italic tracking-tighter text-white">The Problem We Exist to Solve</h3>
+                <p className="text-white/40 font-medium italic"><strong>Across MENA, both talent and hiring managers face:</strong></p>
                 <ul className="space-y-2 text-white/40 font-medium italic">
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💻 Software Engineering (Generalist)</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ⚙️ Backend Engineering</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🤖 AI / ML background or strong applied expertise</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🧠 LLMs, Automations & AI Agent crafting</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🌐 Full-Stack vibe coding</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> Hidden job markets — opportunities never see daylight</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> Fragmented information — scattered across 20+ platforms</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> Low trust — resumes lie, interviews are theatrical, ghosting is standard</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> Unclear growth paths — no guidance on what to learn or where to go</li>
                 </ul>
               </div>
 
               <div className="border-t border-white/10 pt-5 space-y-3">
-                <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">🧰 Tools You Already Hang With</h3>
-                <ul className="space-y-2 text-white/40 font-medium italic">
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🛠 Cursor, Antigravity, Windsurf</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💻 Lovable, Bolt, Replit</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🔗 n8n / Make / Activepieces</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🤖 ChatGPT, Claude, Genspark, Perplexity</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 📊 Airtable, Notion, Google Workspace, Lark Suite</li>
-                </ul>
-              </div>
-            </div>
-          </section>
-
-          <section id="revenue-equity" className="scroll-mt-32">
-            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-3">
-              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">💰 Revenue & Equity</h3>
-              <ul className="space-y-2 text-white/40 font-medium italic">
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ✅ Revenue & equity are guaranteed</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 📈 So far: $2,000+ monetized with only a prototype</li>
-              </ul>
-            </div>
-          </section>
-
-          <section id="ownership-model" className="scroll-mt-32">
-            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
-              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">📊 How Ownership Is Calculated — Fair & Transparent</h3>
-
-              <div className="space-y-2 text-white/40 font-medium italic">
-                <p>You will:</p>
-                <ol className="space-y-2 pl-5 list-decimal">
-                  <li>⏰ Estimate how many hours you can commit</li>
-                  <li>💵 Define your hourly rate in USD</li>
-                  <li>🤝 We compare your inputs with 2 active peers to split percentages</li>
-                </ol>
-              </div>
-
-              <div className="space-y-2 text-white/40 font-medium italic">
-                <p>Ownership is calculated across:</p>
-                <ul className="space-y-2">
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💰 Revenue</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 📈 Equity</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🏢 Assets</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ⚖️ Rights</li>
-                </ul>
-              </div>
-
-              <p className="text-white/40 font-medium italic leading-relaxed">Everything is based on real contribution — not titles or seniority.</p>
-            </div>
-          </section>
-
-          <section id="commitment-location" className="scroll-mt-32">
-            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
-              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">⏱ Commitment & Work Style</h3>
-
-              <div className="space-y-2 text-white/40 font-medium italic">
-                <p><strong>📅 Commitment</strong></p>
-                <p>Minimum 10 hours per week</p>
-              </div>
-
-              <div className="space-y-2 text-white/40 font-medium italic">
-                <p><strong>💬 Communication</strong></p>
-                <p>Async | Sync — flexible, outcome-driven</p>
-              </div>
-
-              <div className="space-y-2 text-white/40 font-medium italic">
-                <p><strong>🌐 Commute Model</strong></p>
-                <p>Hybrid (mainly remote)</p>
-                <p>☕ On-site coffee chats from time to time are preferred</p>
-              </div>
-
-              <div className="space-y-2 text-white/40 font-medium italic">
-                <p><strong>📍 Location</strong></p>
-                <p>Anywhere in MENA</p>
-              </div>
-
-              <div className="border-t border-white/10 pt-4 space-y-2 text-white/40 font-medium italic">
-                <p><strong>🎁 Bonus Points</strong></p>
-                <ul className="space-y-2">
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ➕ 05 pts if you're based in Egypt</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ➕ 10 pts if you live in Cairo</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ➕ 25 pts if you live in, or within one hour of, Minia / Samalout</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ➕ 25 pts if you scored in our top 25% of ALIENs Squad with AALN Assessment</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ➕ 25 pts if you have a genuine interest in education, employment, wealth, or wellbeing</li>
-                </ul>
-              </div>
-            </div>
-          </section>
-
-          <section id="who-are-aliens-venture" className="scroll-mt-32">
-            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
-              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">🌍 Who Are ALIENs Venture?</h3>
-              <p className="text-white/40 font-medium italic leading-relaxed">
-                We are ALIENs Venture. We prototype thoughts, emotions, and chaos using:
-              </p>
-              <ul className="space-y-2 text-white/40 font-medium italic">
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💻 Code</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🤖 AI</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🔧 No-Code tools</li>
-              </ul>
-              <p className="text-white/40 font-medium italic leading-relaxed">
-                Our mission is to turn uncertainty in global employment, wealth, and wellbeing into clear wins for talents and hiring managers across MENA and emerging markets.
-              </p>
-            </div>
-          </section>
-
-          <section id="how-it-started" className="scroll-mt-32">
-            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
-              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">🧭 How It Started</h3>
-              <p className="text-white/40 font-medium italic leading-relaxed">
-                We began as a one-man community hub with a $0 budget — sharing:
-              </p>
-              <ul className="space-y-2 text-white/40 font-medium italic">
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 📚 Lessons learned</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🚪 Opportunities</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 📞 1-to-1 calls</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 👥 Group meetups</li>
-              </ul>
-              <p className="text-white/40 font-medium italic leading-relaxed">
-                All in search of a like-minded, human-first community that truly cares about:
-              </p>
-              <ul className="space-y-2 text-white/40 font-medium italic">
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💼 Employment</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💰 Wealth</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🌱 Wellbeing</li>
-              </ul>
-            </div>
-          </section>
-
-          <section id="what-were-building" className="scroll-mt-32">
-            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-5">
-              <div className="space-y-2">
-                <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">🤖 What We're Building Today</h3>
+                <p className="text-white/40 font-medium italic"><strong>The psychological reality:</strong></p>
                 <p className="text-white/40 font-medium italic leading-relaxed">
-                  An <strong>AI-enabled, Human-First Venture Hub</strong>
+                  Chaos, self-doubt, uncertainty about learning paths, ineffective techniques, and the constant question: "Am I doing the right thing?"
                 </p>
               </div>
 
-              <div className="border-t border-white/10 pt-4 space-y-3">
-                <p className="text-white/40 font-medium italic"><strong>For Talents:</strong></p>
+              <div className="border-t border-white/10 pt-5 space-y-3">
+                <p className="text-white/40 font-medium italic"><strong>Who we serve:</strong></p>
                 <ul className="space-y-2 text-white/40 font-medium italic">
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🌍 Global Jobs, $£€ Wallet, Meetups</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🤖 AI-powered Employment & Wellbeing feedback & Mentorship</li>
-                </ul>
-              </div>
-
-              <div className="border-t border-white/10 pt-4 space-y-3">
-                <p className="text-white/40 font-medium italic"><strong>For Hiring Managers & Employers:</strong></p>
-                <ul className="space-y-2 text-white/40 font-medium italic">
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🤝 Hire Referrals</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🌟 Top 1% Humanity</li>
-                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 📉 Cut 90% of candidate acquisition cost & time-to-hire</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> <strong>Talents (B2C):</strong> Emerging, unseen, multi-potential humanity — early to mid-career professionals across MENA, emerging markets, and global remote workers seeking growth, income, and wellbeing</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> <strong>Hiring Managers (B2B):</strong> Startups, SMEs, and remote-first teams hiring from MENA and emerging markets</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> <strong>Institutions (B2B/B2G):</strong> Universities, academies, innovation hubs, NGOs, and government employment programs</li>
                 </ul>
               </div>
             </div>
           </section>
 
-          <section id="our-impact" className="scroll-mt-32">
-            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
-              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">📈 Our Impact So Far</h3>
-              <ul className="space-y-2 text-white/40 font-medium italic">
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🌍 2,500+ global remote jobs shared</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🏢 1,000+ companies added</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 👥 19,000+ platform visitors</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🖱️ 3,000+ apply clicks</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🎯 16+ talents secured one or multiple interviews</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 📋 50+ total interviews secured</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💼 1 gig secured — $1,800+ total earnings</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🧳 1 job secured — $1,500/month</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ☕ 70 weekly meetups held</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ⏰ 100+ hours of 1-to-1 sessions</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💰 $2,000+ monetized so far</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🤝 5 referral opportunities secured for talents</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💵 $5,000 potential pipeline from 3 inbound leads (closed-lost)</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ✍️ 500+ talents signed up</li>
-                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🌟 100 Class-A talents identified</li>
-              </ul>
+          {/* 🤖 What We're Building */}
+          <section id="what-were-building" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-5">
+              <div className="space-y-2">
+                <h2 className="text-xl sm:text-2xl font-black italic tracking-tighter text-white">🤖 What We're Building</h2>
+                <p className="text-white/40 font-medium italic">
+                  An <strong>AI-enabled, Human-First Venture Hub</strong> powered by ALIEN AI — a bestie-style AI for employment, wealth, and wellbeing.
+                </p>
+              </div>
+
+              <div className="border-t border-white/10 pt-5 space-y-4">
+                <h3 className="text-lg font-black italic tracking-tighter text-violet-300">For Talents — ALIEN Career Universe</h3>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-violet-300 mt-0.5">•</span> 🌍 <strong>Global Jobs Board</strong> — Remote opportunities, AI-analyzed and matched</li>
+                  <li className="flex items-start gap-2"><span className="text-violet-300 mt-0.5">•</span> 📝 <strong>AI-Powered Tools</strong> — Smart CV builder, cover letter generator, job summaries</li>
+                  <li className="flex items-start gap-2"><span className="text-violet-300 mt-0.5">•</span> 🎯 <strong>Interview Practice</strong> — Voice AI conversations with real-time scoring</li>
+                  <li className="flex items-start gap-2"><span className="text-violet-300 mt-0.5">•</span> 🏆 <strong>ALIEN Trophies</strong> — Referral requests, employment contracts, legacy building</li>
+                  <li className="flex items-start gap-2"><span className="text-violet-300 mt-0.5">•</span> 📚 <strong>Career Academy</strong> — AI-guided courses with progress tracking and rewards</li>
+                  <li className="flex items-start gap-2"><span className="text-violet-300 mt-0.5">•</span> 🌌 <strong>Universe Handbook</strong> — Rituals, meetups, talks, and peer mentorship</li>
+                  <li className="flex items-start gap-2"><span className="text-violet-300 mt-0.5">•</span> 🤖 <strong>Mentor AI</strong> — Career, wealth, and wellbeing guidance</li>
+                </ul>
+              </div>
+
+              <div className="border-t border-white/10 pt-5 space-y-4">
+                <h3 className="text-lg font-black italic tracking-tighter text-emerald-400">For Hiring Managers — ALIEN OS</h3>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">•</span> 🎯 <strong>Hunt Platform</strong> — AI-analyzed job postings, referral-based hiring</li>
+                  <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">•</span> 🌟 <strong>Top 1% Humanity</strong> — Pre-vetted, scored talent pool</li>
+                  <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">•</span> 📉 <strong>90% Cost Reduction</strong> — Cut time-to-hire and acquisition costs</li>
+                  <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">•</span> 🤝 <strong>Community & Referrals</strong> — Coffee chats with fellow hunters, referral exchanges</li>
+                  <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">•</span> 📊 <strong>Evaluation Suite</strong> — Company profiling, candidate scoring, pipeline management</li>
+                </ul>
+              </div>
+
+              <div className="border-t border-white/10 pt-5 space-y-3">
+                <h3 className="text-lg font-black italic tracking-tighter text-white">The Architecture You'll Build</h3>
+                <p className="text-white/40 font-medium italic leading-relaxed">
+                  <strong>You're building the brain and nervous system:</strong>
+                </p>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> Vector search infrastructure for semantic talent-job matching</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> Real-time systems for community chat, coffee chats, and referrals</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> AI pipelines that analyze, score, and predict (not just respond)</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> Data architecture that learns from every interaction</li>
+                </ul>
+                <p className="text-white/40 font-medium italic leading-relaxed mt-3">
+                  <strong>This isn't prompt engineering.</strong> This is production-grade AI systems: RAG pipelines, embedding stores, scoring algorithms, and multi-agent orchestration.
+                </p>
+              </div>
             </div>
           </section>
 
-          <section id="apply" className="scroll-mt-32">
+          {/* 🎯 The Role: Backend & AI Co-Founder */}
+          <section id="the-role" className="scroll-mt-32">
             <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
-              <h3 className="text-lg sm:text-xl font-black italic tracking-tighter text-white">📝 Learn More — Apply</h3>
+              <h2 className="text-xl sm:text-2xl font-black italic tracking-tighter text-white">🎯 The Role: Backend & AI Co-Founder</h2>
+              <p className="text-white/40 font-medium italic leading-relaxed">
+                We're looking for a Tech Co-Founder who is curious, kind, and grounded in humanity. Someone who enjoys building, experimenting, and turning chaos into systems that actually help people.
+              </p>
+              <p className="text-white/40 font-medium italic leading-relaxed">
+                You don't need to be perfect at everything — but you should be strong in at least one area and excited to grow into more.
+              </p>
 
+              <div className="border-t border-white/10 pt-4 space-y-2">
+                <p className="text-white/40 font-medium italic"><strong>The Engineer (Must-Haves):</strong></p>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> You've built production RAG systems (not just toy demos)</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> You understand vector search, not just "used Pinecone once"</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> You've worked with real-time systems (WebSockets, not just REST)</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> You can design data architectures that scale</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> You've integrated AI APIs at scale (handling rate limits, costs, fallbacks)</li>
+                </ul>
+              </div>
+
+              <div className="border-t border-white/10 pt-4 space-y-2">
+                <p className="text-white/40 font-medium italic"><strong>You're not:</strong></p>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> A frontend developer who "does backend sometimes"</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> A prompt engineer who calls it "AI engineering"</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> Looking for a quick exit or passive income</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* 🔧 Technology (Core Competencies) */}
+          <section id="technology" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-5">
+              <h2 className="text-xl sm:text-2xl font-black italic tracking-tighter text-white">🔧 Technology (Core Competencies)</h2>
+
+              <div className="space-y-4">
+                <h3 className="text-lg font-black italic tracking-tighter text-sky-400">Backend Architecture</h3>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {[
+                    { cat: "Database", skills: "PostgreSQL (advanced), pgvector extension, Redis caching" },
+                    { cat: "Real-time", skills: "WebSockets, Server-Sent Events, Supabase Realtime" },
+                    { cat: "Serverless", skills: "Netlify Functions, Deno Edge Functions, Vercel Edge" },
+                    { cat: "API Design", skills: "RESTful APIs, GraphQL, Webhook handlers, Rate limiting" },
+                    { cat: "Search", skills: "Vector similarity search, Full-text search (tsvector), Semantic matching" },
+                    { cat: "Storage", skills: "Object storage (PDFs, audio), File processing pipelines" },
+                  ].map((item) => (
+                    <div key={item.cat} className="glass-sm p-3">
+                      <p className="text-xs font-black uppercase tracking-wider text-sky-400 mb-1">{item.cat}</p>
+                      <p className="text-white/40 text-sm font-medium italic">{item.skills}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-t border-white/10 pt-5 space-y-4">
+                <h3 className="text-lg font-black italic tracking-tighter text-violet-300">AI/ML Infrastructure</h3>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {[
+                    { cat: "LLM Integration", skills: "OpenAI API, Claude API, Prompt engineering at scale" },
+                    { cat: "RAG Systems", skills: "LangChain or LlamaIndex, Vector retrieval, Context augmentation" },
+                    { cat: "Embeddings", skills: "OpenAI Embeddings, Vector storage (pgvector/Pinecone), Similarity algorithms" },
+                    { cat: "Voice AI", skills: "Whisper (STT), TTS integration (ElevenLabs), Audio streaming" },
+                    { cat: "Scoring Models", skills: "Custom match scoring, Hunter/talent quality algorithms" },
+                    { cat: "Automation", skills: "Background job queues, Cron systems, n8n/Make workflows" },
+                    { cat: "Multi-agent", skills: "CrewAI/AutoGen for recruitment workflow automation" },
+                  ].map((item) => (
+                    <div key={item.cat} className="glass-sm p-3">
+                      <p className="text-xs font-black uppercase tracking-wider text-violet-300 mb-1">{item.cat}</p>
+                      <p className="text-white/40 text-sm font-medium italic">{item.skills}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-t border-white/10 pt-4">
+                <h3 className="text-lg font-black italic tracking-tighter text-white mb-3">System Design</h3>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> Event-driven architecture (webhooks, triggers)</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> Microservices / Serverless patterns</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ETL pipelines for data sync</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> Content moderation AI</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> Recommendation engines</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* 🤖 AI Tools & Platforms */}
+          <section id="ai-tools" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-5">
+              <h2 className="text-xl sm:text-2xl font-black italic tracking-tighter text-white">🤖 AI Tools & Platforms</h2>
+
+              <div className="space-y-4">
+                <h3 className="text-lg font-black italic tracking-tighter text-emerald-400">Core LLM Stack</h3>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {[
+                    { tool: "OpenAI (GPT-4o)", use: "Job analysis, profile evaluation, report generation" },
+                    { tool: "Claude 3.5 Sonnet", use: "Long-context CV parsing, detailed evaluation reports" },
+                    { tool: "Ollama", use: "Local models for cost reduction and data privacy" },
+                    { tool: "Whisper API", use: "Interview practice transcription" },
+                    { tool: "ElevenLabs", use: "AI interviewer voice synthesis" },
+                  ].map((item) => (
+                    <div key={item.tool} className="glass-sm p-3">
+                      <p className="text-xs font-black uppercase tracking-wider text-emerald-400 mb-1">{item.tool}</p>
+                      <p className="text-white/40 text-sm font-medium italic">{item.use}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="border-t border-white/10 pt-5 space-y-4">
+                <h3 className="text-lg font-black italic tracking-tighter text-orange-400">AI Orchestration</h3>
+                <div className="grid sm:grid-cols-2 gap-3">
+                  {[
+                    { tool: "LangChain", use: "RAG pipelines for talent-job matching" },
+                    { tool: "LlamaIndex", use: "Company review indexing, talent profile retrieval" },
+                    { tool: "CrewAI / AutoGen", use: "Multi-agent recruitment workflows" },
+                    { tool: "n8n", use: "Referral request → search → score → notify automation" },
+                    { tool: "pgvector", use: "Postgres-native vector storage" },
+                  ].map((item) => (
+                    <div key={item.tool} className="glass-sm p-3">
+                      <p className="text-xs font-black uppercase tracking-wider text-orange-400 mb-1">{item.tool}</p>
+                      <p className="text-white/40 text-sm font-medium italic">{item.use}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* 🌍 What You'll Actually Build */}
+          <section id="what-youll-build" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-5">
+              <h2 className="text-xl sm:text-2xl font-black italic tracking-tighter text-white">🌍 What You'll Actually Build</h2>
+
+              <div className="space-y-4">
+                <h3 className="text-lg font-black italic tracking-tighter text-secondary">1. AI Matching Engine</h3>
+                <div className="glass-sm p-4 font-mono text-xs text-white/40">
+                  Input: Job description + Hunter requirements<br />
+                  ↓<br />
+                  Vector embedding + semantic analysis<br />
+                  ↓<br />
+                  Query talent database (500+ profiles)<br />
+                  ↓<br />
+                  Score matches (skills × culture × growth)<br />
+                  ↓<br />
+                  Return top 10 with reasoning
+                </div>
+              </div>
+
+              <div className="border-t border-white/10 pt-4 space-y-3">
+                <h3 className="text-lg font-black italic tracking-tighter text-violet-300">2. Real-Time Referral System</h3>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-violet-300 mt-0.5">•</span> WebSocket chat between referrer and talent</li>
+                  <li className="flex items-start gap-2"><span className="text-violet-300 mt-0.5">•</span> AI analysis of referral request</li>
+                  <li className="flex items-start gap-2"><span className="text-violet-300 mt-0.5">•</span> Automated talent database search</li>
+                  <li className="flex items-start gap-2"><span className="text-violet-300 mt-0.5">•</span> Match scoring and notification pipeline</li>
+                </ul>
+              </div>
+
+              <div className="border-t border-white/10 pt-4 space-y-3">
+                <h3 className="text-lg font-black italic tracking-tighter text-emerald-400">3. Interview Practice AI</h3>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">•</span> Voice AI: Speech-to-text transcription (Whisper)</li>
+                  <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">•</span> GPT-4 evaluation of answers</li>
+                  <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">•</span> Scoring: Communication, content, confidence</li>
+                  <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">•</span> TTS feedback with ElevenLabs voice</li>
+                </ul>
+              </div>
+
+              <div className="border-t border-white/10 pt-4 space-y-3">
+                <h3 className="text-lg font-black italic tracking-tighter text-sky-400">4. Community Intelligence</h3>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-sky-400 mt-0.5">•</span> Content moderation (toxic post detection)</li>
+                  <li className="flex items-start gap-2"><span className="text-sky-400 mt-0.5">•</span> Post/comment recommendation engine</li>
+                  <li className="flex items-start gap-2"><span className="text-sky-400 mt-0.5">•</span> Coffee chat partner suggestions (vector similarity)</li>
+                  <li className="flex items-start gap-2"><span className="text-sky-400 mt-0.5">•</span> Hunter community trust scoring</li>
+                </ul>
+              </div>
+
+              <div className="border-t border-white/10 pt-4 space-y-3">
+                <h3 className="text-lg font-black italic tracking-tighter text-orange-400">5. Automated Evaluation Pipeline</h3>
+                <div className="glass-sm p-4 font-mono text-xs text-white/40">
+                  Talent submits profile<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;↓<br />
+                  CV parsing + vectorization<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;↓<br />
+                  AI analysis (skills, gaps, potential)<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;↓<br />
+                  Generate structured report + alien traits<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;↓<br />
+                  Score and route (Top 1%, 10%, etc.)
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* 💫 Who You Are */}
+          <section id="who-you-are" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-5">
+              <h2 className="text-xl sm:text-2xl font-black italic tracking-tighter text-white">💫 Who You Are</h2>
+
+              <div className="space-y-4">
+                <h3 className="text-lg font-black italic tracking-tighter text-secondary">You're the kind of human being who:</h3>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ✨ Has a purpose / intention</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💚 Loves yourself & kinda does for others too</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🎨 Has an obsession with building ARCHITECTURE & ART</li>
+                </ul>
+                <p className="text-white/40 font-medium italic leading-relaxed">
+                  (Both obsessions could be in paintings, buildings, systems, designs, tech, and human minds. Or whatever — how do you perceive it?)
+                </p>
+              </div>
+
+              <div className="border-t border-white/10 pt-5 space-y-3">
+                <h3 className="text-lg font-black italic tracking-tighter text-white">🧑‍🚀 Co-Founder — Junior to Senior (Seniority Agnostic)</h3>
+                <p className="text-white/40 font-medium italic leading-relaxed">
+                  We're looking for a Tech Co-Founder who is curious, kind, and grounded in humanity. Someone who enjoys building, experimenting, and turning chaos into systems that actually help people.
+                </p>
+                <p className="text-white/40 font-medium italic leading-relaxed">
+                  You don't need to be perfect at everything — but you should be strong in at least one area and excited to grow into more.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* 🧰 Tools We Use (Vibe Coding Stack) */}
+          <section id="tools-we-use" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-5">
+              <h2 className="text-xl sm:text-2xl font-black italic tracking-tighter text-white">🧰 Tools We Use (Vibe Coding Stack)</h2>
+
+              <div className="space-y-4">
+                <h3 className="text-lg font-black italic tracking-tighter text-sky-400">Primary Development</h3>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-sky-400 mt-0.5">•</span> <strong>Cursor</strong> — AI coding IDE (our main environment)</li>
+                  <li className="flex items-start gap-2"><span className="text-sky-400 mt-0.5">•</span> <strong>Supabase</strong> — Database, Auth, Realtime, Edge Functions</li>
+                  <li className="flex items-start gap-2"><span className="text-sky-400 mt-0.5">•</span> <strong>Netlify</strong> — Hosting, Serverless functions</li>
+                  <li className="flex items-start gap-2"><span className="text-sky-400 mt-0.5">•</span> <strong>TypeScript</strong> — Everything</li>
+                </ul>
+              </div>
+
+              <div className="border-t border-white/10 pt-5 space-y-4">
+                <h3 className="text-lg font-black italic tracking-tighter text-violet-300">AI & Automation</h3>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-violet-300 mt-0.5">•</span> OpenAI API, Claude API, Ollama</li>
+                  <li className="flex items-start gap-2"><span className="text-violet-300 mt-0.5">•</span> LangChain / LlamaIndex</li>
+                  <li className="flex items-start gap-2"><span className="text-violet-300 mt-0.5">•</span> n8n for workflow automation</li>
+                  <li className="flex items-start gap-2"><span className="text-violet-300 mt-0.5">•</span> Whisper, ElevenLabs for voice</li>
+                </ul>
+              </div>
+
+              <div className="border-t border-white/10 pt-5 space-y-4">
+                <h3 className="text-lg font-black italic tracking-tighter text-emerald-400">Collaboration</h3>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">•</span> Notion (docs, specs)</li>
+                  <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">•</span> Airtable (admin, data ops)</li>
+                  <li className="flex items-start gap-2"><span className="text-emerald-400 mt-0.5">•</span> GitHub (obviously)</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          {/* 💰 Revenue & Equity */}
+          <section id="revenue-equity" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-5">
+              <h2 className="text-xl sm:text-2xl font-black italic tracking-tighter text-white">💰 Revenue & Equity</h2>
+
+              <div className="space-y-3">
+                <h3 className="text-lg font-black italic tracking-tighter text-secondary">Ownership Model: Contribution-Based</h3>
+                <p className="text-white/40 font-medium italic">
+                  You estimate hours → Define hourly rate → Compare with 2 active peers → Split percentages
+                </p>
+              </div>
+
+              <div className="border-t border-white/10 pt-4">
+                <p className="text-white/40 font-medium italic mb-3"><strong>Ownership covers:</strong></p>
+                <ul className="space-y-2 text-white/40 font-medium italic">
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 💰 Revenue share</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 📈 Equity (vesting)</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> 🏢 Asset rights</li>
+                  <li className="flex items-start gap-2"><span className="text-secondary mt-0.5">•</span> ⚖️ Decision rights</li>
+                </ul>
+                <p className="text-white/40 font-medium italic mt-3">
+                  Everything is based on <strong>real contribution</strong> — not titles or seniority.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* ⏱ Commitment & Work Style */}
+          <section id="commitment" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
+              <h2 className="text-xl sm:text-2xl font-black italic tracking-tighter text-white">⏱ Commitment & Work Style</h2>
+
+              <div className="space-y-2 text-white/40 font-medium italic">
+                <p><strong>📅 Commitment:</strong> Minimum 10 hours per week</p>
+                <p><strong>💬 Communication:</strong> Async | Sync — flexible, outcome-driven</p>
+                <p><strong>🌐 Commute Model:</strong> Hybrid (mainly remote)</p>
+                <p><strong>☕ On-site:</strong> Coffee chats from time to time are preferred</p>
+                <p><strong>📍 Location:</strong> Anywhere in MENA (Minya & Cairo - Egypt preferred)</p>
+              </div>
+            </div>
+          </section>
+
+          {/* 🎁 Bonus Points */}
+          <section id="bonus-points" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
+              <h2 className="text-xl sm:text-2xl font-black italic tracking-tighter text-white">🎁 Bonus Points</h2>
               <div className="grid sm:grid-cols-2 gap-3">
+                {[
+                  { points: "+5", desc: "Based in Egypt" },
+                  { points: "+10", desc: "Live in Cairo" },
+                  { points: "+25", desc: "Live in Minia / Samalout (1hr radius)" },
+                  { points: "+25", desc: "Top 25% AALN Assessment score" },
+                  { points: "+25", desc: "Genuine interest in education / employment / wealth / wellbeing" },
+                ].map((item) => (
+                  <div key={item.desc} className="glass-sm p-3 flex items-center gap-3">
+                    <span className="text-lg font-black text-secondary">{item.points}</span>
+                    <span className="text-white/40 text-sm font-medium italic">{item.desc}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* 🚀 What We Promise */}
+          <section id="what-we-promise" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-4">
+              <h2 className="text-xl sm:text-2xl font-black italic tracking-tighter text-white">🚀 What We Promise</h2>
+              <ol className="space-y-3 text-white/40 font-medium italic">
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5 font-black">1.</span> <strong>Real ownership</strong> — Not employee equity, co-founder equity</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5 font-black">2.</span> <strong>Learning by doing</strong> — You'll build things you haven't built before</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5 font-black">3.</span> <strong>Human-first culture</strong> — We care about the people we serve</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5 font-black">4.</span> <strong>Revenue from day one</strong> — We're not "pre-revenue hoping for VC"</li>
+                <li className="flex items-start gap-2"><span className="text-secondary mt-0.5 font-black">5.</span> <strong>Chaos with purpose</strong> — You'll have autonomy to architect solutions</li>
+              </ol>
+            </div>
+          </section>
+
+          {/* 📝 How to Apply */}
+          <section id="how-to-apply" className="scroll-mt-32">
+            <div className="glass p-6 sm:p-8 hover:border-white/20 transition-all duration-500 space-y-5">
+              <h2 className="text-xl sm:text-2xl font-black italic tracking-tighter text-white">📝 How to Apply</h2>
+
+              <div className="space-y-3">
+                <h3 className="text-lg font-black italic tracking-tighter text-secondary">Application Form (Complete All):</h3>
+                <a 
+                  href="https://tally.so/r/1AWrkL" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-secondary text-secondary-foreground font-black uppercase tracking-widest text-xs italic hover:bg-secondary/80 transition-all"
+                >
+                  🔗 Submit here: https://tally.so/r/1AWrkL
+                </a>
+              </div>
+
+              <div className="border-t border-white/10 pt-5 space-y-4">
+                <h3 className="text-lg font-black italic tracking-tighter text-white">If you passed the application stage, expect to share and talk about:</h3>
+
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-white/40 font-medium italic mb-2"><strong>1. Build & Share Something (Required)</strong></p>
+                    <ul className="space-y-1 text-white/40 font-medium italic text-sm pl-4">
+                      <li>• A link to one backend system you've built (GitHub, demo, or documentation)</li>
+                      <li>• What problem did it solve?</li>
+                      <li>• What technologies did you use?</li>
+                      <li>• How did it scale?</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <p className="text-white/40 font-medium italic mb-2"><strong>2. AI Feature Deep Dive (Required)</strong></p>
+                    <ul className="space-y-1 text-white/40 font-medium italic text-sm pl-4">
+                      <li>• Describe one AI feature you built end-to-end</li>
+                      <li>• Architecture diagram or explanation</li>
+                      <li>• Tools and APIs used</li>
+                      <li>• Outcomes: metrics, impact, lessons learned</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <p className="text-white/40 font-medium italic mb-2"><strong>3. Your Commitment (Required)</strong></p>
+                    <ul className="space-y-1 text-white/40 font-medium italic text-sm pl-4">
+                      <li>• Weekly hours you can commit</li>
+                      <li>• Your hourly rate (USD)</li>
+                      <li>• Preferred work schedule</li>
+                      <li>• Time zone</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <p className="text-white/40 font-medium italic mb-2"><strong>4. The Human Questions (Required)</strong></p>
+                    <ul className="space-y-1 text-white/40 font-medium italic text-sm pl-4">
+                      <li>• Why do you give a damn about fixing employment?</li>
+                      <li>• What does "architecture as art" mean to you?</li>
+                      <li>• One thing you've built that made someone's life better (doesn't have to be code)</li>
+                      <li>• Link to your portfolio, GitHub, or anything that shows your craft</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <p className="text-white/40 font-medium italic mb-2"><strong>5. Quick Technical Assessment (Optional but Recommended)</strong></p>
+                    <ul className="space-y-1 text-white/40 font-medium italic text-sm pl-4">
+                      <li>• How would you design a vector search system to match 500 talent profiles with 3,000 job postings in under 100ms?</li>
+                      <li>• How would you handle real-time chat with 100+ concurrent users on a serverless architecture?</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-white/10 pt-5">
+                <p className="text-white/60 font-medium italic text-center">
+                  💫 <strong>"We're not building a job board. We're building the infrastructure that makes human potential visible, measurable, and matched. Join us if you want to architect lives, not just databases."</strong>
+                </p>
+                <p className="text-center text-white/40 font-medium italic mt-3">
+                  <strong>ALIENs Venture</strong> — <em>Code × AI × No-Code</em>
+                </p>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-3 pt-4">
                 <Link to="/human" className="btn btn-outline w-full text-center">Meet Ahmad (Human)</Link>
                 <Link to="/career" className="btn btn-outline w-full text-center">Career Journey</Link>
-                <Link to="/handbook" onClick={onBackToHandbook} className="btn btn-outline w-full text-center">
-                  ALIENs Venture Handbook
+                <Link to="/handbook" onClick={onBackToHandbook} className="btn btn-outline w-full text-center sm:col-span-2">
+                  ← Back to ALIENs Venture Handbook
                 </Link>
-
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <button className="btn btn-primary w-full">Open Application Form</button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-4xl w-[95vw] p-0 overflow-hidden bg-black border-white/10">
-                    <DialogHeader className="p-4 sm:p-6">
-                      <DialogTitle className="text-white">Apply</DialogTitle>
-                    </DialogHeader>
-                    <div className="px-4 pb-5 sm:px-6 sm:pb-6">
-                      <div className="glass-sm overflow-hidden">
-                        <iframe
-                          title="Tally Apply Form"
-                          src="https://tally.so/r/1AWrkL"
-                          className="w-full h-[70vh]"
-                          style={{ border: 0 }}
-                          allow="clipboard-read; clipboard-write; fullscreen"
-                        />
-                      </div>
-                    </div>
-                  </DialogContent>
-                </Dialog>
               </div>
             </div>
           </section>

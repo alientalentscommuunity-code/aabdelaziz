@@ -155,3 +155,26 @@
   background-color: #22c55e;
   color: #000000;
 }
+
+/* Aurora Animation Keyframes */
+@keyframes aurora-shift {
+  0%, 100% { 
+    transform: scale(1) rotate(0deg); 
+    opacity: 0.3; 
+  }
+  50% { 
+    transform: scale(1.05) rotate(2deg); 
+    opacity: 0.5; 
+  }
+}
+
+@keyframes aurora-pulse {
+  0%, 100% { 
+    opacity: 0.2;
+    transform: translateX(0) scale(1);
+  }
+  50% { 
+    opacity: 0.3;
+    transform: translateX(20px) scale(1.02);
+  }
+}

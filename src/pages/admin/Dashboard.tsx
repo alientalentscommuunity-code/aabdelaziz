@@ -4,7 +4,8 @@ import {
   Inbox, Target, FileText, LayoutGrid, Settings, LogOut, RefreshCw, 
   AlertCircle, Plus, Search, Filter, X, Edit2, Trash2, Eye, 
   CheckCircle, Clock, Archive, Mail, Phone, Building2, ExternalLink,
-  ChevronDown, ChevronUp, Save, Globe, Lock, Users, Heart, Briefcase, Sparkles, Zap
+  ChevronDown, ChevronUp, Save, Globe, Lock, Users, Heart, Briefcase, Sparkles, Zap,
+  BarChart3
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -20,6 +21,7 @@ import {
 import { useRequests, useAuth } from '@/hooks/useSupabase';
 import { supabase, Request } from '@/lib/supabase';
 import { cn } from '@/lib/utils';
+import { AnalyticsDashboard } from '@/components/AnalyticsDashboard';
 
 // Types
 interface VisionItem {
@@ -63,7 +65,7 @@ interface UniverseSection {
   order: number;
 }
 
-type TabType = 'requests' | 'vision' | 'blog' | 'universe';
+type TabType = 'requests' | 'vision' | 'blog' | 'universe' | 'analytics';
 
 const statusColors = {
   new: 'bg-green-500/20 text-green-400 border-green-500/30',
@@ -249,9 +251,12 @@ export default function AdminDashboard() {
           }))
         );
       }
-      setIsCreatingVision(false); resetVisionForm(); fetchVisionItems();
+      setIsCreatingVision(false); 
+      resetVisionForm(); 
+      await fetchVisionItems();
     } catch (err) {
       console.error('Error creating vision item:', err);
+      alert('Failed to create vision item. Please try again.');
     }
   };
 
@@ -272,9 +277,12 @@ export default function AdminDashboard() {
           }))
         );
       }
-      setEditingVision(null); resetVisionForm(); fetchVisionItems();
+      setEditingVision(null); 
+      resetVisionForm(); 
+      await fetchVisionItems();
     } catch (err) {
       console.error('Error updating vision item:', err);
+      alert('Failed to update vision item. Please try again.');
     }
   };
 
@@ -282,9 +290,10 @@ export default function AdminDashboard() {
     if (!confirm('Are you sure?')) return;
     try {
       await supabase.from('vision_board_items').delete().eq('id', id);
-      fetchVisionItems();
+      await fetchVisionItems();
     } catch (err) {
       console.error('Error deleting vision item:', err);
+      alert('Failed to delete vision item. Please try again.');
     }
   };
 
@@ -324,9 +333,12 @@ export default function AdminDashboard() {
         media_urls: blogForm.media_urls, published_at: blogForm.published_at || null,
       });
       if (error) throw error;
-      setIsCreatingBlog(false); resetBlogForm(); fetchBlogPosts();
+      setIsCreatingBlog(false); 
+      resetBlogForm(); 
+      await fetchBlogPosts();
     } catch (err) {
       console.error('Error creating blog post:', err);
+      alert('Failed to create blog post. Please try again.');
     }
   };
 
@@ -341,9 +353,12 @@ export default function AdminDashboard() {
         media_urls: blogForm.media_urls, published_at: blogForm.published_at || null,
         updated_at: new Date().toISOString(),
       }).eq('id', editingBlog.id);
-      setEditingBlog(null); resetBlogForm(); fetchBlogPosts();
+      setEditingBlog(null); 
+      resetBlogForm(); 
+      await fetchBlogPosts();
     } catch (err) {
       console.error('Error updating blog post:', err);
+      alert('Failed to update blog post. Please try again.');
     }
   };
 
@@ -351,9 +366,10 @@ export default function AdminDashboard() {
     if (!confirm('Are you sure?')) return;
     try {
       await supabase.from('blog_posts').delete().eq('id', id);
-      fetchBlogPosts();
+      await fetchBlogPosts();
     } catch (err) {
       console.error('Error deleting blog post:', err);
+      alert('Failed to delete blog post. Please try again.');
     }
   };
 
@@ -378,6 +394,7 @@ export default function AdminDashboard() {
     { id: 'vision', label: 'Vision Board', icon: Target, count: visionItems.length },
     { id: 'blog', label: 'Blog', icon: FileText, count: blogPosts.length },
     { id: 'universe', label: 'Universe', icon: LayoutGrid, count: null },
+    { id: 'analytics', label: 'Analytics', icon: BarChart3, count: null },
   ];
 
   if (requestsLoading) {
@@ -964,6 +981,9 @@ export default function AdminDashboard() {
               </div>
             </div>
           )}
+
+          {/* ANALYTICS TAB */}
+          {activeTab === 'analytics' && <AnalyticsDashboard />}
         </div>
       </main>
     </div>

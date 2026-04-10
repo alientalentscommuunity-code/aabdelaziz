@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import { ArrowRight, Briefcase, Users, GraduationCap, Heart, Rocket, Handshake, Target, Sparkles, Globe, Mail, Linkedin, X, Play } from "lucide-react";
 import { Link } from "react-router-dom";
 import { RequestFormDialog } from "@/components/RequestFormDialog";
+import { SignatureAnimation } from "@/components/SignatureAnimation";
 
 const personaCards = [{
     id: "hiring",
@@ -65,9 +66,14 @@ const Home = () => {
               {/* Left: Content (7 cols) */}
               <div className="lg:col-span-7 order-2 lg:order-1">
                 {/* Name - Big and Bold */}
-                <h1 className="scroll-animation delay-100 text-6xl sm:text-7xl lg:text-8xl font-black italic uppercase tracking-tighter mb-4 text-white">
+                <h1 className="scroll-animation delay-100 text-6xl sm:text-7xl lg:text-8xl font-black italic uppercase tracking-tighter mb-2 text-white">
                   Ahmad Abdelaziz
                 </h1>
+                
+                {/* Animated Signature */}
+                <div className="scroll-animation delay-150 mb-4">
+                  <SignatureAnimation className="max-w-[280px] sm:max-w-[320px]" />
+                </div>
 
                 {/* Tagline - 3 Lines */}
                 <div className="scroll-animation delay-150 mb-4 space-y-1.5">

@@ -1,8 +1,11 @@
 import React from "react";
-import { Heart, Linkedin, Mail, Youtube } from "lucide-react";
+import { Heart, Linkedin, Mail, Youtube, Rss } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useRSSFeed } from "@/lib/rss";
 
 const Footer = () => {
+  const { downloadRSS } = useRSSFeed();
+
   return (
     <footer className="py-10 bg-black border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -37,6 +40,13 @@ const Footer = () => {
             >
               <Youtube size={18} />
             </a>
+            <button
+              onClick={downloadRSS}
+              className="w-10 h-10 glass-sm flex items-center justify-center text-white/40 hover:text-orange-500 hover:shadow-[0_0_15px_rgba(249,115,22,0.3)] transition-all duration-300"
+              title="Subscribe to RSS Feed"
+            >
+              <Rss size={18} />
+            </button>
           </div>
 
           {/* Copyright + Sweet Spice */}
