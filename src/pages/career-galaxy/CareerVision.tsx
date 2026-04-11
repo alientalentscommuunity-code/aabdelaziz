@@ -74,9 +74,10 @@ const CareerVision = () => {
           <DimLabel>THE WRITTEN VISION</DimLabel>
           <div className="prose prose-invert max-w-none">
             <p className="text-white/40 leading-relaxed" style={dmSans}>
-              I believe the future of work is remote, AI-enabled, and human-centered. My vision is to build the infrastructure that connects talented people — regardless of geography — with meaningful opportunities. 
-              Through ALIENs Venture and my own career journey, I'm proving that you can build real things from scratch, monetize them sustainably, and create genuine impact along the way. 
-              The career dimension is not just about titles — it's about building capacity, creating value, and growing with every iteration.
+              I believe the future of work is remote, AI-enabled, and human-centered. My vision is to build products and communities that help talented people across MENA and emerging markets access global opportunities.
+            </p>
+            <p className="text-white/40 leading-relaxed mt-4" style={dmSans}>
+              Through ALIENs Venture, I am creating infrastructure that makes human potential visible, measurable, and matched. Not just a job board — but a complete ecosystem for career growth, from learning to earning.
             </p>
           </div>
         </div>

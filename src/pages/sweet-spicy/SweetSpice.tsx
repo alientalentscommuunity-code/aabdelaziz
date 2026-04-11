@@ -24,31 +24,31 @@ export default function SweetSpice() {
 
   // Red flags
   const redFlags = [
-    'Will absolutely talk about his startup at dinner. Sorry in advance.',
-    'Texts back immediately or in 6 hours. No in between.',
-    'Has a lot of thoughts. At all times.',
-    'Still figuring out the non-linear path. Comfortable with it.',
-    'Weekly community meetups are non-negotiable. They\'re family.',
+    "Will absolutely talk about his startup at dinner. Sorry in advance.",
+    "Texts back immediately or in 6 hours. No in between.",
+    "Has a lot of thoughts. At all times.",
+    "Still figuring out the non-linear path. Comfortable with it.",
+    "Weekly community meetups are non-negotiable. They are family.",
   ];
 
   // Green flags
   const greenFlags = [
-    'Will also listen to yours — actually listen, not just wait to talk',
-    'Loyal to people he chooses. Ride or die energy.',
-    'Cooks. Not just instant noodles.',
-    'Cries at good storytelling. House Stark. You know why.',
-    'Will hype you up more than you hype yourself.',
-    'Palestine, Sudan, humanity. Not up for debate.',
+    "Will also listen to yours — actually listen, not just wait to talk",
+    "Loyal to people he chooses. Ride or die energy.",
+    "Cooks. Not just instant noodles.",
+    "Cries at good storytelling. House Stark. You know why.",
+    "Will hype you up more than you hype yourself.",
+    "Palestine, Sudan, humanity. Not up for debate.",
   ];
 
   // Vibe check items
   const vibeCheckItems = [
-    'You know what you want — or you\'re brave enough to figure it out',
-    'You\'re curious. About the world, about people, about ideas at odd hours.',
-    'You can sit in silence and also talk for 4 hours straight',
-    'You have your own ambitions. Your own thing. I\'d never want to be your whole world.',
-    'You believe kindness is a strength, not a weakness',
-    'You\'re from Minya, or you won\'t hold it against him 😉',
+    "You know what you want — or you are brave enough to figure it out",
+    "You are curious. About the world, about people, about ideas at odd hours.",
+    "You can sit in silence and also talk for 4 hours straight",
+    "You have your own ambitions. Your own thing. I would never want to be your whole world.",
+    "You believe kindness is a strength, not a weakness",
+    "You are from Minya, or you will not hold it against him 😉",
   ];
 
   return (
@@ -98,19 +98,65 @@ export default function SweetSpice() {
                       <item.icon className="w-5 h-5 text-pink-400" />
                     </div>
                     <div>
-                      <p className="text-xs font-black uppercase tracking-widest text-white/30 mb-1">
-                        {item.label}
-                      </p>
-                      <p className="text-sm font-medium text-white/70">
-                        {item.content}
-                      </p>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-white/30 mb-1">{item.label}</p>
+                      <p className="text-sm text-white/70 font-medium italic">{item.content}</p>
                     </div>
                   </div>
                 ))}
               </div>
-              <p className="text-xs italic text-white/30 text-center pt-4 border-t border-white/10">
-                Not a resume. Just me.
+            </div>
+          </section>
+
+          {/* FLAGS SECTION */}
+          <section className="grid md:grid-cols-2 gap-6">
+            <div className="glass border-red-500/20 p-6 rounded-2xl">
+              <div className="flex items-center gap-2 mb-4">
+                <XCircle className="w-5 h-5 text-red-400" />
+                <h3 className="text-sm font-black uppercase tracking-widest text-red-400">Red Flags</h3>
+              </div>
+              <ul className="space-y-3">
+                {redFlags.map((flag, idx) => (
+                  <li key={idx} className="text-sm text-white/50 font-medium italic flex gap-2">
+                    <span className="text-red-400/60">•</span>
+                    {flag}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="glass border-green-500/20 p-6 rounded-2xl">
+              <div className="flex items-center gap-2 mb-4">
+                <CheckCircle2 className="w-5 h-5 text-green-400" />
+                <h3 className="text-sm font-black uppercase tracking-widest text-green-400">Green Flags</h3>
+              </div>
+              <ul className="space-y-3">
+                {greenFlags.map((flag, idx) => (
+                  <li key={idx} className="text-sm text-white/50 font-medium italic flex gap-2">
+                    <span className="text-green-400/60">•</span>
+                    {flag}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+
+          {/* VIBE CHECK */}
+          <section className="space-y-6">
+            <p className="text-[10px] font-black uppercase tracking-widest text-pink-400/60">
+              THE VIBE CHECK
+            </p>
+            <div className="glass border-pink-500/20 p-6 md:p-8 rounded-2xl">
+              <p className="text-sm text-white/60 font-medium italic mb-6 text-center">
+                This might work if:
               </p>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {vibeCheckItems.map((item, idx) => (
+                  <div key={idx} className="flex gap-3">
+                    <Heart className="w-4 h-4 text-pink-400 flex-shrink-0 mt-0.5" />
+                    <p className="text-sm text-white/50 font-medium italic">{item}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
 
@@ -258,16 +304,11 @@ export default function SweetSpice() {
               Or just share this page with someone you think should see it 🌶️
             </p>
           </section>
-
         </div>
       </main>
 
       <Footer />
-
-      <RequestFormDialog
-        open={isRequestOpen}
-        onOpenChange={setIsRequestOpen}
-      />
+      <RequestFormDialog open={isRequestOpen} onOpenChange={setIsRequestOpen} />
     </div>
   );
 }

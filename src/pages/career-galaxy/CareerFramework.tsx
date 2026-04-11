@@ -125,8 +125,8 @@ const CareerFramework = () => {
               <span className="text-green-500 mr-3">💬</span> Final Vision
             </h2>
             <p className="text-lg font-medium italic text-white/40 mb-6">
-              I'm building my career with a core focus on Product Management & Strategy — this is my main track.
-              Around it, I'm developing complementary skill sets in:
+              I am building my career with a core focus on Product Management & Strategy — this is my main track.
+              Around it, I am developing complementary skill sets in:
             </p>
             <ul className="space-y-4 mb-6">
               {[
