@@ -1118,9 +1118,28 @@ export default function AdminDashboard() {
                         <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">
                           {selectedSweetSpiceRequest.name || 'Anonymous'}
                         </h3>
-                        <p className="text-sm text-white/40">
-                          {selectedSweetSpiceRequest.phone}
-                        </p>
+                        <div className="flex flex-wrap gap-2 mt-2">
+                          {selectedSweetSpiceRequest.phone && (
+                            <span className="text-xs bg-white/10 px-2 py-1 rounded text-white/60">📞 {selectedSweetSpiceRequest.phone}</span>
+                          )}
+                          {selectedSweetSpiceRequest.instagram && (
+                            <span className="text-xs bg-pink-500/20 px-2 py-1 rounded text-pink-400">📸 {selectedSweetSpiceRequest.instagram}</span>
+                          )}
+                          {selectedSweetSpiceRequest.email && (
+                            <span className="text-xs bg-blue-500/20 px-2 py-1 rounded text-blue-400">✉️ {selectedSweetSpiceRequest.email}</span>
+                          )}
+                          {selectedSweetSpiceRequest.facebook && (
+                            <span className="text-xs bg-blue-600/20 px-2 py-1 rounded text-blue-500">f {selectedSweetSpiceRequest.facebook}</span>
+                          )}
+                          {selectedSweetSpiceRequest.linkedin && (
+                            <span className="text-xs bg-blue-700/20 px-2 py-1 rounded text-blue-600">in {selectedSweetSpiceRequest.linkedin}</span>
+                          )}
+                        </div>
+                        {selectedSweetSpiceRequest.preferred_contact_method && (
+                          <p className="text-xs text-pink-400 mt-2">
+                            Preferred: {selectedSweetSpiceRequest.preferred_contact_method}
+                          </p>
+                        )}
                       </div>
                       <div className="text-right">
                         <p className="text-3xl font-black text-pink-400">
@@ -1231,9 +1250,19 @@ export default function AdminDashboard() {
                       )}
                     </div>
 
-                    {/* Notes */}
+                    {/* Her Note */}
+                    {selectedSweetSpiceRequest.contact_note && (
+                      <div className="border-t border-white/10 pt-4">
+                        <h4 className="text-xs font-black uppercase tracking-widest text-pink-400/60 mb-2">Her Note</h4>
+                        <p className="text-sm text-white/70 italic">
+                          "{selectedSweetSpiceRequest.contact_note}"
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Admin Notes */}
                     <div className="border-t border-white/10 pt-4">
-                      <h4 className="text-xs font-black uppercase tracking-widest text-white/40 mb-2">Admin Notes</h4>
+                      <h4 className="text-xs font-black uppercase tracking-widest text-white/40 mb-2">Your Notes (Private)</h4>
                       <Textarea
                         placeholder="Add your notes here..."
                         className="bg-black/50 border-white/10 text-white placeholder:text-white/30"

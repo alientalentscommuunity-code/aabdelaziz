@@ -16,6 +16,30 @@ interface Question {
 
 const questions: Question[] = [
   {
+    id: 'work_status',
+    type: 'single',
+    question: 'What is your current work situation?',
+    options: [
+      'Building a career',
+      'Running my own business/project',
+      'Studying / Learning',
+      'Exploring / Figuring it out',
+      'Taking a break / In transition'
+    ]
+  },
+  {
+    id: 'work_description',
+    type: 'text',
+    question: 'Tell me what you do — or what you are building towards. What fills your days with purpose?',
+    minWords: 30
+  },
+  {
+    id: 'origin',
+    type: 'text',
+    question: 'Where are you from? What kind of place shaped you? (City, town, culture — whatever feels right to share)',
+    minWords: 10
+  },
+  {
     id: 'q1',
     type: 'single',
     question: 'When you want something — and I mean really want something — what do you do?',
@@ -160,29 +184,151 @@ export default function Assessment() {
     }
   };
 
+  // Simple evaluation function
+  const evaluateAnswers = () => {
+    let score = 50; // Base score
+    const key_signals: string[] = [];
+    const disqualify_signals: string[] = [];
+
+    // Check q1 (ambition)
+    const q1 = answers.q1;
+    if (q1?.includes("I go after it with everything I have")) {
+      score += 15;
+      key_signals.push("High drive and determination");
+    }
+
+    // Check q6 (challenger energy)
+    const q6 = answers.q6;
+    if (q6?.includes("Both B and C — and slightly dangerous")) {
+      score += 15;
+      key_signals.push("Thrives on intellectual challenge");
+    }
+    if (q6?.includes("Attracted — I like a man who holds his ground")) {
+      score += 10;
+    }
+
+    // Check q8 (surrender understanding)
+    const q8 = answers.q8;
+    if (q8 === "Choosing to let go with someone you completely trust") {
+      score += 20;
+      key_signals.push("Understands surrender as trust, not weakness");
+    } else if (q8?.includes("not comfortable")) {
+      score -= 20;
+      disqualify_signals.push("Uncomfortable with surrender concept");
+    }
+
+    // Check q2 for positive traits
+    const q2 = answers.q2 || [];
+    if (q2.includes("I surrender fully when I trust someone completely")) {
+      score += 10;
+    }
+    if (q2.includes("I need a lot of attention and I am not ashamed of it")) {
+      score += 10;
+      key_signals.push("Emotionally present and needy in healthy way");
+    }
+    if (q2.includes("I am emotionally low-maintenance, I handle myself")) {
+      score -= 15;
+      disqualify_signals.push("Frames independence as identity, not capacity");
+    }
+
+    // Check q7 length (self-awareness)
+    const q7 = answers.q7 || '';
+    if (q7.split(/\s+/).length >= 80) {
+      score += 10;
+    }
+    if (q7.toLowerCase().includes('feel') || q7.toLowerCase().includes('need')) {
+      score += 5;
+      key_signals.push("Can articulate emotional needs");
+    }
+
+    // Check work description
+    const workDesc = answers.work_description || '';
+    if (workDesc.toLowerCase().includes('build') || workDesc.toLowerCase().includes('create')) {
+      score += 10;
+      key_signals.push("Builder/creator energy");
+    }
+
+    // Check origin for Minya
+    const origin = answers.origin || '';
+    if (origin.toLowerCase().includes('minya')) {
+      score += 5;
+      key_signals.push("Cultural resonance (Minya)");
+    }
+
+    score = Math.max(0, Math.min(100, score));
+
+    const passed = score >= 65;
+    const strong_match = score >= 75;
+
+    let summary = '';
+    if (passed && strong_match) {
+      summary = `Strong alignment (score: ${score}). Her answers show depth, self-awareness, and the specific energy you described. Worth pursuing.`;
+    } else if (passed) {
+      summary = `Good alignment (score: ${score}). She shows several matching qualities — worth exploring further.`;
+    } else {
+      summary = `Limited alignment (score: ${score}). The specific resonance isn't strongly present.`;
+    }
+
+    return {
+      score,
+      passed,
+      strong_match,
+      key_signals_detected: key_signals,
+      disqualify_signals_detected: disqualify_signals,
+      summary
+    };
+  };
+
   const submitAssessment = async () => {
     setIsSubmitting(true);
     
     try {
-      // Store answers in Supabase for Ahmad's manual review
-      // Note: Claude evaluation can be done manually via admin dashboard
-      const { error } = await supabase.from('sweet_spice_requests').insert({
-        answers: answers,
-        status: 'pending'
-      });
+      console.log('Submitting assessment with answers:', answers);
+      
+      // Run evaluation
+      const evaluation = evaluateAnswers();
+      console.log('Evaluation result:', evaluation);
+      
+      // Store answers in Supabase
+      const { data, error } = await supabase
+        .from('sweet_spice_requests')
+        .insert({
+          answers: answers,
+          score: evaluation.score,
+          passed: evaluation.passed,
+          key_signals: evaluation.key_signals_detected,
+          disqualify_signals: evaluation.disqualify_signals_detected,
+          evaluation_summary: evaluation.summary,
+          status: evaluation.passed ? 'pending' : 'rejected'
+        })
+        .select();
 
       if (error) {
-        console.error('Supabase error:', error);
-        throw error;
+        console.error('Supabase insert error:', error);
+        alert('Error saving assessment: ' + error.message);
+        return;
       }
 
-      // Always go to contact collection - Ahmad will review manually
-      navigate('/sweet-spice/contact');
+      console.log('Assessment saved successfully:', data);
+      
+      // Store request ID and evaluation for contact linking
+      if (data && data[0]) {
+        sessionStorage.setItem('sweet_spice_request_id', data[0].id);
+      }
+      sessionStorage.setItem('sweet_spice_evaluation', JSON.stringify(evaluation));
+      
+      // Navigate based on evaluation
+      if (evaluation.passed) {
+        // Go to VibeCheck to ask about mutual interest
+        navigate('/sweet-spice/vibe-check', { state: { evaluation } });
+      } else {
+        // Go to rejected page
+        navigate('/sweet-spice/rejected', { state: { evaluation } });
+      }
 
-    } catch (error) {
-      console.error('Assessment error:', error);
-      // Still navigate to contact even if storage fails
-      navigate('/sweet-spice/contact');
+    } catch (error: any) {
+      console.error('Assessment submission error:', error);
+      alert('Error: ' + (error.message || 'Unknown error'));
     } finally {
       setIsSubmitting(false);
     }

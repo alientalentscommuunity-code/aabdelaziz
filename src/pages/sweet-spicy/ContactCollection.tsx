@@ -1,45 +1,93 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowRight, Phone, Loader2 } from 'lucide-react';
+import { ArrowRight, Phone, Mail, Instagram, Facebook, Linkedin, Loader2, CheckCircle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
+interface ContactMethod {
+  type: 'phone' | 'email' | 'instagram' | 'facebook' | 'linkedin';
+  value: string;
+  label: string;
+}
+
 export default function ContactCollection() {
   const navigate = useNavigate();
   const location = useLocation();
-  const evaluation = location.state?.evaluation;
+  const evaluation = location.state?.evaluation || 
+    JSON.parse(sessionStorage.getItem('sweet_spice_evaluation') || '{}');
   
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [contactMethods, setContactMethods] = useState<ContactMethod[]>([
+    { type: 'phone', value: '', label: 'Phone Number' },
+    { type: 'email', value: '', label: 'Email Address' },
+    { type: 'instagram', value: '', label: 'Instagram' },
+    { type: 'facebook', value: '', label: 'Facebook' },
+    { type: 'linkedin', value: '', label: 'LinkedIn' },
+  ]);
+  const [preferredMethod, setPreferredMethod] = useState<string>('phone');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [note, setNote] = useState('');
+
+  const updateContactMethod = (type: string, value: string) => {
+    setContactMethods(prev => 
+      prev.map(method => 
+        method.type === type ? { ...method, value } : method
+      )
+    );
+  };
+
+  const hasAtLeastOneContact = () => {
+    return contactMethods.some(method => method.value.trim() !== '');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !phone.trim()) return;
+    if (!name.trim() || !hasAtLeastOneContact()) return;
 
     setIsSubmitting(true);
 
     try {
-      // Get the most recent request (we need to link contact to it)
-      const { data: recentRequest } = await supabase
-        .from('sweet_spice_requests')
-        .select('id')
-        .eq('passed', true)
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single();
-
-      if (recentRequest) {
-        await supabase
+      // Get request ID from session storage
+      const requestId = sessionStorage.getItem('sweet_spice_request_id');
+      
+      // Build contact data
+      const contactData: any = {
+        name: name.trim(),
+        preferred_contact_method: preferredMethod,
+        contact_shared: true,
+        contact_note: note.trim()
+      };
+      
+      // Add all provided contact methods
+      contactMethods.forEach(method => {
+        if (method.value.trim()) {
+          contactData[method.type] = method.value.trim();
+        }
+      });
+      
+      if (requestId) {
+        const { error } = await supabase
           .from('sweet_spice_requests')
-          .update({
-            name: name.trim(),
-            phone: phone.trim(),
-            contact_shared: true
-          })
-          .eq('id', recentRequest.id);
+          .update(contactData)
+          .eq('id', requestId);
+          
+        if (error) {
+          console.error('Error updating contact:', error);
+        }
+      } else {
+        // Fallback: create new record with contact info
+        const { error } = await supabase
+          .from('sweet_spice_requests')
+          .insert({
+            ...contactData,
+            status: 'pending'
+          });
+          
+        if (error) {
+          console.error('Error creating contact:', error);
+        }
       }
 
       setSubmitted(true);
@@ -103,19 +151,24 @@ export default function ContactCollection() {
         <div className="max-w-xl mx-auto">
           <div className="text-center space-y-4 mb-8">
             <p className="text-[10px] font-black uppercase tracking-widest text-pink-400">
-              One More Step
+              Final Step
             </p>
             <h1 className="text-3xl sm:text-4xl font-black italic uppercase tracking-tighter">
-              How Can He Reach <span className="text-pink-400">You</span>?
+              Let's <span className="text-pink-400">Connect</span>
             </h1>
+            {evaluation?.strong_match && (
+              <p className="text-base text-pink-400/80 italic">
+                There's something real here. I want to explore it with you.
+              </p>
+            )}
           </div>
 
           <div className="glass border-pink-500/20 p-8 rounded-2xl space-y-6">
             <p className="text-base text-white/60 leading-relaxed text-center">
-              Your answers were honest and that means something.
+              Your answers showed alignment, and that matters. Now — how can Ahmad reach you?
             </p>
             <p className="text-sm text-white/50 leading-relaxed text-center">
-              To continue, he needs a way to reach you — a phone number is enough. Without that, he cannot take this further. That is the only ask.
+              Share however you're most comfortable. Phone is great, but Instagram, email, LinkedIn — whatever feels right for you.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4 pt-4">
@@ -133,26 +186,108 @@ export default function ContactCollection() {
                 />
               </div>
 
-              <div>
-                <label className="block text-[10px] font-black uppercase tracking-widest text-white/40 mb-2">
-                  Phone Number
+              <div className="space-y-3">
+                <label className="block text-[10px] font-black uppercase tracking-widest text-white/40">
+                  Your Contact Info (share any or all)
                 </label>
+                
+                {/* Phone */}
                 <div className="relative">
                   <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
                   <input
                     type="tel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    value={contactMethods.find(m => m.type === 'phone')?.value || ''}
+                    onChange={(e) => updateContactMethod('phone', e.target.value)}
                     className="w-full p-4 pl-12 bg-black/50 border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-pink-500/50 focus:outline-none transition-colors"
-                    placeholder="+20 1XX XXX XXXX"
-                    required
+                    placeholder="Phone Number (e.g., +20 1XX XXX XXXX)"
+                  />
+                </div>
+
+                {/* Instagram */}
+                <div className="relative">
+                  <Instagram className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
+                  <input
+                    type="text"
+                    value={contactMethods.find(m => m.type === 'instagram')?.value || ''}
+                    onChange={(e) => updateContactMethod('instagram', e.target.value)}
+                    className="w-full p-4 pl-12 bg-black/50 border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-pink-500/50 focus:outline-none transition-colors"
+                    placeholder="Instagram username"
+                  />
+                </div>
+
+                {/* Facebook */}
+                <div className="relative">
+                  <Facebook className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
+                  <input
+                    type="text"
+                    value={contactMethods.find(m => m.type === 'facebook')?.value || ''}
+                    onChange={(e) => updateContactMethod('facebook', e.target.value)}
+                    className="w-full p-4 pl-12 bg-black/50 border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-pink-500/50 focus:outline-none transition-colors"
+                    placeholder="Facebook profile or name"
+                  />
+                </div>
+
+                {/* Email */}
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
+                  <input
+                    type="email"
+                    value={contactMethods.find(m => m.type === 'email')?.value || ''}
+                    onChange={(e) => updateContactMethod('email', e.target.value)}
+                    className="w-full p-4 pl-12 bg-black/50 border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-pink-500/50 focus:outline-none transition-colors"
+                    placeholder="Email address"
+                  />
+                </div>
+
+                {/* LinkedIn */}
+                <div className="relative">
+                  <Linkedin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
+                  <input
+                    type="text"
+                    value={contactMethods.find(m => m.type === 'linkedin')?.value || ''}
+                    onChange={(e) => updateContactMethod('linkedin', e.target.value)}
+                    className="w-full p-4 pl-12 bg-black/50 border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-pink-500/50 focus:outline-none transition-colors"
+                    placeholder="LinkedIn profile URL or name"
                   />
                 </div>
               </div>
 
+              {/* Preferred Method */}
+              {hasAtLeastOneContact() && (
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-white/40 mb-2">
+                    Preferred way to connect
+                  </label>
+                  <select
+                    value={preferredMethod}
+                    onChange={(e) => setPreferredMethod(e.target.value)}
+                    className="w-full p-3 bg-black/50 border border-white/10 rounded-xl text-white focus:border-pink-500/50 focus:outline-none"
+                  >
+                    {contactMethods
+                      .filter(m => m.value.trim())
+                      .map(m => (
+                        <option key={m.type} value={m.type}>{m.label}</option>
+                      ))}
+                  </select>
+                </div>
+              )}
+
+              {/* Note to Ahmad */}
+              <div>
+                <label className="block text-[10px] font-black uppercase tracking-widest text-white/40 mb-2">
+                  Anything else you want to say? (optional)
+                </label>
+                <textarea
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  className="w-full p-4 bg-black/50 border border-white/10 rounded-xl text-white placeholder-white/30 focus:border-pink-500/50 focus:outline-none transition-colors h-24 resize-none"
+                  placeholder="Best time to call? Something specific you want to share?"
+                />
+              </div>
+
               <button
                 type="submit"
-                disabled={!name.trim() || !phone.trim() || isSubmitting}
+                disabled={!name.trim() || !hasAtLeastOneContact() || isSubmitting}
                 className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-pink-500 text-black rounded-xl font-black uppercase tracking-widest text-xs italic hover:bg-pink-400 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
               >
                 {isSubmitting ? (
@@ -162,7 +297,7 @@ export default function ContactCollection() {
                   </>
                 ) : (
                   <>
-                    Continue
+                    Share & Connect
                     <ArrowRight className="w-4 h-4" />
                   </>
                 )}
@@ -170,7 +305,7 @@ export default function ContactCollection() {
             </form>
 
             <p className="text-xs text-white/30 italic text-center">
-              If you change your mind, you are welcome to try again.
+              Your information is private and will only be seen by Ahmad.
             </p>
           </div>
         </div>

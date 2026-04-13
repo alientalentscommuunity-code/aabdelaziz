@@ -22,6 +22,7 @@ import Gate from "./pages/sweet-spicy/Gate";
 import Assessment from "./pages/sweet-spicy/Assessment";
 import ContactCollection from "./pages/sweet-spicy/ContactCollection";
 import Rejected from "./pages/sweet-spicy/Rejected";
+import VibeCheck from "./pages/sweet-spicy/VibeCheck";
 import AccessCode from "./pages/sweet-spicy/AccessCode";
 import OpenBook from "./pages/sweet-spicy/OpenBook";
 import VisionBoard from "./pages/vision-board/VisionBoard";
@@ -98,6 +99,7 @@ const App = () => (
             <Route path="/sweet-spice/assessment" element={<Assessment />} />
             <Route path="/sweet-spice/contact" element={<ContactCollection />} />
             <Route path="/sweet-spice/rejected" element={<Rejected />} />
+            <Route path="/sweet-spice/vibe-check" element={<VibeCheck />} />
             <Route path="/sweet-spice/access" element={<AccessCode />} />
             <Route path="/sweet-spice/open" element={<OpenBook />} />
             <Route path="/vision-board" element={<VisionBoard />} />
