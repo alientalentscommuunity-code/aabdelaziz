@@ -65,7 +65,7 @@ interface UniverseSection {
   order: number;
 }
 
-type TabType = 'requests' | 'vision' | 'blog' | 'universe' | 'analytics';
+type TabType = 'requests' | 'vision' | 'blog' | 'universe' | 'analytics' | 'sweet-spice';
 
 const statusColors = {
   new: 'bg-green-500/20 text-green-400 border-green-500/30',
@@ -170,6 +170,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (activeTab === 'vision') fetchVisionItems();
     if (activeTab === 'blog') fetchBlogPosts();
+    if (activeTab === 'sweet-spice') fetchSweetSpiceRequests();
   }, [activeTab]);
 
   // Redirect if not logged in
@@ -388,12 +389,73 @@ export default function AdminDashboard() {
     );
   };
 
+  // Sweet Spice state
+  const [sweetSpiceRequests, setSweetSpiceRequests] = useState<any[]>([]);
+  const [sweetSpiceLoading, setSweetSpiceLoading] = useState(false);
+  const [selectedSweetSpiceRequest, setSelectedSweetSpiceRequest] = useState<any>(null);
+  const [sweetSpiceStatusFilter, setSweetSpiceStatusFilter] = useState<string>('all');
+  const [generatedCode, setGeneratedCode] = useState('');
+
+  // Fetch Sweet Spice requests
+  const fetchSweetSpiceRequests = async () => {
+    setSweetSpiceLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('sweet_spice_requests')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      setSweetSpiceRequests(data || []);
+    } catch (err) {
+      console.error('Error fetching sweet spice requests:', err);
+    } finally {
+      setSweetSpiceLoading(false);
+    }
+  };
+
+  // Generate access code
+  const generateAccessCode = async (requestId: string) => {
+    const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+    const expiresAt = new Date();
+    expiresAt.setHours(expiresAt.getHours() + 24);
+
+    try {
+      await supabase
+        .from('sweet_spice_requests')
+        .update({
+          access_code: code,
+          code_expires_at: expiresAt.toISOString(),
+          status: 'approved'
+        })
+        .eq('id', requestId);
+      
+      setGeneratedCode(code);
+      await fetchSweetSpiceRequests();
+    } catch (err) {
+      console.error('Error generating code:', err);
+    }
+  };
+
+  // Update Sweet Spice request status
+  const updateSweetSpiceStatus = async (requestId: string, status: string) => {
+    try {
+      await supabase
+        .from('sweet_spice_requests')
+        .update({ status })
+        .eq('id', requestId);
+      await fetchSweetSpiceRequests();
+    } catch (err) {
+      console.error('Error updating status:', err);
+    }
+  };
+
   // Navigation Items
   const navItems = [
     { id: 'requests', label: 'Requests', icon: Inbox, count: getStatsCount('new') },
     { id: 'vision', label: 'Vision Board', icon: Target, count: visionItems.length },
     { id: 'blog', label: 'Blog', icon: FileText, count: blogPosts.length },
     { id: 'universe', label: 'Universe', icon: LayoutGrid, count: null },
+    { id: 'sweet-spice', label: 'Sweet Spice', icon: Heart, count: sweetSpiceRequests.filter(r => r.status === 'pending').length },
     { id: 'analytics', label: 'Analytics', icon: BarChart3, count: null },
   ];
 
@@ -978,6 +1040,219 @@ export default function AdminDashboard() {
                   <li>• Changes take effect immediately on the site</li>
                   <li>• To add new sections, edit the code in <code className="text-green-400">src/components/Navbar.tsx</code></li>
                 </ul>
+              </div>
+            </div>
+          )}
+
+          {/* SWEET SPICE TAB */}
+          {activeTab === 'sweet-spice' && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Column 1 — Request Queue */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-black italic uppercase tracking-tighter text-white">Requests</h3>
+                  <select
+                    value={sweetSpiceStatusFilter}
+                    onChange={(e) => setSweetSpiceStatusFilter(e.target.value)}
+                    className="bg-black/50 border border-white/10 rounded-lg px-3 py-1 text-sm text-white"
+                  >
+                    <option value="all">All</option>
+                    <option value="pending">Pending</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="accessed">Accessed</option>
+                  </select>
+                </div>
+
+                {sweetSpiceLoading ? (
+                  <div className="text-center py-8">
+                    <div className="animate-spin w-6 h-6 border-2 border-pink-500 border-t-transparent rounded-full mx-auto" />
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {sweetSpiceRequests
+                      .filter(r => sweetSpiceStatusFilter === 'all' || r.status === sweetSpiceStatusFilter)
+                      .map((request) => (
+                        <div
+                          key={request.id}
+                          onClick={() => { setSelectedSweetSpiceRequest(request); setGeneratedCode(''); }}
+                          className={`glass p-4 rounded-xl cursor-pointer transition-all ${
+                            selectedSweetSpiceRequest?.id === request.id
+                              ? 'border-pink-500/50 bg-pink-500/5'
+                              : 'border-white/10 hover:border-white/20'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="font-bold text-sm">
+                              {request.name || 'Anonymous'}
+                            </span>
+                            <Badge
+                              variant="outline"
+                              className={`
+                                ${request.status === 'pending' ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' : ''}
+                                ${request.status === 'approved' ? 'bg-green-500/20 text-green-400 border-green-500/30' : ''}
+                                ${request.status === 'rejected' ? 'bg-red-500/20 text-red-400 border-red-500/30' : ''}
+                                ${request.status === 'accessed' ? 'bg-blue-500/20 text-blue-400 border-blue-500/30' : ''}
+                              `}
+                            >
+                              {request.status}
+                            </Badge>
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-white/40">
+                            <span>Score: {request.score || '—'}</span>
+                            <span>•</span>
+                            <span>{new Date(request.created_at).toLocaleDateString()}</span>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Column 2 — Full Record View */}
+              <div className="lg:col-span-2 space-y-4">
+                {selectedSweetSpiceRequest ? (
+                  <div className="glass border-pink-500/20 p-6 rounded-2xl space-y-6">
+                    <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                      <div>
+                        <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">
+                          {selectedSweetSpiceRequest.name || 'Anonymous'}
+                        </h3>
+                        <p className="text-sm text-white/40">
+                          {selectedSweetSpiceRequest.phone}
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-3xl font-black text-pink-400">
+                          {selectedSweetSpiceRequest.score || '—'}
+                        </p>
+                        <p className="text-xs text-white/40">match score</p>
+                      </div>
+                    </div>
+
+                    {/* Evaluation Summary */}
+                    {selectedSweetSpiceRequest.evaluation_summary && (
+                      <div className="bg-white/5 p-4 rounded-xl">
+                        <p className="text-sm text-white/60 italic">
+                          "{selectedSweetSpiceRequest.evaluation_summary}"
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Score Breakdown */}
+                    {selectedSweetSpiceRequest.score_breakdown && (
+                      <div className="space-y-2">
+                        <h4 className="text-xs font-black uppercase tracking-widest text-white/40">Score Breakdown</h4>
+                        <div className="grid grid-cols-2 gap-2 text-sm">
+                          {Object.entries(selectedSweetSpiceRequest.score_breakdown).map(([key, value]: [string, any]) => (
+                            <div key={key} className="flex justify-between">
+                              <span className="text-white/40 capitalize">{key.replace(/_/g, ' ')}</span>
+                              <span className="text-pink-400 font-bold">{value}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Signals Detected */}
+                    <div className="grid grid-cols-2 gap-4">
+                      {selectedSweetSpiceRequest.key_signals?.length > 0 && (
+                        <div className="space-y-2">
+                          <h4 className="text-xs font-black uppercase tracking-widest text-green-400/60">Positive Signals</h4>
+                          <ul className="space-y-1">
+                            {selectedSweetSpiceRequest.key_signals.map((signal: string, idx: number) => (
+                              <li key={idx} className="text-xs text-white/50">• {signal}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                      {selectedSweetSpiceRequest.disqualify_signals?.length > 0 && (
+                        <div className="space-y-2">
+                          <h4 className="text-xs font-black uppercase tracking-widest text-red-400/60">Disqualify Signals</h4>
+                          <ul className="space-y-1">
+                            {selectedSweetSpiceRequest.disqualify_signals.map((signal: string, idx: number) => (
+                              <li key={idx} className="text-xs text-white/50">• {signal}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Answers */}
+                    <div className="space-y-4 border-t border-white/10 pt-4">
+                      <h4 className="text-xs font-black uppercase tracking-widest text-white/40">Answers</h4>
+                      {Object.entries(selectedSweetSpiceRequest.answers || {}).map(([key, value]: [string, any]) => (
+                        <div key={key} className="bg-black/30 p-3 rounded-lg">
+                          <p className="text-xs text-white/30 mb-1">{key}</p>
+                          <p className="text-sm text-white/60">
+                            {Array.isArray(value) ? value.join(', ') : value}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-3 pt-4 border-t border-white/10">
+                      {selectedSweetSpiceRequest.status === 'pending' && (
+                        <>
+                          <Button
+                            onClick={() => generateAccessCode(selectedSweetSpiceRequest.id)}
+                            className="flex-1 bg-green-500 text-black font-black uppercase tracking-widest text-xs italic hover:bg-green-400"
+                          >
+                            Approve & Generate Code
+                          </Button>
+                          <Button
+                            onClick={() => updateSweetSpiceStatus(selectedSweetSpiceRequest.id, 'rejected')}
+                            variant="outline"
+                            className="border-red-500/30 text-red-400 hover:bg-red-500/10"
+                          >
+                            Reject
+                          </Button>
+                        </>
+                      )}
+                      {selectedSweetSpiceRequest.status === 'approved' && (
+                        <div className="flex-1 space-y-2">
+                          {generatedCode && (
+                            <div className="bg-green-500/10 border border-green-500/30 p-3 rounded-lg text-center">
+                              <p className="text-xs text-green-400/60 uppercase tracking-widest">Generated Code</p>
+                              <p className="text-2xl font-black text-green-400 tracking-widest">{generatedCode}</p>
+                              <p className="text-xs text-white/40">Valid for 24 hours</p>
+                            </div>
+                          )}
+                          <p className="text-xs text-white/40 text-center">
+                            Code: {selectedSweetSpiceRequest.access_code || '—'}
+                          </p>
+                          {selectedSweetSpiceRequest.code_used_at && (
+                            <p className="text-xs text-blue-400 text-center">
+                              Used on {new Date(selectedSweetSpiceRequest.code_used_at).toLocaleString()}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Notes */}
+                    <div className="border-t border-white/10 pt-4">
+                      <h4 className="text-xs font-black uppercase tracking-widest text-white/40 mb-2">Admin Notes</h4>
+                      <Textarea
+                        placeholder="Add your notes here..."
+                        className="bg-black/50 border-white/10 text-white placeholder:text-white/30"
+                        value={selectedSweetSpiceRequest.ahmad_notes || ''}
+                        onChange={(e) => {
+                          supabase
+                            .from('sweet_spice_requests')
+                            .update({ ahmad_notes: e.target.value })
+                            .eq('id', selectedSweetSpiceRequest.id);
+                        }}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="glass p-12 rounded-2xl text-center">
+                    <Heart className="w-12 h-12 text-white/20 mx-auto mb-4" />
+                    <p className="text-white/40">Select a request to view details</p>
+                  </div>
+                )}
               </div>
             </div>
           )}

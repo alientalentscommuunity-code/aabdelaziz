@@ -41,34 +41,109 @@ A personal portfolio and career framework website for Ahmad Abdelaziz, an AIProd
 | Backend | Supabase (PostgreSQL + Auth + Storage) |
 
 ## 2.2 Project Structure
+
+### Current Organization (Updated April 2025)
 ```
 src/
-├── components/
-│   ├── ui/              # shadcn/ui components (49 items)
-│   ├── career/          # Career section components
-│   ├── human/           # Human side components
-│   ├── shared/          # Shared components
-│   └── RequestFormDialog.tsx  # Contact form modal
-├── pages/
-│   ├── Home.tsx
-│   ├── CareerLanding.tsx
-│   ├── CareerCV.tsx
-│   ├── CareerPortfolio.tsx
-│   ├── HumanSide.tsx
-│   ├── Partners.tsx
-│   ├── Handbook.tsx
-│   ├── NotFound.tsx
-│   └── admin/
-│       ├── Login.tsx    # Admin login page
-│       └── Dashboard.tsx # Request management dashboard
+├── components/                 # Reusable UI building blocks
+│   ├── ui/                    # shadcn/ui components (49 items)
+│   ├── career/                # Career section components
+│   │   ├── CareerLayout.tsx
+│   │   ├── CareerIntro.tsx
+│   │   ├── CareerExperienceTab.tsx
+│   │   ├── CareerEducationTab.tsx
+│   │   ├── PlatformSection.tsx
+│   │   ├── AliensDeepDive.tsx
+│   │   ├── DimLabel.tsx
+│   │   └── index.ts
+│   ├── human/                 # Human side components
+│   │   ├── HumanIntro.tsx
+│   │   ├── HumanBeingAlien.tsx
+│   │   ├── HumanConnection.tsx
+│   │   ├── HumanUniverse.tsx
+│   │   └── index.ts
+│   ├── shared/                # Shared components
+│   │   ├── SubNav.tsx
+│   │   ├── InfoCard.tsx
+│   │   └── BulletList.tsx
+│   ├── About.tsx              # Home page sections
+│   ├── Contact.tsx
+│   ├── Experience.tsx
+│   ├── Footer.tsx
+│   ├── Hero.tsx
+│   ├── Navbar.tsx
+│   ├── Projects.tsx
+│   ├── RequestFormDialog.tsx  # Contact form modal
+│   ├── SignatureAnimation.tsx # Animated signature SVG
+│   ├── AuroraBackground.tsx   # Galaxy aurora effect
+│   ├── CommandPalette.tsx     # Global search (Cmd+K)
+│   ├── BackToTop.tsx          # Scroll progress button
+│   └── AnalyticsDashboard.tsx # GA4 analytics display
+│
+├── pages/                     # Route-level views (organized by feature)
+│   ├── home/                  # Route: /
+│   │   ├── Home.tsx
+│   │   ├── Index.tsx
+│   │   └── index.ts
+│   ├── career-galaxy/         # Routes: /career/*
+│   │   ├── CareerLanding.tsx  # /career
+│   │   ├── CareerCV.tsx       # /career/cv
+│   │   ├── CareerPortfolio.tsx
+│   │   ├── CareerFramework.tsx
+│   │   ├── CareerICP.tsx
+│   │   ├── CareerProgress.tsx
+│   │   ├── CareerVision.tsx
+│   │   └── index.ts
+│   ├── human-angel/           # Route: /human
+│   │   ├── HumanSide.tsx
+│   │   └── index.ts
+│   ├── collaboration/         # Route: /partners
+│   │   ├── Partners.tsx
+│   │   └── index.ts
+│   ├── sweet-spicy/           # Route: /sweet-spice
+│   │   ├── SweetSpice.tsx
+│   │   └── index.ts
+│   ├── startup-handbook/      # Route: /handbook
+│   │   ├── Handbook.tsx
+│   │   └── index.ts
+│   ├── hiring-co-founder/     # Handbook subsection
+│   │   ├── HiringCoFounder.tsx
+│   │   └── index.ts
+│   ├── portfolio/             # Re-export from career-galaxy
+│   │   ├── Portfolio.tsx
+│   │   └── index.ts
+│   ├── blog/                  # Route: /blog
+│   │   ├── Blog.tsx
+│   │   └── index.ts
+│   ├── vision-board/          # Route: /vision-board
+│   │   ├── VisionBoard.tsx
+│   │   └── index.ts
+│   ├── not-found/             # 404 fallback
+│   │   ├── NotFound.tsx
+│   │   └── index.ts
+│   ├── admin/                 # Admin routes
+│   │   ├── Login.tsx          # /admin
+│   │   └── Dashboard.tsx      # /admin/dashboard
+│   ├── Blog.tsx               # Root re-export (kept for compatibility)
+│   ├── Handbook.tsx           # Root re-export
+│   ├── NotFound.tsx           # Root re-export
+│   └── VisionBoard.tsx        # Root re-export
+│
 ├── lib/
 │   ├── utils.ts
-│   ├── data.ts
-│   └── supabase.ts      # Supabase client & types
+│   ├── data.ts                # SEGMENTS, EXPERIENCE, PLATFORM data
+│   ├── supabase.ts            # Supabase client & types
+│   ├── analytics.ts           # GA4 page tracking
+│   ├── ga4-api.ts             # GA4 dashboard API
+│   └── rss.ts                 # RSS feed generator
+│
 ├── hooks/
-│   └── useSupabase.ts   # Custom hooks for auth & requests
-├── App.tsx
-└── index.css
+│   └── useSupabase.ts         # Auth & requests hook
+│
+├── App.tsx                    # Main router with PageTracker
+├── main.tsx
+├── index.css                  # Global styles + animations
+└── vite-env.d.ts
 ```
 
 ## 2.3 Dependencies (Production)
@@ -242,14 +317,20 @@ hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]
 | `/career` | CareerLanding | "Career Side — Ahmad Abdelaziz" | Public |
 | `/career/cv` | CareerCV | "CV — Ahmad Abdelaziz" | Public |
 | `/career/portfolio` | CareerPortfolio | "Portfolio — Ahmad Abdelaziz" | Public |
+| `/career/framework` | CareerFramework | "Career Framework — Ahmad Abdelaziz" | Public |
+| `/career/icp` | CareerICP | "Ideal Customer Profile — Ahmad Abdelaziz" | Public |
+| `/career/progress` | CareerProgress | "Progress Tracker — Ahmad Abdelaziz" | Public |
+| `/career/vision` | CareerVision | "Career Vision — Ahmad Abdelaziz" | Public |
 | `/human` | HumanSide | "Human Side — Ahmad Abdelaziz" | Public |
 | `/partners` | Partners | "Work With Me — Ahmad Abdelaziz" | Public |
 | `/handbook` | Handbook | "Startup Handbook" | Public |
+| `/handbook#hiring-co-founder` | HiringCoFounder | "Hiring Co-Founder — ALIENs Venture" | Public |
 | `/admin` | AdminLogin | "Admin Login" | Public |
 | `/admin/dashboard` | AdminDashboard | "Admin Dashboard" | Authenticated |
 | `/vision-board` | VisionBoard | "Vision Board" | Public |
 | `/blog` | Blog | "Blog" | Public |
 | `/sweet-spice` | SweetSpice | "Sweet Spice" | Public |
+| `/rss.xml` | RSS Feed | "RSS Feed" | Public |
 | `*` | NotFound | "404" | Public |
 
 ## 4.2 Navigation Structure
@@ -761,6 +842,197 @@ Management for site sections:
 
 ---
 
+## 5.10 AuroraBackground Component (`src/components/AuroraBackground.tsx`)
+
+### Purpose
+Creates an ethereal galaxy aurora effect behind all page content using radial gradients and CSS animations.
+
+### Implementation
+```tsx
+export const AuroraBackground: React.FC = () => {
+  return (
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+      {/* Primary aurora gradient */}
+      <div 
+        className="absolute inset-0 opacity-30"
+        style={{
+          background: 'radial-gradient(circle at 50% -20%, rgba(0, 255, 163, 0.15), rgba(139, 92, 246, 0.1), transparent 60%)',
+          animation: 'aurora-shift 15s infinite ease-in-out',
+        }}
+      />
+      
+      {/* Secondary subtle glow */}
+      <div 
+        className="absolute inset-0 opacity-20"
+        style={{
+          background: 'radial-gradient(circle at 80% 80%, rgba(0, 255, 163, 0.08), transparent 40%)',
+          animation: 'aurora-pulse 20s infinite ease-in-out',
+        }}
+      />
+      
+      {/* Bottom left accent */}
+      <div 
+        className="absolute bottom-0 left-0 w-1/2 h-1/2 opacity-10"
+        style={{
+          background: 'radial-gradient(circle at 0% 100%, rgba(139, 92, 246, 0.15), transparent 50%)',
+        }}
+      />
+    </div>
+  );
+};
+```
+
+### CSS Animations (in `index.css`)
+```css
+@keyframes aurora-shift {
+  0%, 100% { transform: translateX(-10%) translateY(0%) scale(1.1); }
+  50% { transform: translateX(10%) translateY(-5%) scale(1); }
+}
+
+@keyframes aurora-pulse {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(1.05); }
+}
+```
+
+### Usage
+Mounted once in `App.tsx` at the root level, before all routes.
+
+---
+
+## 5.11 CommandPalette Component (`src/components/CommandPalette.tsx`)
+
+### Purpose
+Global search interface (Cmd+K) for searching blog posts and vision board items across the site.
+
+### Features
+- **Keyboard shortcut**: `Cmd/Ctrl + K` to open, `Escape` to close
+- **Search scope**: Blog posts (public), Vision board items (public)
+- **Results**: Real-time search with title, excerpt/description preview
+- **Navigation**: Click or Enter to navigate to result
+- **Recent searches**: Persisted in localStorage
+
+### Implementation
+```typescript
+interface SearchResult {
+  id: string;
+  type: 'blog' | 'vision';
+  title: string;
+  description?: string;
+  category: string;
+  path: string;
+}
+```
+
+### Search Query
+```typescript
+// Blog posts
+const { data: blogPosts } = await supabase
+  .from('blog_posts')
+  .select('id, title, excerpt, category, slug, privacy')
+  .or(`title.ilike.%${searchTerm}%,content.ilike.%${searchTerm}%`)
+  .eq('privacy', 'public')
+  .limit(5);
+
+// Vision board items
+const { data: visionItems } = await supabase
+  .from('vision_board_items')
+  .select('id, title, description, category, privacy')
+  .or(`title.ilike.%${searchTerm}%,description.ilike.%${searchTerm}%`)
+  .eq('privacy', 'public')
+  .limit(5);
+```
+
+### Styling
+- Overlay: `bg-black/80 backdrop-blur-xl`
+- Container: `max-w-2xl rounded-2xl border border-white/10`
+- Input: `bg-transparent text-white placeholder-white/40`
+- Results: Hover with `bg-white/5` highlight
+
+---
+
+## 5.12 BackToTop Component (`src/components/BackToTop.tsx`)
+
+### Purpose
+Floating button with scroll progress indicator that appears after scrolling 300px.
+
+### Features
+- **Scroll progress ring**: SVG circle stroke shows reading progress
+- **Smooth scroll**: Click to scroll to top with `behavior: 'smooth'`
+- **Visibility**: Fades in/out based on scroll position (> 300px)
+- **Auto-hide**: Pointer-events disabled when hidden
+
+### Implementation
+```typescript
+const circumference = 2 * Math.PI * 20; // radius = 20
+const strokeDashoffset = circumference - (scrollProgress / 100) * circumference;
+```
+
+### Styling
+- Container: `fixed bottom-8 right-8 z-50`
+- Button: `w-14 h-14 rounded-full bg-black/80 backdrop-blur-xl`
+- Border: `border border-[#00FFA3]/30` (Alien Green)
+- Progress ring: `#00FFA3` stroke with `stroke-dasharray` animation
+- Icon: `ArrowUp` from Lucide, `text-[#00FFA3]`
+
+---
+
+## 5.13 SignatureAnimation Component (`src/components/SignatureAnimation.tsx`)
+
+### Purpose
+Animated SVG signature for "Ahmad Abdelaziz" that draws itself on page load.
+
+### Implementation
+- SVG paths with stroke-dasharray animation
+- Gradient stroke: `#00FFA3` → `#8B5CF6` → `#00FFA3`
+- Glow filter via SVG `<filter>` with Gaussian blur
+- Delayed start: 500ms after mount
+
+### Props
+```typescript
+interface SignatureAnimationProps {
+  className?: string;
+}
+```
+
+### Usage
+Mounted in `Home.tsx` hero section as a personal brand element.
+
+---
+
+## 5.14 AnalyticsDashboard Component (`src/components/AnalyticsDashboard.tsx`)
+
+### Purpose
+Real-time Google Analytics 4 dashboard for admin users showing website metrics.
+
+### Features
+- **Time range selector**: Today, 7 Days, 30 Days, 90 Days
+- **Auto-refresh**: Every 30 seconds for real-time data
+- **Metrics displayed**:
+  - Active users (real-time)
+  - Page views
+  - Sessions
+  - Bounce rate
+  - Average session duration
+  - Top pages
+  - Top events
+  - Device breakdown (desktop/mobile/tablet)
+  - Top countries
+
+### API Integration
+Uses `fetchAnalyticsData()` from `@/lib/ga4-api` which calls Google Analytics Data API.
+
+### Styling
+- Cards: Glass effect with metric icons
+- Charts: Bar charts for top pages/devices/countries
+- Badges: Delta indicators (↑↓) with color coding
+- Loading: Spinning refresh icon
+
+### Usage
+Mounted in Admin Dashboard as the "Analytics" tab.
+
+---
+
 # 6. PAGE CONTENT SPECIFICATIONS
 
 ## 6.1 Home/Landing Page (`/`)
@@ -931,6 +1203,115 @@ Uses pink accent: `accentColor="text-pink-400"`
 
 ---
 
+## 6.2a Career Framework Page (`/career/framework`)
+
+### Purpose
+Comprehensive career development framework for product management and related tracks.
+
+### Content Structure
+
+**Hero:**
+- Title: "ALIEN Careers Framework"
+- Subtitle: "Remote Mastery for Multipotentialites"
+
+**Core Track: Product & Strategy**
+
+| Section | Content |
+|---------|---------|
+| Entry Roles | Associate Product Manager, Product Operations, Product Analyst, Junior Product Manager |
+| Core Skills | Product Discovery, Writing PRDs & Specs, Problem Solving, Prioritization (RICE, MoSCoW), Customer Interviews, Cross-functional Communication |
+| Tools | Notion/Confluence, Figma, Jira/Linear, Productboard, Miro |
+| Learning Resources | Product School, Marty Cagan – SVPG Articles, Reforge, YouTube: Lewis C. Lin, Books: Inspired and Lean Product Playbook |
+
+**Additional Tracks:**
+- Community-Led Growth Builder
+- Full-Stack Vibe Coding
+- Commercial & GTM
+
+---
+
+## 6.2b Career ICP Page (`/career/icp`)
+
+### Purpose
+Ideal Customer Profile (ICP) breakdown showing the 5 segments ALIENs Venture serves.
+
+### Segments (from SEGMENTS data in `lib/data.ts`)
+
+| ID | Segment | Accent Color | Tags |
+|----|---------|--------------|------|
+| 01 | Talents & Job Seekers | `#C4B5FD` (Purple) | CV review, Interview prep, Landing remote jobs |
+| 02 | Hiring Managers & Hunters | `#34D399` (Green) | Talent sourcing, Screening, Hiring workflow ops |
+| 03 | Early-Stage Startups | `#FBB040` (Orange) | Idea, Prototype, MVP |
+| 04 | VCs & Accelerators | `#FB923C` (Orange) | Deal Flow, Portfolio Support |
+| 05 | Educational Businesses | `#38BDF8` (Blue) | Program Design, Outcomes & Placement |
+
+### Layout
+- Each segment has a color-coded header pill
+- Tags displayed as bordered badges
+- Industries listed below (if applicable)
+- Dimensions (dims) shown as 2-3 column grid cards
+- CTA button links to ALIENs platform
+
+---
+
+## 6.2c Career Progress Page (`/career/progress`)
+
+### Purpose
+Current progress tracker showing what Ahmad is actively building, learning, and exploring.
+
+### Categories
+- **All** — Show everything
+- **Building** — Active projects and MVPs
+- **Learning** — Skills and tools being learned
+- **Studying** — Books and courses
+- **Reading** — Current reading list
+
+### Progress Items (from `CareerProgress.tsx`)
+
+| # | Title | Category | Status | Date |
+|---|-------|----------|--------|------|
+| 1 | ALIENs Venture Platform v3 | Building | Active | Jul 2024 |
+| 2 | Vibe Coding with Lovable & Claude | Learning | Active | Jan 2025 |
+| 3 | Product Management (SVPG) | Studying | Active | Feb 2025 |
+| 4 | The Mom Test | Reading | Active | Mar 2025 |
+| 5 | ALIENs Venture v2 Launch | Building | Completed | Jul 2024 |
+| 6 | Cairo AI Hackathon | Building | Completed | Dec 2024 |
+
+### UI
+- Filter tabs for categories
+- "Show completed" toggle
+- Active items show blue pulse indicator
+- Each item: title, description, start date, optional link
+
+---
+
+## 6.2d Career Vision Page (`/career/vision`)
+
+### Purpose
+Long-term career vision with 1/3/5 year horizons.
+
+### Time Horizons
+
+**1 Year:**
+- Ship AI Recruiter MVP
+- 100 Talents Placed
+- $10K MRR
+
+**3 Years:**
+- ALIENs as the MENA Talent Hub
+- Product Leadership Role
+- Community of 100K+
+
+**5 Years:**
+- Global Talent Ecosystem
+- Venture Building
+- Thought Leadership
+
+### Written Vision
+> "I believe the future of work is remote, AI-enabled, and human-centered. My vision is to build products and communities that help talented people across MENA and emerging markets access global opportunities. Through ALIENs Venture, I am creating infrastructure that makes human potential visible, measurable, and matched."
+
+---
+
 ## 6.3 Partners Page (`/partners`)
 
 ### Purpose
@@ -962,6 +1343,103 @@ Each segment has:
 │ └─────────────┘ └─────────────┘             │
 └─────────────────────────────────────────────┘
 ```
+
+---
+
+## 6.4 Handbook Page (`/handbook`)
+
+### Purpose
+Comprehensive startup handbook and resource hub with multiple sections. Serves as both a guide and a job posting platform.
+
+### Structure
+- Sidebar navigation with section links
+- Sticky scroll-spy highlighting active section
+- Collapsible content sections
+- Glass card containers
+
+### Navigation Sections
+
+| ID | Label | Description |
+|----|-------|-------------|
+| welcome | Welcome | Introduction to the handbook |
+| who-i-am | Who I Am | Identity & persona cards |
+| what-we-do | What We Do | ALIENs Venture overview |
+| community | Community | Collaboration details |
+| where-we-are | Where We Are | Current status |
+| where-were-going | Where We're Going | Vision & roadmap |
+| the-product | The Product | Product specifications |
+| hiring-co-founder | 🚀 Hiring Co-Founder | Job posting (see 6.4a) |
+
+---
+
+## 6.4a Hiring Co-Founder Section (`/handbook#hiring-co-founder`)
+
+### Purpose
+Detailed job description for a Backend & AI Co-Founder to join ALIENs Venture.
+
+### Headline
+**🚀 Looking for a CO-FOUNDER**
+Partner in Crime to ARCHITECT LIVES & Communities with ART OF HUMANITY
+
+### What We're Looking For
+> 🎯 Someone who brings: Curiosity, wildness, kindness — and comes with Backend & AI competencies.
+> 💡 Feel free to reach out if you own a different gift/craft but you think it's awesome.
+
+### The Approach
+- 🧪 Joining us means you wanna try something out
+- 🎭 Doing it Heisenberg style — learning by doing
+- 🔄 Breaking into product management through practice
+- 🌟 Starting over with something unique and aligned
+- 🌍 Opportunity to change people's lives — FOR REAL
+
+### Who We Are — ALIENs Venture
+**We're prototyping thoughts, emotions, and chaos using Code × AI × No-Code tools.**
+
+Mission: Turn uncertainty in global employment, wealth, and wellbeing into clear wins for talents and hiring managers across MENA and emerging markets.
+
+### The Problem We Exist to Solve
+**Across MENA, both talent and hiring managers face:**
+- Hidden job markets — opportunities never see daylight
+- Fragmented information — scattered across 20+ platforms
+- Low trust — resumes lie, interviews are theatrical, ghosting is standard
+- Unclear growth paths — no guidance on what to learn or where to go
+
+**Who we serve:**
+- **Talents (B2C):** Emerging, unseen, multi-potential humanity
+- **Hiring Managers (B2B):** Startups, SMEs, remote-first teams
+- **Institutions (B2B/B2G):** Universities, academies, innovation hubs, NGOs
+
+### What We're Building
+An **AI-enabled, Human-First Venture Hub** powered by ALIEN AI — a bestie-style AI for employment, wealth, and wellbeing.
+
+### The Role: Backend & AI Co-Founder
+
+**Core Responsibilities:**
+- Backend architecture & API design (Supabase/PostgreSQL)
+- AI integration (OpenAI/Claude APIs, prompt engineering)
+- Vector database implementation for semantic search
+- Automation workflows (n8n/Make)
+- Technical co-leadership and product decisions
+
+**Ideal Profile:**
+- Backend development experience (Node.js/Python/Go)
+- AI/ML familiarity (LLMs, embeddings, RAG)
+- Builder mindset — ships fast, learns faster
+- Human-first approach — cares about impact
+- Curious, wild, kind
+
+**What You Get:**
+- Equal co-founder status & equity
+- Learning-by-doing environment
+- Portfolio of shipped products
+- Real impact on real people's lives
+- Flexible, remote-first culture
+
+### CTA Buttons
+| Label | Action |
+|-------|--------|
+| Apply Now | Opens RequestFormDialog with persona pre-selected as "co-founder" |
+| Read Full Description | Links to `/co-founder-job-description.md` |
 
 ---
 

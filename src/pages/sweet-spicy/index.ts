@@ -1,1 +1,8 @@
 export { default as SweetSpice } from './SweetSpice';
+export { default as TheOne } from './TheOne';
+export { default as Gate } from './Gate';
+export { default as Assessment } from './Assessment';
+export { default as ContactCollection } from './ContactCollection';
+export { default as Rejected } from './Rejected';
+export { default as AccessCode } from './AccessCode';
+export { default as OpenBook } from './OpenBook';

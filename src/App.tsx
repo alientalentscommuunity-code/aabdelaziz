@@ -17,6 +17,13 @@ import HumanSide from "./pages/human-angel/HumanSide";
 import Partners from "./pages/collaboration/Partners";
 import Handbook from "./pages/startup-handbook/Handbook";
 import SweetSpice from "./pages/sweet-spicy/SweetSpice";
+import TheOne from "./pages/sweet-spicy/TheOne";
+import Gate from "./pages/sweet-spicy/Gate";
+import Assessment from "./pages/sweet-spicy/Assessment";
+import ContactCollection from "./pages/sweet-spicy/ContactCollection";
+import Rejected from "./pages/sweet-spicy/Rejected";
+import AccessCode from "./pages/sweet-spicy/AccessCode";
+import OpenBook from "./pages/sweet-spicy/OpenBook";
 import VisionBoard from "./pages/vision-board/VisionBoard";
 import Blog from "./pages/blog/Blog";
 import NotFound from "./pages/not-found/NotFound";
@@ -86,6 +93,13 @@ const App = () => (
             <Route path="/partners" element={<Partners />} />
             <Route path="/handbook" element={<Handbook />} />
             <Route path="/sweet-spice" element={<SweetSpice />} />
+            <Route path="/sweet-spice/her" element={<TheOne />} />
+            <Route path="/sweet-spice/gate" element={<Gate />} />
+            <Route path="/sweet-spice/assessment" element={<Assessment />} />
+            <Route path="/sweet-spice/contact" element={<ContactCollection />} />
+            <Route path="/sweet-spice/rejected" element={<Rejected />} />
+            <Route path="/sweet-spice/access" element={<AccessCode />} />
+            <Route path="/sweet-spice/open" element={<OpenBook />} />
             <Route path="/vision-board" element={<VisionBoard />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/admin" element={<AdminLogin />} />
