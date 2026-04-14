@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SweetSpiceNavbar from '@/components/SweetSpiceNavbar';
 
 export default function TheOne() {
   return (
@@ -194,6 +195,7 @@ export default function TheOne() {
         </div>
       </main>
 
+      <SweetSpiceNavbar />
       <Footer />
     </div>
   );

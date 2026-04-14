@@ -1,13 +1,20 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Sparkles, Lock } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowLeft, Heart, Sparkles, Lock, Unlock } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SweetSpiceNavbar from '@/components/SweetSpiceNavbar';
+import { useAuth } from '@/hooks/useSupabase';
 
 export default function OpenBook() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const isAdmin = !!user;
 
   useEffect(() => {
+    // Admin bypass - can access everything
+    if (isAdmin) return;
+
     // Check if user has access
     const access = sessionStorage.getItem('sweet_spice_access');
     const accessTime = sessionStorage.getItem('sweet_spice_access_time');
@@ -24,7 +31,7 @@ export default function OpenBook() {
       sessionStorage.removeItem('sweet_spice_access_time');
       navigate('/sweet-spice/access');
     }
-  }, [navigate]);
+  }, [navigate, isAdmin]);
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
@@ -217,6 +224,7 @@ export default function OpenBook() {
         </div>
       </main>
 
+      <SweetSpiceNavbar />
       <Footer />
     </div>
   );

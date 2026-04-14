@@ -4,6 +4,7 @@ import { ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SweetSpiceNavbar from '@/components/SweetSpiceNavbar';
 
 interface Question {
   id: string;
@@ -534,6 +535,7 @@ export default function Assessment() {
         </div>
       </main>
 
+      <SweetSpiceNavbar />
       <Footer />
     </div>
   );

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Lock, Heart } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SweetSpiceNavbar from '@/components/SweetSpiceNavbar';
 
 export default function Gate() {
   return (
@@ -95,6 +96,7 @@ export default function Gate() {
         </div>
       </main>
 
+      <SweetSpiceNavbar />
       <Footer />
     </div>
   );

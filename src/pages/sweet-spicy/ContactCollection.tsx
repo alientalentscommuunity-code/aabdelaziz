@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowRight, Phone, Mail, Instagram, Facebook, Linkedin, Loader2, CheckCircle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SweetSpiceNavbar from '@/components/SweetSpiceNavbar';
+import { useAuth } from '@/hooks/useSupabase';
 
 interface ContactMethod {
   type: 'phone' | 'email' | 'instagram' | 'facebook' | 'linkedin';
@@ -14,8 +16,13 @@ interface ContactMethod {
 export default function ContactCollection() {
   const navigate = useNavigate();
   const location = useLocation();
-  const evaluation = location.state?.evaluation || 
-    JSON.parse(sessionStorage.getItem('sweet_spice_evaluation') || '{}');
+  const { user } = useAuth();
+  const isAdmin = !!user;
+  
+  // Admin bypass - use mock evaluation
+  const evaluation = isAdmin 
+    ? { score: 100, passed: true, strong_match: true, isAdmin: true }
+    : (location.state?.evaluation || JSON.parse(sessionStorage.getItem('sweet_spice_evaluation') || '{}'));
   
   const [name, setName] = useState('');
   const [contactMethods, setContactMethods] = useState<ContactMethod[]>([
@@ -311,6 +318,7 @@ export default function ContactCollection() {
         </div>
       </main>
 
+      <SweetSpiceNavbar />
       <Footer />
     </div>
   );

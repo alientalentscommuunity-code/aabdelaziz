@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, Loader2, ArrowRight } from 'lucide-react';
+import { ArrowRight, Lock, Loader2 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SweetSpiceNavbar from '@/components/SweetSpiceNavbar';
+import { useAuth } from '@/hooks/useSupabase';
 
 export default function AccessCode() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const isAdmin = !!user;
   const [code, setCode] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+
+  // Admin bypass - auto grant access
+  useEffect(() => {
+    if (isAdmin) {
+      sessionStorage.setItem('sweet_spice_access', 'admin');
+      sessionStorage.setItem('sweet_spice_access_time', Date.now().toString());
+      navigate('/sweet-spice/open');
+    }
+  }, [isAdmin, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -172,6 +185,7 @@ export default function AccessCode() {
         </div>
       </main>
 
+      <SweetSpiceNavbar />
       <Footer />
     </div>
   );

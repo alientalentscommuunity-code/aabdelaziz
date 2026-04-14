@@ -3,15 +3,26 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Heart, ArrowRight, Sparkles } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SweetSpiceNavbar from '@/components/SweetSpiceNavbar';
+import { useAuth } from '@/hooks/useSupabase';
 
 export default function VibeCheck() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
+  const isAdmin = !!user;
   const [showVibeQuestion, setShowVibeQuestion] = useState(false);
   const [showMatchMessage, setShowMatchMessage] = useState(false);
   const [evaluation, setEvaluation] = useState<any>(null);
 
   useEffect(() => {
+    // Admin bypass - can access everything, show with mock data
+    if (isAdmin) {
+      setEvaluation({ score: 100, passed: true, strong_match: true, isAdmin: true });
+      setShowVibeQuestion(true);
+      return;
+    }
+
     // Get evaluation from navigation state or sessionStorage
     const evalData = location.state?.evaluation || 
       JSON.parse(sessionStorage.getItem('sweet_spice_evaluation') || '{}');
@@ -37,7 +48,7 @@ export default function VibeCheck() {
       // No evaluation data - redirect to assessment
       navigate('/sweet-spice/assessment');
     }
-  }, [location, navigate]);
+  }, [location, navigate, isAdmin]);
 
   const handleVibeResponse = (wantsToConnect: boolean) => {
     if (wantsToConnect) {
@@ -165,6 +176,7 @@ export default function VibeCheck() {
         </div>
       </main>
 
+      <SweetSpiceNavbar />
       <Footer />
     </div>
   );

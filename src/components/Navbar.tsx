@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Menu, X, Mail } from "lucide-react";
+import { Menu, X, Mail, LayoutDashboard } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { RequestFormDialog } from "./RequestFormDialog";
 import { trackNavClick, trackButtonClick } from "@/lib/analytics";
+import { useAuth } from "@/hooks/useSupabase";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [requestFormOpen, setRequestFormOpen] = useState(false);
   const location = useLocation();
+  const { user } = useAuth();
+  const isAdmin = !!user;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -81,6 +84,16 @@ const Navbar = () => {
             ))}
           </div>
           <div className="w-px h-5 bg-white/10 shrink-0" />
+          {isAdmin && (
+            <Link
+              to="/admin/dashboard"
+              onClick={() => trackNavClick("Dashboard", "main")}
+              className="flex items-center gap-2 px-4 py-2 bg-green-500 text-black rounded-full text-[10px] font-black uppercase tracking-widest italic hover:opacity-90 hover:shadow-[0_0_20px_rgba(34,197,94,0.6)] transition-all duration-300 active:scale-95 shrink-0"
+            >
+              <LayoutDashboard size={14} />
+              Dashboard
+            </Link>
+          )}
           <button
             onClick={() => {
               trackButtonClick("Request Form", "navbar_request_form", "navbar");
@@ -133,6 +146,19 @@ const Navbar = () => {
                 {link.name}
               </Link>
             ))}
+            <div className="w-16 h-px bg-white/10 my-2" />
+            {isAdmin && (
+              <Link
+                to="/admin/dashboard"
+                className="text-xl font-bold uppercase tracking-wider font-cairo text-green-400 hover:text-green-300 transition-all duration-300"
+                onClick={() => {
+                  trackNavClick("Dashboard", "mobile");
+                  setMobileMenuOpen(false);
+                }}
+              >
+                Dashboard
+              </Link>
+            )}
             <div className="w-16 h-px bg-white/10 my-2" />
             <button
               className="btn btn-primary flex items-center gap-2 mt-2"
