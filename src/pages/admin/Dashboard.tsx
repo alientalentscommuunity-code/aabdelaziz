@@ -3,9 +3,9 @@ import { Navigate } from 'react-router-dom';
 import { 
   Inbox, Target, FileText, LayoutGrid, Settings, LogOut, RefreshCw, 
   AlertCircle, Plus, Search, Filter, X, Edit2, Trash2, Eye, 
-  CheckCircle, Clock, Archive, Mail, Phone, Building2, ExternalLink,
-  ChevronDown, ChevronUp, Save, Globe, Lock, Users, Heart, Briefcase, Sparkles, Zap,
-  BarChart3
+  Clock, CheckCircle, Send, MessageCircle, Heart, BarChart2, TrendingUp, EyeOff, Archive,
+  ChevronDown, ChevronUp, Save, Globe, Lock, Users, Briefcase, Sparkles, Zap,
+  BarChart3, Layout, Mail, Phone, ExternalLink
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -22,6 +22,7 @@ import { useRequests, useAuth } from '@/hooks/useSupabase';
 import { supabase, Request } from '@/lib/supabase';
 import { cn } from '@/lib/utils';
 import { AnalyticsDashboard } from '@/components/AnalyticsDashboard';
+import { ContentEditor } from '@/components/admin/ContentEditor';
 
 // Types
 interface VisionItem {
@@ -65,7 +66,7 @@ interface UniverseSection {
   order: number;
 }
 
-type TabType = 'requests' | 'vision' | 'blog' | 'universe' | 'analytics' | 'sweet-spice';
+type TabType = 'requests' | 'vision' | 'blog' | 'universe' | 'analytics' | 'sweet-spice' | 'content';
 
 const statusColors = {
   new: 'bg-green-500/20 text-green-400 border-green-500/30',
@@ -456,6 +457,7 @@ export default function AdminDashboard() {
     { id: 'blog', label: 'Blog', icon: FileText, count: blogPosts.length },
     { id: 'universe', label: 'Universe', icon: LayoutGrid, count: null },
     { id: 'sweet-spice', label: 'Sweet Spice', icon: Heart, count: sweetSpiceRequests.filter(r => r.status === 'pending').length },
+    { id: 'content', label: 'Content', icon: Layout, count: null },
     { id: 'analytics', label: 'Analytics', icon: BarChart3, count: null },
   ];
 
@@ -1283,6 +1285,13 @@ export default function AdminDashboard() {
                   </div>
                 )}
               </div>
+            </div>
+          )}
+
+          {/* CONTENT EDITOR TAB */}
+          {activeTab === 'content' && (
+            <div className="h-[calc(100vh-8rem)]">
+              <ContentEditor />
             </div>
           )}
 

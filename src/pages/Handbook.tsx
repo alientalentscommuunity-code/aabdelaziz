@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import SubNav, { type SubNavItem } from "@/components/shared/SubNav";
 import BulletList from "@/components/shared/BulletList";
 import InfoCard from "@/components/shared/InfoCard";
+import { useContent } from "@/hooks/useContent";
+import { InlineEdit, EditableList, EditableTags } from "@/components/admin/InlineEdit";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "react-router-dom";
@@ -775,6 +777,17 @@ const HiringCoFounder = ({ onBackToHandbook }: { onBackToHandbook: () => void })
 };
 
 const Handbook = () => {
+  const { blocks, listItems, tags, loading, updateListItem, deleteListItem, addListItem, addTag, deleteTag } = useContent("handbook");
+  
+  const getBlock = (key: string) => blocks.find((b: any) => b.block_key === key);
+  const getList = (key: string) => listItems[key] || [];
+  const getTags = (key: string) => tags[key] || [];
+  
+  if (loading) {
+    return <div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>;
+  }
+  
+  const heroBlock = getBlock("hero");
   const [sub, setSub] = useState("intro");
   const subs: SubNavItem[] = [
     "intro",
@@ -804,12 +817,21 @@ const Handbook = () => {
         <div className="section-container !py-0">
           {/* Header */}
           <div className="mb-6">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-white mb-3">
-              ALIENs <span className="text-secondary">Venture</span> Handbook
-            </h1>
-            <p className="text-white/30 font-medium italic">
-              Building (and overthinking) in public since day 0. This wiki takes you through everything — how it started, where it is now, where we're heading.
-            </p>
+            <InlineEdit
+              sectionId="handbook"
+              blockKey="hero"
+              field="title"
+              content={heroBlock?.title || "Handbook"}
+              className="text-3xl sm:text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-white mb-3"
+              as="h1"
+            />
+            <InlineEdit
+              sectionId="handbook"
+              blockKey="hero"
+              field="content"
+              content={heroBlock?.content || "Operating principles, mental models, and the frameworks I use to navigate life and build products."}
+              className="text-white/30 font-medium italic"
+            />
           </div>
 
           <SubNav items={subs} active={sub} onSelect={setSub} accentColor="text-secondary" />

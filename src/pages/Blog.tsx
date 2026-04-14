@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/lib/supabase';
+import { useContent } from '@/hooks/useContent';
+import { InlineEdit, EditableList, EditableTags } from '@/components/admin/InlineEdit';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -42,9 +44,15 @@ const privacyConfig = {
 };
 
 export default function Blog() {
+  const { blocks, tags, loading } = useContent('blog');
+  const getBlock = (key: string) => blocks.find((b: any) => b.block_key === key);
+  const getTags = (key: string) => tags[key] || [];
+  
   const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [postsLoading, setPostsLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  
+  const heroBlock = getBlock('hero');
   const [filterCategory, setFilterCategory] = useState<string>('all');
   const [filterPrivacy, setFilterPrivacy] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -79,7 +87,7 @@ export default function Blog() {
   };
 
   const fetchPosts = async () => {
-    setLoading(true);
+    setPostsLoading(true);
     try {
       const { data, error } = await supabase
         .from('blog_posts')
@@ -91,7 +99,7 @@ export default function Blog() {
     } catch (error) {
       console.error('Error fetching blog posts:', error);
     } finally {
-      setLoading(false);
+      setPostsLoading(false);
     }
   };
 
@@ -446,15 +454,28 @@ export default function Blog() {
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <p className="text-[10px] font-black uppercase tracking-widest text-orange-400 mb-2">
-              ✦ THE UNIVERSE
-            </p>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black italic uppercase tracking-tighter leading-[0.9] mb-4">
-              Blog
-            </h1>
-            <p className="text-lg text-white/40 max-w-xl mx-auto">
-              Thoughts, stories, and everything in between.
-            </p>
+            <InlineEdit
+              sectionId="blog"
+              blockKey="hero"
+              field="title"
+              content={heroBlock?.title || "Blog"}
+              className="text-[10px] font-black uppercase tracking-widest text-orange-400 mb-2"
+            />
+            <InlineEdit
+              sectionId="blog"
+              blockKey="hero"
+              field="subtitle"
+              content={heroBlock?.subtitle || "Writing · Thinking · Documenting"}
+              className="text-5xl sm:text-6xl md:text-7xl font-black italic uppercase tracking-tighter leading-[0.9] mb-4"
+              as="h1"
+            />
+            <InlineEdit
+              sectionId="blog"
+              blockKey="hero"
+              field="content"
+              content={heroBlock?.content || "Raw thoughts on product, technology, and the future I am building. No fluff. Just signal."}
+              className="text-lg text-white/40 max-w-xl mx-auto"
+            />
           </div>
 
           {/* Actions Bar */}
@@ -513,7 +534,7 @@ export default function Blog() {
           {isAdmin && (isCreating || editingPost) && renderForm()}
 
           {/* Blog Posts */}
-          {loading ? (
+          {postsLoading ? (
             <div className="text-center py-20">
               <div className="animate-spin w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full mx-auto mb-4" />
               <p className="text-white/40">Loading posts...</p>

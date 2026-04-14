@@ -1,5 +1,7 @@
 import React from "react";
 import { Mail, Linkedin, Youtube, Phone, Briefcase, TrendingUp, Award, Users } from "lucide-react";
+import { useContent } from "@/hooks/useContent";
+import { InlineEdit, EditableList, EditableTags } from "@/components/admin/InlineEdit";
 import { DOMAINS, GEOS, SUB_ROLES, EXPERTISE_SECTIONS, EXPERIENCE } from "@/lib/data";
 
 interface CareerIntroProps {
@@ -8,16 +10,37 @@ interface CareerIntroProps {
 }
 
 const CareerIntro = ({ cvOpen, setCvOpen }: CareerIntroProps) => {
+  const { blocks, listItems, tags, loading, updateListItem, deleteListItem, addListItem, addTag, deleteTag } = useContent("career");
+  
+  const getBlock = (key: string) => blocks.find((b: any) => b.block_key === key);
+  const getList = (key: string) => listItems[key] || [];
+  const getTags = (key: string) => tags[key] || [];
+  
+  if (loading) {
+    return <div className="space-y-8 animate-pulse">Loading...</div>;
+  }
+  
+  const heroBlock = getBlock("hero");
+  const skillsBlock = getBlock("skills");
   return (
     <div className="space-y-10">
       {/* ── HERO BLOCK ── */}
       <div>
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-black italic uppercase tracking-tighter mb-4 animate-fade-in text-white">
-          Ahmad <span className="highlight">Abdelaziz</span>
-        </h1>
-        <p className="text-lg sm:text-xl font-medium italic text-white/40 mb-2">
-          AI Product Manager | Founder & Entrepreneur in Residence
-        </p>
+        <InlineEdit
+          sectionId="career"
+          blockKey="hero"
+          field="title"
+          content={heroBlock?.title || "Ahmad Abdelaziz"}
+          className="text-4xl sm:text-5xl md:text-6xl font-black italic uppercase tracking-tighter mb-4 animate-fade-in text-white"
+          as="h1"
+        />
+        <InlineEdit
+          sectionId="career"
+          blockKey="hero"
+          field="subtitle"
+          content={heroBlock?.subtitle || "AI Product Manager | Founder & Entrepreneur in Residence"}
+          className="text-lg sm:text-xl font-medium italic text-white/40 mb-2"
+        />
 
         {/* Sub-role chips */}
         <div className="flex flex-wrap gap-2 mt-4 mb-4">

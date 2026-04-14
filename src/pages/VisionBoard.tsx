@@ -11,6 +11,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { supabase } from '@/lib/supabase';
+import { useContent } from '@/hooks/useContent';
+import { InlineEdit, EditableList, EditableTags } from '@/components/admin/InlineEdit';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -58,8 +60,19 @@ const privacyConfig = {
 };
 
 export default function VisionBoard() {
+  const { blocks, listItems, tags, loading, updateListItem, deleteListItem, addListItem, addTag, deleteTag } = useContent('vision');
+  
+  const getBlock = (key: string) => blocks.find((b: any) => b.block_key === key);
+  const getList = (key: string) => listItems[key] || [];
+  const getTags = (key: string) => tags[key] || [];
+  
+  if (loading) {
+    return <div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>;
+  }
+  
+  const heroBlock = getBlock('hero');
   const [items, setItems] = useState<VisionItem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [itemsLoading, setItemsLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [filterCategory, setFilterCategory] = useState<string>('all');
   const [filterStatus, setFilterStatus] = useState<string>('all');
@@ -94,7 +107,7 @@ export default function VisionBoard() {
   };
 
   const fetchVisionItems = async () => {
-    setLoading(true);
+    setItemsLoading(true);
     try {
       const { data, error } = await supabase
         .from('vision_board_items')
@@ -109,7 +122,7 @@ export default function VisionBoard() {
     } catch (error) {
       console.error('Error fetching vision items:', error);
     } finally {
-      setLoading(false);
+      setItemsLoading(false);
     }
   };
 
@@ -470,15 +483,28 @@ export default function VisionBoard() {
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <p className="text-[10px] font-black uppercase tracking-widest text-orange-400 mb-2">
-              ✦ THE UNIVERSE
-            </p>
-            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black italic uppercase tracking-tighter leading-[0.9] mb-4">
-              Vision Board
-            </h1>
-            <p className="text-lg text-white/40 max-w-xl mx-auto">
-              Dreams, plans, and everything I'm building toward.
-            </p>
+            <InlineEdit
+              sectionId="vision"
+              blockKey="hero"
+              field="title"
+              content={heroBlock?.title || "Vision Board"}
+              className="text-[10px] font-black uppercase tracking-widest text-orange-400 mb-2"
+            />
+            <InlineEdit
+              sectionId="vision"
+              blockKey="hero"
+              field="subtitle"
+              content={heroBlock?.subtitle || "Where I am going · What I am building · Who I am becoming"}
+              className="text-5xl sm:text-6xl md:text-7xl font-black italic uppercase tracking-tighter leading-[0.9] mb-4"
+              as="h1"
+            />
+            <InlineEdit
+              sectionId="vision"
+              blockKey="hero"
+              field="content"
+              content={heroBlock?.content || "A living document of intentions, goals, and the future I am actively creating. Not wishes. Commitments."}
+              className="text-lg text-white/40 max-w-xl mx-auto"
+            />
           </div>
 
           {/* Actions Bar */}
@@ -549,7 +575,7 @@ export default function VisionBoard() {
           {isAdmin && (isCreating || editingItem) && renderForm()}
 
           {/* Vision Items Grid */}
-          {loading ? (
+          {itemsLoading ? (
             <div className="text-center py-20">
               <div className="animate-spin w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full mx-auto mb-4" />
               <p className="text-white/40">Loading visions...</p>

@@ -1,10 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, Sparkles, ArrowRight } from 'lucide-react';
+import { useContent } from '@/hooks/useContent';
+import { InlineEdit } from '@/components/admin/InlineEdit';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SweetSpiceNavbar from '@/components/SweetSpiceNavbar';
 
 export default function SweetSpice() {
+  const { blocks, loading } = useContent('sweet');
+  
+  const getBlock = (key: string) => blocks.find((b: any) => b.block_key === key);
+  
+  const heroBlock = getBlock('landing_hero');
+  const whyBlock = getBlock('landing_why');
+  const universesBlock = getBlock('landing_three_universes');
+  const howBlock = getBlock('landing_how_works');
+  
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="animate-pulse text-pink-400">Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       {/* Pink ambient glow at top */}
@@ -24,15 +44,21 @@ export default function SweetSpice() {
 
           {/* SECTION A — WHY THIS EXISTS */}
           <section className="text-center space-y-8 pt-8">
-            <p className="text-[10px] font-black uppercase tracking-widest text-pink-400">
-              🌶️ SWEET SPICE
-            </p>
-            <h1 className="text-5xl sm:text-6xl md:text-8xl font-black italic uppercase tracking-tighter leading-[0.9]">
-              Not Just<br />
-              <span className="text-pink-400" style={{ textShadow: '0 0 30px rgba(244,114,182,0.4)' }}>
-                Business.
-              </span>
-            </h1>
+            <InlineEdit
+              sectionId="sweet"
+              blockKey="landing_hero"
+              field="title"
+              content={heroBlock?.title || "🌶️ SWEET SPICE"}
+              className="text-[10px] font-black uppercase tracking-widest text-pink-400"
+            />
+            <InlineEdit
+              sectionId="sweet"
+              blockKey="landing_hero"
+              field="content"
+              content={heroBlock?.content || "Not Just Business. A way of living. A space for connection. Intentional. Private. Real."}
+              className="text-5xl sm:text-6xl md:text-8xl font-black italic uppercase tracking-tighter leading-[0.9]"
+              as="h1"
+            />
             <div className="max-w-2xl mx-auto space-y-6">
               <p className="text-lg sm:text-xl font-medium italic text-white/60 leading-relaxed">
                 I am a builder. A product manager. A founder. Someone who has spent years getting clear — financially, professionally, personally. I have been intentional about not rushing into marriage before I was ready.
@@ -44,9 +70,13 @@ export default function SweetSpice() {
                 I am ready. Mentally. Emotionally. And instead of leaving the search to chance, apps, or social circles that keep delivering the wrong people — I am doing what I do best: architecting the thing I want with intention and craft.
               </p>
             </div>
-            <p className="text-base font-bold italic text-pink-400/80 max-w-xl mx-auto">
-              The right woman is not found in an algorithm. She is found when she stumbles across something real and thinks — <em>wait, this is actually me.</em>
-            </p>
+            <InlineEdit
+              sectionId="sweet"
+              blockKey="landing_hero"
+              field="subtitle"
+              content={heroBlock?.subtitle || "The right woman is not found in an algorithm. She is found when she stumbles across something real and thinks — wait, this is actually me."}
+              className="text-base font-bold italic text-pink-400/80 max-w-xl mx-auto"
+            />
           </section>
 
           {/* SECTION B — THE THREE UNIVERSES */}
@@ -152,6 +182,7 @@ export default function SweetSpice() {
         </div>
       </main>
 
+      <SweetSpiceNavbar />
       <Footer />
     </div>
   );
