@@ -34,7 +34,7 @@ export function InlineEdit({
   className = '', 
   as: Component = 'div' 
 }: InlineEditProps) {
-  const { user } = useAuth();
+  const { isAdmin } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(content);
   const [saving, setSaving] = useState(false);
@@ -46,9 +46,6 @@ export function InlineEdit({
       textareaRef.current.select();
     }
   }, [isEditing]);
-
-  // Only show edit button if user is logged in (admin)
-  const isAdmin = !!user;
 
   const handleSave = async () => {
     if (editValue === content) {
@@ -165,10 +162,9 @@ export function EditableList({
   accentColor = 'primary',
   className = '' 
 }: EditableListProps) {
-  const { user } = useAuth();
+  const { isAdmin } = useAuth();
   const [newItem, setNewItem] = useState('');
   const [adding, setAdding] = useState(false);
-  const isAdmin = !!user;
 
   const handleAdd = async () => {
     if (!newItem.trim()) return;
@@ -366,10 +362,9 @@ export function EditableTags({
   accentColor = 'green',
   className = '' 
 }: EditableTagsProps) {
-  const { user } = useAuth();
+  const { isAdmin } = useAuth();
   const [newTag, setNewTag] = useState('');
   const [adding, setAdding] = useState(false);
-  const isAdmin = !!user;
 
   const handleAdd = async () => {
     if (!newTag.trim()) return;

@@ -21,6 +21,7 @@ const CareerIntro = ({ cvOpen, setCvOpen }: CareerIntroProps) => {
   }
   
   const heroBlock = getBlock("hero");
+  const introBlock = getBlock("intro");
   const skillsBlock = getBlock("skills");
   return (
     <div className="space-y-10">
@@ -42,13 +43,15 @@ const CareerIntro = ({ cvOpen, setCvOpen }: CareerIntroProps) => {
           className="text-lg sm:text-xl font-medium italic text-white/40 mb-2"
         />
 
-        {/* Sub-role chips */}
-        <div className="flex flex-wrap gap-2 mt-4 mb-4">
-          {SUB_ROLES.map((r) => (
-            <span key={r} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold">
-              {r}
-            </span>
-          ))}
+        {/* Skills Tags */}
+        <div className="mt-4 mb-4">
+          <EditableTags
+            items={getTags("skills")}
+            blockId={skillsBlock?.id}
+            accentColor="primary"
+            onAdd={addTag}
+            onDelete={deleteTag}
+          />
         </div>
 
         {/* Sub-tagged headlines */}
@@ -76,128 +79,75 @@ const CareerIntro = ({ cvOpen, setCvOpen }: CareerIntroProps) => {
         </div>
       </div>
 
-      {/* ── EXPERTISE SUMMARY MAP ── */}
+      {/* ── INTRO BLOCK ── */}
       <div className="glass p-6 sm:p-8">
-        <div className="flex flex-wrap gap-8 items-start">
-          <div>
-            <p className="text-3xl sm:text-4xl font-black text-primary">+12</p>
-            <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mt-1">Years of Experience</p>
-          </div>
-          <div className="w-px h-12 bg-white/10 hidden sm:block" />
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-2">Domains</p>
-            <div className="flex flex-wrap gap-2">
-              {DOMAINS.map((d) => (
-                <span key={d} className="px-3 py-1 bg-secondary/10 text-secondary rounded-full text-xs font-bold">{d}</span>
-              ))}
-            </div>
-          </div>
-          <div className="w-px h-12 bg-white/10 hidden sm:block" />
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-2">Markets</p>
-            <div className="flex flex-wrap gap-2">
-              {GEOS.map((g) => (
-                <span key={g} className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold">{g}</span>
-              ))}
-            </div>
-          </div>
+        <div className="flex items-center gap-2 mb-4">
+          <InlineEdit
+            sectionId="career"
+            blockKey="intro"
+            field="icon"
+            content={introBlock?.icon || "💼"}
+            className="text-2xl"
+          />
+          <InlineEdit
+            sectionId="career"
+            blockKey="intro"
+            field="title"
+            content={introBlock?.title || "Career Galaxy"}
+            className="text-xl sm:text-2xl font-black italic uppercase tracking-tighter text-white"
+            as="h3"
+          />
+        </div>
+        <InlineEdit
+          sectionId="career"
+          blockKey="intro"
+          field="subtitle"
+          content={introBlock?.subtitle || "My professional journey"}
+          className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-5"
+        />
+        <InlineEdit
+          sectionId="career"
+          blockKey="intro"
+          field="content"
+          content={introBlock?.content || "Product Manager with experience building 0-to-1 products. Obsessed with user experience, growth, and building things that matter."}
+          className="text-white/40 font-medium italic mb-6"
+          multiline
+        />
+        
+        {/* Skills Section */}
+        <div className="border-t border-white/10 pt-6">
+          <InlineEdit
+            sectionId="career"
+            blockKey="skills"
+            field="title"
+            content={skillsBlock?.title || "Skills & Tools"}
+            className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-3"
+          />
+          <EditableTags
+            items={getTags("skills")}
+            blockId={skillsBlock?.id}
+            accentColor="purple"
+            onAdd={addTag}
+            onDelete={deleteTag}
+          />
         </div>
       </div>
 
-      {/* ── EXPERTISE SECTIONS ── */}
+      {/* ── EXPERTISE SECTIONS (Dynamic from CMS) ── */}
       <div className="space-y-8">
-        {EXPERTISE_SECTIONS.map((sec, i) => (
-          <div key={i} className="glass p-6 sm:p-8 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(34,197,94,0.2)] transition-all duration-500">
-            <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
-              <div>
-                <h3 className="text-xl sm:text-2xl font-black italic uppercase tracking-tighter text-white flex items-center gap-2">
-                  <span>{sec.icon}</span> {sec.title}
-                </h3>
-              </div>
+        {getList("expertise").map((item, i) => (
+          <div key={item.id} className="glass p-6 sm:p-8 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(34,197,94,0.2)] transition-all duration-500">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-2xl">{item.icon || "⚡"}</span>
+              <EditableList
+                items={[{...item, content: item.content}]}
+                blockId={introBlock?.id}
+                accentColor="primary"
+                onUpdate={updateListItem}
+                onDelete={deleteListItem}
+                onAdd={addListItem}
+              />
             </div>
-
-            <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-5">{sec.subtitle}</p>
-
-            <div className="space-y-3 text-white/40 font-medium italic">
-              {sec.bullets.map((b, j) => (
-                <p key={j} className="flex items-start gap-2">
-                  <span className="text-primary mt-1">•</span>
-                  {b}
-                </p>
-              ))}
-            </div>
-
-            {/* Metric cards for Product section */}
-            {i === 0 && (
-              <div className="grid sm:grid-cols-2 gap-4 mt-5">
-                <div className="glass-sm p-4 flex items-center gap-3 hover:border-primary/50 transition-all">
-                  <TrendingUp className="text-primary" size={20} />
-                  <div>
-                    <p className="text-primary font-bold not-italic">20K+ visits</p>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-white/20 not-italic">500+ signups · $2K revenue</p>
-                  </div>
-                </div>
-                <div className="glass-sm p-4 flex items-center gap-3 hover:border-secondary/50 transition-all">
-                  <Award className="text-secondary" size={20} />
-                  <div>
-                    <p className="text-secondary font-bold not-italic">$5K MRR Pipeline</p>
-                    <p className="text-[10px] font-black uppercase tracking-widest text-white/20 not-italic">100% Profit margin</p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {sec.highlight && (
-              <p className="flex items-start gap-2 mt-4 text-white/40 font-medium italic">
-                <span className="text-secondary mt-1">•</span>
-                <span className="text-secondary font-bold not-italic">{sec.highlight}</span>
-              </p>
-            )}
-
-            {sec.stack && (
-              <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mt-4">{sec.stack}</p>
-            )}
-
-            {/* Commercial section metric cards */}
-            {i === 2 && (
-              <>
-                <div className="grid sm:grid-cols-2 gap-4 mt-5">
-                  <div className="glass-sm p-4 hover:border-primary/50 transition-all">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-1">B2B Pipeline</p>
-                    <p className="text-2xl font-black text-primary">$240K</p>
-                    <p className="text-xs text-white/20 not-italic">40+ SQOs delivered</p>
-                  </div>
-                  <div className="glass-sm p-4 hover:border-secondary/50 transition-all">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-1">B2C Revenue</p>
-                    <p className="text-2xl font-black text-secondary">$10K</p>
-                    <p className="text-xs text-white/20 not-italic">60% new | 25% retention | 15% referrals</p>
-                  </div>
-                </div>
-                <p className="mt-3 text-white/40 font-medium italic flex items-center gap-2">
-                  <Award className="text-primary" size={16} />
-                  90%+ CSAT scores
-                </p>
-              </>
-            )}
-
-            {sec.extra && (
-              <div className="pt-6 mt-6 border-t border-white/10">
-                <h4 className="text-base font-bold text-secondary mb-2">
-                  {sec.extra.subtitle?.split("|")[0]}
-                </h4>
-                <p className="text-[10px] font-black uppercase tracking-widest text-white/20 mb-3">
-                  {sec.extra.subtitle?.includes("|") ? sec.extra.subtitle.split("|").slice(1).join("|").trim() : ""}
-                </p>
-                <div className="space-y-2 text-white/40 font-medium italic">
-                  {sec.extra.bullets.map((b, j) => (
-                    <p key={j} className="flex items-start gap-2">
-                      <span className="text-primary">•</span>
-                      {b}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         ))}
       </div>

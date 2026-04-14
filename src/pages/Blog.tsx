@@ -53,6 +53,8 @@ export default function Blog() {
   const [isAdmin, setIsAdmin] = useState(false);
   
   const heroBlock = getBlock('hero');
+  const featuredBlock = getBlock('featured');
+  const topicsBlock = getBlock('topics');
   const [filterCategory, setFilterCategory] = useState<string>('all');
   const [filterPrivacy, setFilterPrivacy] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');

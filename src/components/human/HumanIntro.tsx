@@ -16,6 +16,7 @@ const HumanIntro = () => {
   }
 
   const heroBlock = getBlock("hero");
+  const taglineBlock = getBlock("tagline");
   const handbookBlock = getBlock("handbook_quotes");
   const snacksBlock = getBlock("vanilla_snacks");
   const sweetSpiceBlock = getBlock("sweet_spice_cta");
@@ -46,6 +47,17 @@ const HumanIntro = () => {
           field="content"
           content={heroBlock?.content || "Shipped AI Sr. Recruiter w/ psychometrics (MVP) · $2K ROI · AI Hackathon Winner"}
           className="text-sm font-medium italic text-white/25"
+        />
+      </div>
+
+      {/* Tagline */}
+      <div>
+        <InlineEdit
+          sectionId="human"
+          blockKey="tagline"
+          field="title"
+          content={taglineBlock?.title || "Non-Linear · Good Taste · Relentless · Documenting"}
+          className="text-lg sm:text-xl font-medium italic text-white/40"
         />
       </div>
 

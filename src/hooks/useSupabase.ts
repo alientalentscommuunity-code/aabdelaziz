@@ -109,18 +109,59 @@ export function useRequests() {
 
 export function useAuth() {
   const [user, setUser] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
+  const [userType, setUserType] = useState('visitor');
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const fetchUserProfile = async (userId: string, currentUser: any) => {
+    const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('id', userId)
+      .single();
+    
+    if (data && !error) {
+      setUserProfile(data);
+      setUserType(data.user_type);
+      // Check admin from both users table and auth metadata
+      const isUserAdmin = data.user_type === 'admin' || 
+                          currentUser?.user_metadata?.role === 'admin' ||
+                          currentUser?.app_metadata?.role === 'admin';
+      setIsAdmin(isUserAdmin);
+    } else {
+      // Fallback to auth metadata if no profile found
+      const userRole = currentUser?.user_metadata?.role;
+      const isUserAdmin = userRole === 'admin' || currentUser?.app_metadata?.role === 'admin';
+      setIsAdmin(isUserAdmin);
+    }
+  };
 
   useEffect(() => {
     // Check current session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
+      const currentUser = session?.user ?? null;
+      setUser(currentUser);
+      
+      if (currentUser) {
+        fetchUserProfile(currentUser.id, currentUser);
+      } else {
+        setLoading(false);
+      }
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+      const currentUser = session?.user ?? null;
+      setUser(currentUser);
+      
+      if (currentUser) {
+        fetchUserProfile(currentUser.id, currentUser);
+      } else {
+        setUserProfile(null);
+        setUserType('visitor');
+        setIsAdmin(false);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -133,7 +174,9 @@ export function useAuth() {
 
   const signOut = async () => {
     await supabase.auth.signOut();
+    setUserProfile(null);
+    setUserType('visitor');
   };
 
-  return { user, loading, signIn, signOut };
+  return { user, userProfile, userType, isAdmin, loading, signIn, signOut };
 }

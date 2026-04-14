@@ -346,42 +346,59 @@ export function ContentEditor() {
 
             {/* Form Fields */}
             <div className="space-y-4">
+              {/* Block Type Help */}
+              <div className="bg-white/5 rounded-lg p-3 mb-4">
+                <p className="text-xs text-white/60">
+                  <span className="text-white/80 font-semibold">Block Type: </span>
+                  <span className="text-primary">{selectedBlock.block_type}</span>
+                </p>
+                <p className="text-[10px] text-white/40 mt-1">
+                  {selectedBlock.block_type === 'hero' && "Main section header with title, subtitle, and description"}
+                  {selectedBlock.block_type === 'text' && "Simple text content block"}
+                  {selectedBlock.block_type === 'markdown' && "Full markdown support for rich content"}
+                  {selectedBlock.block_type === 'list' && "Bullet list items that can be reordered"}
+                  {selectedBlock.block_type === 'tags' && "Tag chips for skills, categories, or topics"}
+                  {selectedBlock.block_type === 'quote' && "Highlighted quote or statement"}
+                  {selectedBlock.block_type === 'cta' && "Call-to-action block with link"}
+                </p>
+              </div>
+
               {/* Title */}
               <div>
                 <label className="text-xs font-black uppercase tracking-widest text-white/40 mb-2 block">
-                  Title
+                  Title <span className="text-white/20">(shown as heading)</span>
                 </label>
                 <Input
                   value={editForm.title || ''}
                   onChange={(e) => setEditForm({ ...editForm, title: e.target.value })}
                   className="bg-black/50 border-white/20 text-white"
-                  placeholder="Block title..."
+                  placeholder="e.g., Core Principles, My Story, Featured Work..."
                 />
               </div>
 
               {/* Subtitle */}
               <div>
                 <label className="text-xs font-black uppercase tracking-widest text-white/40 mb-2 block">
-                  Subtitle
+                  Subtitle <span className="text-white/20">(optional, shown below title)</span>
                 </label>
                 <Input
                   value={editForm.subtitle || ''}
                   onChange={(e) => setEditForm({ ...editForm, subtitle: e.target.value })}
                   className="bg-black/50 border-white/20 text-white"
-                  placeholder="Subtitle..."
+                  placeholder="e.g., How I work · What drives me · Key highlights..."
                 />
               </div>
 
               {/* Content */}
               <div>
                 <label className="text-xs font-black uppercase tracking-widest text-white/40 mb-2 block">
-                  Content (Markdown supported)
+                  Content <span className="text-white/20">(Markdown supported - use **bold**, *italic*, [links](url))</span>
                 </label>
                 <Textarea
                   value={editForm.content || ''}
                   onChange={(e) => setEditForm({ ...editForm, content: e.target.value })}
                   className="bg-black/50 border-white/20 text-white min-h-[200px]"
-                  placeholder="Content here..."
+                  placeholder="Main content text. For hero blocks: intro paragraph. For markdown: full article. For quotes: the quote text..."
                 />
               </div>
 
@@ -389,13 +406,13 @@ export function ContentEditor() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs font-black uppercase tracking-widest text-white/40 mb-2 block">
-                    Icon
+                    Icon <span className="text-white/20">(emoji or Lucide icon name)</span>
                   </label>
                   <Input
                     value={editForm.icon || ''}
                     onChange={(e) => setEditForm({ ...editForm, icon: e.target.value })}
                     className="bg-black/50 border-white/20 text-white"
-                    placeholder="Icon name..."
+                    placeholder="e.g., 🎯, 💼, rocket, star, heart..."
                   />
                 </div>
                 <div>

@@ -4,8 +4,23 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SweetSpiceNavbar from '@/components/SweetSpiceNavbar';
+import { useContent } from '@/hooks/useContent';
+import { InlineEdit, EditableList } from '@/components/admin/InlineEdit';
 
 export default function TheOne() {
+  const { blocks, listItems, loading, updateListItem, deleteListItem, addListItem } = useContent("sweet_spice");
+  
+  const getBlock = (key: string) => blocks.find((b: any) => b.block_key === key);
+  const getList = (key: string) => listItems[key] || [];
+  
+  if (loading) {
+    return <div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>;
+  }
+  
+  const paradoxBlock = getBlock("her_paradox");
+  const physicalBlock = getBlock("her_physical");
+  const traitsBlock = getBlock("her_traits");
+  
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       {/* Pink ambient glow */}
@@ -34,31 +49,63 @@ export default function TheOne() {
 
             {/* The Paradox */}
             <div className="glass border-pink-500/20 p-8 rounded-2xl space-y-6">
-              <h2 className="text-2xl font-black italic uppercase tracking-tight text-white">
-                The Paradox She Lives In
-              </h2>
-              <p className="text-lg font-medium italic text-white/60 leading-relaxed">
-                She is not one thing. That is exactly what makes her rare and exactly what has made her invisible to the wrong men.
-              </p>
-              <p className="text-lg font-medium italic text-white/60 leading-relaxed">
-                She is a <strong className="text-pink-400">baby girl and a deep feminine lioness lady</strong> — soft and ferocious, devoted and wild, intellectually dominant and physically surrendered. She lives in her own private universe — not disconnected from the real world, but she has her own private era that belongs only to her.
-              </p>
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="her_paradox"
+                field="title"
+                content={paradoxBlock?.title || "The Paradox She Lives In"}
+                className="text-2xl font-black italic uppercase tracking-tight text-white"
+                as="h2"
+              />
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="her_paradox"
+                field="content"
+                content={paradoxBlock?.content || "She is not one thing. That is exactly what makes her rare and exactly what has made her invisible to the wrong men. She is a baby girl and a deep feminine lioness lady — soft and ferocious, devoted and wild, intellectually dominant and physically surrendered. She lives in her own private universe — not disconnected from the real world, but she has her own private era that belongs only to her."}
+                className="text-lg font-medium italic text-white/60 leading-relaxed"
+                multiline
+              />
             </div>
 
             {/* Physical & Origin */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="glass border-pink-500/20 p-6 rounded-2xl">
-                <h3 className="text-sm font-black uppercase tracking-widest text-pink-400 mb-4">Physical</h3>
-                <p className="text-sm text-white/60 font-medium italic leading-relaxed">
-                  Petite. Under 160cm preferred. 163cm accepted as maximum. I am 158cm. I want closeness — eye-level intimacy. A world you are inside when you are together.
-                </p>
-              </div>
-              <div className="glass border-pink-500/20 p-6 rounded-2xl">
-                <h3 className="text-sm font-black uppercase tracking-widest text-pink-400 mb-4">Origin</h3>
-                <p className="text-sm text-white/60 font-medium italic leading-relaxed">
-                  Minya — or rooted in that warmth, that particular Egyptian depth — is a bonus signal. Not a requirement. A resonance.
-                </p>
-              </div>
+            <div className="glass border-pink-500/20 p-8 rounded-2xl">
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="her_physical"
+                field="title"
+                content={physicalBlock?.title || "Physical & Origin"}
+                className="text-xl font-black italic uppercase tracking-tight text-white mb-4"
+                as="h3"
+              />
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="her_physical"
+                field="content"
+                content={physicalBlock?.content || "Petite. Under 160cm preferred. 163cm accepted as maximum. I am 158cm. I want closeness — eye-level intimacy. A world you are inside when you are together. Minya — or rooted in that warmth, that particular Egyptian depth — is a bonus signal. Not a requirement. A resonance."}
+                className="text-sm text-white/60 font-medium italic leading-relaxed"
+                multiline
+              />
+            </div>
+
+            {/* Her Traits */}
+            <div className="space-y-8">
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="her_traits"
+                field="title"
+                content={traitsBlock?.title || "Her Traits — In Threes"}
+                className="text-xl font-black uppercase tracking-widest text-white/40 text-center"
+                as="h2"
+              />
+              
+              <EditableList
+                items={getList("her_traits")}
+                blockId={traitsBlock?.id}
+                accentColor="pink"
+                onUpdate={updateListItem}
+                onDelete={deleteListItem}
+                onAdd={addListItem}
+              />
             </div>
 
             {/* Her Traits — In Threes */}

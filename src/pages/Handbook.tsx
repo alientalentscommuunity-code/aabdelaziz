@@ -788,6 +788,8 @@ const Handbook = () => {
   }
   
   const heroBlock = getBlock("hero");
+  const principlesBlock = getBlock("principles");
+  const mentalModelsBlock = getBlock("mental_models");
   const [sub, setSub] = useState("intro");
   const subs: SubNavItem[] = [
     "intro",
@@ -848,6 +850,60 @@ const Handbook = () => {
                   "You are welcome as a member, partner, shareholder, or co-founder.",
                 ]} />
               </GlassCard>
+
+              {/* Principles */}
+              <div className="glass border-orange-500/20 overflow-hidden">
+                <div className="px-6 sm:px-8 py-4 border-b border-white/10 flex items-center gap-2">
+                  <InlineEdit
+                    sectionId="handbook"
+                    blockKey="principles"
+                    field="icon"
+                    content={principlesBlock?.icon || "📋"}
+                    className="text-xl"
+                  />
+                  <InlineEdit
+                    sectionId="handbook"
+                    blockKey="principles"
+                    field="title"
+                    content={principlesBlock?.title || "Core Principles"}
+                    className="text-xl font-black italic uppercase tracking-tighter text-white"
+                    as="h3"
+                  />
+                </div>
+                <div className="px-6 sm:px-8 py-5">
+                  <EditableList
+                    items={getList("principles")}
+                    blockId={principlesBlock?.id}
+                    accentColor="orange"
+                    onUpdate={updateListItem}
+                    onDelete={deleteListItem}
+                    onAdd={addListItem}
+                  />
+                </div>
+              </div>
+
+              {/* Mental Models */}
+              <div className="glass border-orange-500/20 overflow-hidden">
+                <div className="px-6 sm:px-8 py-4 border-b border-white/10">
+                  <InlineEdit
+                    sectionId="handbook"
+                    blockKey="mental_models"
+                    field="title"
+                    content={mentalModelsBlock?.title || "Mental Models"}
+                    className="text-xl font-black italic uppercase tracking-tighter text-white"
+                    as="h3"
+                  />
+                </div>
+                <div className="px-6 sm:px-8 py-5">
+                  <EditableTags
+                    items={getTags("mental_models")}
+                    blockId={mentalModelsBlock?.id}
+                    accentColor="orange"
+                    onAdd={addTag}
+                    onDelete={deleteTag}
+                  />
+                </div>
+              </div>
 
               {/* Ahmad */}
               <div className="glass overflow-hidden hover:border-violet-300/30 transition-all duration-500">
