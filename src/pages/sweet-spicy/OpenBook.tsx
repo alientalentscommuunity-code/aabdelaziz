@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Heart, Sparkles, Lock, Unlock } from 'lucide-react';
+import { useContent } from '@/hooks/useContent';
+import { InlineEdit } from '@/components/admin/InlineEdit';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SweetSpiceNavbar from '@/components/SweetSpiceNavbar';
@@ -9,7 +11,15 @@ import { useAuth } from '@/hooks/useSupabase';
 export default function OpenBook() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { blocks, loading } = useContent('sweet_spice');
   const isAdmin = !!user;
+  
+  const getBlock = (key: string) => blocks.find((b: any) => b.block_key === key);
+  
+  const headerBlock = getBlock('openbook_header');
+  const universe1Block = getBlock('universe_i');
+  const universe2Block = getBlock('universe_ii');
+  const universe3Block = getBlock('universe_iii');
 
   useEffect(() => {
     // Admin bypass - can access everything
@@ -54,14 +64,30 @@ export default function OpenBook() {
           <section className="text-center space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-pink-500/10 border border-pink-500/20">
               <Lock className="w-4 h-4 text-pink-400" />
-              <span className="text-xs font-black uppercase tracking-widest text-pink-400">Private</span>
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="openbook_header"
+                field="subtitle"
+                content={headerBlock?.subtitle || "Private"}
+                className="text-xs font-black uppercase tracking-widest text-pink-400"
+              />
             </div>
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-black italic uppercase tracking-tighter leading-[0.9]">
-              The <span className="text-pink-400">Open</span> Book
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="openbook_header"
+                field="title"
+                content={headerBlock?.title || "The Open Book"}
+                className="text-pink-400"
+              />
             </h1>
-            <p className="text-lg font-medium italic text-white/50 max-w-2xl mx-auto">
-              Everything. Written for you.
-            </p>
+            <InlineEdit
+              sectionId="sweet_spice"
+              blockKey="openbook_header"
+              field="content"
+              content={headerBlock?.content || "Everything. Written for you."}
+              className="text-lg font-medium italic text-white/50 max-w-2xl mx-auto"
+            />
           </section>
 
           {/* Section A — I */}
@@ -70,25 +96,68 @@ export default function OpenBook() {
               <span className="text-4xl font-black text-pink-400/40">Ⅰ</span>
               <div>
                 <p className="text-[10px] font-black uppercase tracking-widest text-pink-400">Universe I</p>
-                <h2 className="text-2xl font-black italic uppercase tracking-tight text-white">I</h2>
+                <InlineEdit
+                  sectionId="sweet_spice"
+                  blockKey="universe_i"
+                  field="title"
+                  content={universe1Block?.title || "I"}
+                  className="text-2xl font-black italic uppercase tracking-tight text-white block"
+                  as="h2"
+                />
               </div>
             </div>
 
             <div className="glass border-pink-500/20 p-8 rounded-2xl space-y-6">
-              <h3 className="text-lg font-black uppercase tracking-widest text-white/60">How He Thinks</h3>
-              <p className="text-base text-white/50 font-medium italic leading-relaxed">
-                Fast and deep — and those two things do not always play nice. He is obsessively focused and completely unavailable at the same time — not checked out, just in. Ideas arrive at 2am. He processes the world by making things. He has high standards and low patience for carelessness — his own first.
-              </p>
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="universe_i_thinks"
+                field="title"
+                content="How He Thinks"
+                className="text-lg font-black uppercase tracking-widest text-white/60 block"
+                as="h3"
+              />
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="universe_i_thinks"
+                field="content"
+                content="Fast and deep — and those two things do not always play nice. He is obsessively focused and completely unavailable at the same time — not checked out, just in. Ideas arrive at 2am. He processes the world by making things. He has high standards and low patience for carelessness — his own first."
+                className="text-base text-white/50 font-medium italic leading-relaxed"
+                multiline
+              />
 
-              <h3 className="text-lg font-black uppercase tracking-widest text-white/60 pt-4">How He Loves</h3>
-              <p className="text-base text-white/50 font-medium italic leading-relaxed">
-                More emotionally present than most men admit to being. He feels things loudly and does not apologize. He wants to be someone's safe place — fully. But he needs to be held sometimes, not just to hold. He wants a woman who is emotionally needy with him — not draining, but present. He will meet that energy completely.
-              </p>
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="universe_i_loves"
+                field="title"
+                content="How He Loves"
+                className="text-lg font-black uppercase tracking-widest text-white/60 pt-4 block"
+                as="h3"
+              />
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="universe_i_loves"
+                field="content"
+                content="More emotionally present than most men admit to being. He feels things loudly and does not apologize. He wants to be someone's safe place — fully. But he needs to be held sometimes, not just to hold. He wants a woman who is emotionally needy with him — not draining, but present. He will meet that energy completely."
+                className="text-base text-white/50 font-medium italic leading-relaxed"
+                multiline
+              />
 
-              <h3 className="text-lg font-black uppercase tracking-widest text-white/60 pt-4">How He Plays</h3>
-              <p className="text-base text-white/50 font-medium italic leading-relaxed">
-                He leads without dominating. He teases without cruelty. He holds space for the full spectrum — babygirl to goddess — with care, attention, and full presence. He is the sadist who protects what he takes. He is the dominant who never forgets he was chosen.
-              </p>
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="universe_i_plays"
+                field="title"
+                content="How He Plays"
+                className="text-lg font-black uppercase tracking-widest text-white/60 pt-4 block"
+                as="h3"
+              />
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="universe_i_plays"
+                field="content"
+                content="He leads without dominating. He teases without cruelty. He holds space for the full spectrum — babygirl to goddess — with care, attention, and full presence. He is the sadist who protects what he takes. He is the dominant who never forgets he was chosen."
+                className="text-base text-white/50 font-medium italic leading-relaxed"
+                multiline
+              />
             </div>
           </section>
 
@@ -98,37 +167,116 @@ export default function OpenBook() {
               <span className="text-4xl font-black text-pink-400/40">Ⅱ</span>
               <div>
                 <p className="text-[10px] font-black uppercase tracking-widest text-pink-400">Universe II</p>
-                <h2 className="text-2xl font-black italic uppercase tracking-tight text-white">Wifey</h2>
+                <InlineEdit
+                  sectionId="sweet_spice"
+                  blockKey="universe_ii"
+                  field="title"
+                  content={universe2Block?.title || "Wifey"}
+                  className="text-2xl font-black italic uppercase tracking-tight text-white block"
+                  as="h2"
+                />
               </div>
             </div>
 
             <div className="glass border-pink-500/20 p-8 rounded-2xl space-y-6">
-              <h3 className="text-lg font-black uppercase tracking-widest text-white/60">What Partnership Means</h3>
-              <p className="text-base text-white/50 font-medium italic leading-relaxed">
-                Not a relationship. A life. Built on purpose. Not a role — a decision. Not a title — a daily act.
-              </p>
-              <p className="text-base text-white/50 font-medium italic leading-relaxed">
-                Devotion and ownership — chosen, not assumed. Act of service — love expressed in action. Care, kindness, softness. Family as sacred. Attention — giving and receiving fully. The long game — building a life worth talking about at 70.
-              </p>
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="universe_ii_partnership"
+                field="title"
+                content="What Partnership Means"
+                className="text-lg font-black uppercase tracking-widest text-white/60 block"
+                as="h3"
+              />
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="universe_ii_partnership"
+                field="content"
+                content="Not a relationship. A life. Built on purpose. Not a role — a decision. Not a title — a daily act."
+                className="text-base text-white/50 font-medium italic leading-relaxed"
+                multiline
+              />
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="universe_ii_partnership"
+                field="subtitle"
+                content="Devotion and ownership — chosen, not assumed. Act of service — love expressed in action. Care, kindness, softness. Family as sacred. Attention — giving and receiving fully. The long game — building a life worth talking about at 70."
+                className="text-base text-white/50 font-medium italic leading-relaxed"
+                multiline
+              />
 
               <div className="border-t border-white/10 pt-6 mt-6">
-                <h3 className="text-lg font-black uppercase tracking-widest text-white/60 mb-4">What He Is Actually Looking For</h3>
+                <InlineEdit
+                  sectionId="sweet_spice"
+                  blockKey="universe_ii_looking"
+                  field="title"
+                  content="What He Is Actually Looking For"
+                  className="text-lg font-black uppercase tracking-widest text-white/60 mb-4 block"
+                  as="h3"
+                />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <p className="text-sm font-black uppercase tracking-widest text-pink-400/60">The Foundation</p>
-                    <p className="text-sm text-white/50 italic">Two whole people. Separate universes. One collision.</p>
+                    <InlineEdit
+                      sectionId="sweet_spice"
+                      blockKey="universe_ii_foundation"
+                      field="title"
+                      content="The Foundation"
+                      className="text-sm font-black uppercase tracking-widest text-pink-400/60 block"
+                    />
+                    <InlineEdit
+                      sectionId="sweet_spice"
+                      blockKey="universe_ii_foundation"
+                      field="content"
+                      content="Two whole people. Separate universes. One collision."
+                      className="text-sm text-white/50 italic"
+                    />
                   </div>
                   <div className="space-y-2">
-                    <p className="text-sm font-black uppercase tracking-widest text-pink-400/60">The Daily</p>
-                    <p className="text-sm text-white/50 italic">Chosen devotion. Active care. Attention as love language.</p>
+                    <InlineEdit
+                      sectionId="sweet_spice"
+                      blockKey="universe_ii_daily"
+                      field="title"
+                      content="The Daily"
+                      className="text-sm font-black uppercase tracking-widest text-pink-400/60 block"
+                    />
+                    <InlineEdit
+                      sectionId="sweet_spice"
+                      blockKey="universe_ii_daily"
+                      field="content"
+                      content="Chosen devotion. Active care. Attention as love language."
+                      className="text-sm text-white/50 italic"
+                    />
                   </div>
                   <div className="space-y-2">
-                    <p className="text-sm font-black uppercase tracking-widest text-pink-400/60">The Vision</p>
-                    <p className="text-sm text-white/50 italic">A home that feels like a world. A family to be proud of.</p>
+                    <InlineEdit
+                      sectionId="sweet_spice"
+                      blockKey="universe_ii_vision"
+                      field="title"
+                      content="The Vision"
+                      className="text-sm font-black uppercase tracking-widest text-pink-400/60 block"
+                    />
+                    <InlineEdit
+                      sectionId="sweet_spice"
+                      blockKey="universe_ii_vision"
+                      field="content"
+                      content="A home that feels like a world. A family to be proud of."
+                      className="text-sm text-white/50 italic"
+                    />
                   </div>
                   <div className="space-y-2">
-                    <p className="text-sm font-black uppercase tracking-widest text-pink-400/60">The Long Game</p>
-                    <p className="text-sm text-white/50 italic">Stories worth telling at 70. Built, not found.</p>
+                    <InlineEdit
+                      sectionId="sweet_spice"
+                      blockKey="universe_ii_longgame"
+                      field="title"
+                      content="The Long Game"
+                      className="text-sm font-black uppercase tracking-widest text-pink-400/60 block"
+                    />
+                    <InlineEdit
+                      sectionId="sweet_spice"
+                      blockKey="universe_ii_longgame"
+                      field="content"
+                      content="Stories worth telling at 70. Built, not found."
+                      className="text-sm text-white/50 italic"
+                    />
                   </div>
                 </div>
               </div>
@@ -141,7 +289,14 @@ export default function OpenBook() {
               <span className="text-4xl font-black text-pink-400/40">Ⅲ</span>
               <div>
                 <p className="text-[10px] font-black uppercase tracking-widest text-pink-400">Universe III</p>
-                <h2 className="text-2xl font-black italic uppercase tracking-tight text-white">My Lil Baby Lady Goddess</h2>
+                <InlineEdit
+                  sectionId="sweet_spice"
+                  blockKey="universe_iii"
+                  field="title"
+                  content={universe3Block?.title || "My Lil Baby Lady Goddess"}
+                  className="text-2xl font-black italic uppercase tracking-tight text-white block"
+                  as="h2"
+                />
               </div>
             </div>
 
@@ -149,42 +304,82 @@ export default function OpenBook() {
               
               {/* Talk Play */}
               <div className="space-y-3">
-                <h3 className="text-lg font-black uppercase tracking-widest text-white/60">Talk Play</h3>
-                <p className="text-base text-white/50 font-medium italic leading-relaxed">
-                  Thinking loudly together. Raw unfiltered discussion. Affirmation. Flirting. Dirty talk. The kind of conversation that goes from philosophy to filth in four minutes and both feel natural.
-                </p>
+                <InlineEdit
+                  sectionId="sweet_spice"
+                  blockKey="universe_iii_talk"
+                  field="title"
+                  content="Talk Play"
+                  className="text-lg font-black uppercase tracking-widest text-white/60 block"
+                  as="h3"
+                />
+                <InlineEdit
+                  sectionId="sweet_spice"
+                  blockKey="universe_iii_talk"
+                  field="content"
+                  content="Thinking loudly together. Raw unfiltered discussion. Affirmation. Flirting. Dirty talk. The kind of conversation that goes from philosophy to filth in four minutes and both feel natural."
+                  className="text-base text-white/50 font-medium italic leading-relaxed"
+                  multiline
+                />
               </div>
 
               {/* Behaviour Play */}
               <div className="space-y-3">
-                <h3 className="text-lg font-black uppercase tracking-widest text-white/60">Behaviour Play</h3>
-                <p className="text-base text-white/50 font-medium italic leading-relaxed">
-                  Obey. Stubborn brat energy. Leading and controlling. Submitting. Dominating. Act of service as intimacy. The push and pull that keeps both of them awake and alive.
-                </p>
+                <InlineEdit
+                  sectionId="sweet_spice"
+                  blockKey="universe_iii_behaviour"
+                  field="title"
+                  content="Behaviour Play"
+                  className="text-lg font-black uppercase tracking-widest text-white/60 block"
+                  as="h3"
+                />
+                <InlineEdit
+                  sectionId="sweet_spice"
+                  blockKey="universe_iii_behaviour"
+                  field="content"
+                  content="Obey. Stubborn brat energy. Leading and controlling. Submitting. Dominating. Act of service as intimacy. The push and pull that keeps both of them awake and alive."
+                  className="text-base text-white/50 font-medium italic leading-relaxed"
+                  multiline
+                />
               </div>
 
-              {/* Character Play */}
+              {/* Sensation Play */}
               <div className="space-y-3">
-                <h3 className="text-lg font-black uppercase tracking-widest text-white/60">Character Play</h3>
-                <p className="text-base text-white/50 font-medium italic leading-relaxed">
-                  Princess. Queen. Goddess and demon. Kitten. Baby girl. Lady. She moves between all of them — and he can hold every version without flinching. Most men ask her to pick one. He does not.
-                </p>
+                <InlineEdit
+                  sectionId="sweet_spice"
+                  blockKey="universe_iii_sensation"
+                  field="title"
+                  content="Sensation Play"
+                  className="text-lg font-black uppercase tracking-widest text-white/60 block"
+                  as="h3"
+                />
+                <InlineEdit
+                  sectionId="sweet_spice"
+                  blockKey="universe_iii_sensation"
+                  field="content"
+                  content="Touch that commands. Restraint that liberates. The entire body as a conversation. Pain that grounds. Pleasure that rewards. The full range — from tender to intense — held with complete presence."
+                  className="text-base text-white/50 font-medium italic leading-relaxed"
+                  multiline
+                />
               </div>
 
-              {/* Attitude Play */}
+              {/* The Arc */}
               <div className="space-y-3">
-                <h3 className="text-lg font-black uppercase tracking-widest text-white/60">Attitude Play</h3>
-                <p className="text-base text-white/50 font-medium italic leading-relaxed">
-                  Caring and giving. Caretaker energy. Attention — needing it, giving it, weaponizing it playfully. Ownership that goes both ways. Devotion that is active, not passive.
-                </p>
-              </div>
-
-              {/* The Dynamic */}
-              <div className="border-t border-white/10 pt-6">
-                <h3 className="text-lg font-black uppercase tracking-widest text-white/60 mb-4">The Dynamic</h3>
-                <p className="text-base text-white/50 font-medium italic leading-relaxed">
-                  She is mentally leading — sharp, decisive, a point of view she defends. She is emotionally present — when safe, she arrives fully. She is physically surrendered — the masochist who gives the gift of surrender to someone who has earned it. He holds all three without confusing them.
-                </p>
+                <InlineEdit
+                  sectionId="sweet_spice"
+                  blockKey="universe_iii_arc"
+                  field="title"
+                  content="The Arc"
+                  className="text-lg font-black uppercase tracking-widest text-white/60 block"
+                  as="h3"
+                />
+                <InlineEdit
+                  sectionId="sweet_spice"
+                  blockKey="universe_iii_arc"
+                  field="content"
+                  content="From playful to profound. From light to deep. From kitten to goddess. From babygirl to queen. He holds all of it. He wants all of it. The full spectrum, fully inhabited."
+                  className="text-base text-white/50 font-medium italic leading-relaxed"
+                  multiline
+                />
               </div>
 
               {/* Sadist / Masochist */}

@@ -108,6 +108,77 @@ export default function TheOne() {
               />
             </div>
 
+            {/* Her Energy */}
+            <div className="space-y-8">
+              <InlineEdit
+                sectionId="sweet_spice"
+                blockKey="her_energy"
+                field="title"
+                content="Her Energy"
+                className="text-xl font-black uppercase tracking-widest text-white/40 text-center block"
+                as="h2"
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="glass border-pink-500/10 p-6 rounded-2xl space-y-3">
+                  <InlineEdit
+                    sectionId="sweet_spice"
+                    blockKey="her_energy_warmth"
+                    field="title"
+                    content="Warmth"
+                    className="text-sm font-black uppercase tracking-widest text-pink-400 block"
+                    as="h3"
+                  />
+                  <InlineEdit
+                    sectionId="sweet_spice"
+                    blockKey="her_energy_warmth"
+                    field="content"
+                    content="She radiates a particular kind of warmth — not performative, not transactional. It is the warmth of someone who actually cares, who pays attention, who brings softness into a room without losing her edge."
+                    className="text-sm text-white/50 font-medium italic"
+                    multiline
+                  />
+                </div>
+
+                <div className="glass border-pink-500/10 p-6 rounded-2xl space-y-3">
+                  <InlineEdit
+                    sectionId="sweet_spice"
+                    blockKey="her_energy_surrender"
+                    field="title"
+                    content="Surrender"
+                    className="text-sm font-black uppercase tracking-widest text-pink-400 block"
+                    as="h3"
+                  />
+                  <InlineEdit
+                    sectionId="sweet_spice"
+                    blockKey="her_energy_surrender"
+                    field="content"
+                    content="She knows how to let go — but only with someone who has earned it. Her surrender is not weakness. It is a gift she gives deliberately, completely, to someone worthy."
+                    className="text-sm text-white/50 font-medium italic"
+                    multiline
+                  />
+                </div>
+
+                <div className="glass border-pink-500/10 p-6 rounded-2xl space-y-3">
+                  <InlineEdit
+                    sectionId="sweet_spice"
+                    blockKey="her_energy_strength"
+                    field="title"
+                    content="Soft but not weak"
+                    className="text-sm font-black uppercase tracking-widest text-pink-400 block"
+                    as="h3"
+                  />
+                  <InlineEdit
+                    sectionId="sweet_spice"
+                    blockKey="her_energy_strength"
+                    field="content"
+                    content="She can be gentle, accommodating, even yielding — but never at the cost of her core. She knows where her line is. She is soft because she chooses to be, not because she has to be."
+                    className="text-sm text-white/50 font-medium italic"
+                    multiline
+                  />
+                </div>
+              </div>
+            </div>
+
             {/* Her Traits — In Threes */}
             <div className="space-y-8">
               <h2 className="text-xl font-black uppercase tracking-widest text-white/40 text-center">
