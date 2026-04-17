@@ -5,7 +5,7 @@ import SubNav, { type SubNavItem } from "@/components/shared/SubNav";
 import BulletList from "@/components/shared/BulletList";
 import InfoCard from "@/components/shared/InfoCard";
 import { useContent } from "@/hooks/useContent";
-import { InlineEdit, EditableList, EditableTags } from "@/components/admin/InlineEdit";
+import { InlineEdit } from '@/components/admin/InlineEdit';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "react-router-dom";
