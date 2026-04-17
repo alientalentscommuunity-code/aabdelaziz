@@ -70,8 +70,127 @@ export default function VisionBoard() {
     return <div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>;
   }
   
-  const heroBlock = getBlock('hero');
-  const [items, setItems] = useState<VisionItem[]>([]);
+  // HARDCODED: Hero content from PRD
+  const heroContent = {
+    title: 'Vision Board',
+    subtitle: 'Dreams, goals, and the future I am building — in public.'
+  };
+  
+  // HARDCODED: Vision items from PRD content
+  const initialItems: VisionItem[] = [
+    {
+      id: '1',
+      title: 'Launch ALIENs Community Platform',
+      description: 'Build and deploy the full community platform with AI features for global talent marketplace',
+      category: 'universe',
+      status: 'in-progress',
+      priority: 'high',
+      progress: 65,
+      target_date: '2025-06-01',
+      links: ['https://alientalents.com'],
+      files: [],
+      privacy: 'public',
+      subtasks: [
+        { id: 's1', title: 'Complete MVP with core features', completed: true },
+        { id: 's2', title: 'Launch beta with 100 users', completed: true },
+        { id: 's3', title: 'Scale to 1000 active users', completed: false }
+      ],
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    },
+    {
+      id: '2',
+      title: 'Find My Life Partner',
+      description: 'Meet someone who matches the Sweet Spice energy — soft and fierce, devoted and wild',
+      category: 'sweet-spice',
+      status: 'in-progress',
+      priority: 'high',
+      progress: 30,
+      target_date: '2025-12-31',
+      links: ['/sweet-spice'],
+      files: [],
+      privacy: 'private',
+      subtasks: [
+        { id: 's4', title: 'Build Sweet Spice portal', completed: true },
+        { id: 's5', title: 'Complete 100 assessments', completed: false },
+        { id: 's6', title: 'Find the one', completed: false }
+      ],
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    },
+    {
+      id: '3',
+      title: 'Speak at 5 Major Conferences',
+      description: 'Share my journey in AI product management and community-led growth at global events',
+      category: 'career',
+      status: 'not-started',
+      priority: 'high',
+      progress: 0,
+      target_date: '2025-09-01',
+      links: [],
+      files: [],
+      privacy: 'public',
+      subtasks: [
+        { id: 's7', title: 'Submit CFP to 10 conferences', completed: false },
+        { id: 's8', title: 'Get accepted to first talk', completed: false },
+        { id: 's9', title: 'Deliver keynote presentation', completed: false }
+      ],
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    },
+    {
+      id: '4',
+      title: 'Build Personal Brand on LinkedIn',
+      description: 'Grow to 50k followers through authentic content about product, AI, and building in public',
+      category: 'career',
+      status: 'in-progress',
+      priority: 'medium',
+      progress: 40,
+      target_date: '2025-08-01',
+      links: ['https://linkedin.com/in/ahmad96abdelaziz'],
+      files: [],
+      privacy: 'public',
+      subtasks: [
+        { id: 's10', title: 'Post 3x per week consistently', completed: true },
+        { id: 's11', title: 'Reach 10k followers', completed: true },
+        { id: 's12', title: 'Launch newsletter', completed: false }
+      ],
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    },
+    {
+      id: '5',
+      title: 'Travel to 10 Countries',
+      description: 'Experience diverse cultures and build global connections across continents',
+      category: 'human',
+      status: 'in-progress',
+      priority: 'medium',
+      progress: 50,
+      target_date: '2026-01-01',
+      links: [],
+      files: [],
+      privacy: 'public',
+      subtasks: [
+        { id: 's13', title: 'Visit Southeast Asia (Thailand, Vietnam)', completed: true },
+        { id: 's14', title: 'Explore Europe (Germany, Netherlands)', completed: false },
+        { id: 's15', title: 'Experience Latin America', completed: false }
+      ],
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    },
+    {
+      id: '6',
+      title: 'Read 50 Books This Year',
+      description: 'Deep learning across product management, philosophy, psychology, and fiction',
+      category: 'human',
+      status: 'in-progress',
+      priority: 'low',
+      progress: 35,
+      target_date: '2025-12-31',
+      links: [],
+      files: [],
+      privacy: 'private',
+  // State declarations
   const [itemsLoading, setItemsLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [filterCategory, setFilterCategory] = useState<string>('all');
@@ -79,6 +198,7 @@ export default function VisionBoard() {
   const [filterPrivacy, setFilterPrivacy] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [isCreating, setIsCreating] = useState(false);
+  const [items, setItems] = useState<VisionItem[]>(initialItems);
   const [editingItem, setEditingItem] = useState<VisionItem | null>(null);
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set());
 
@@ -97,7 +217,8 @@ export default function VisionBoard() {
   const [newLink, setNewLink] = useState('');
 
   useEffect(() => {
-    fetchVisionItems();
+    // HARDCODED: Using initialItems instead of fetching from Supabase
+    // fetchVisionItems();
     checkAdminStatus();
   }, []);
 
@@ -481,30 +602,17 @@ export default function VisionBoard() {
 
       <main className="relative z-10 pt-28 pb-16 px-6">
         <div className="max-w-6xl mx-auto">
-          {/* Header */}
+          {/* Header - HARDCODED from PRD */}
           <div className="text-center mb-12">
-            <InlineEdit
-              sectionId="vision"
-              blockKey="hero"
-              field="title"
-              content={heroBlock?.title || "Vision Board"}
-              className="text-[10px] font-black uppercase tracking-widest text-orange-400 mb-2"
-            />
-            <InlineEdit
-              sectionId="vision"
-              blockKey="hero"
-              field="subtitle"
-              content={heroBlock?.subtitle || "Where I am going · What I am building · Who I am becoming"}
-              className="text-5xl sm:text-6xl md:text-7xl font-black italic uppercase tracking-tighter leading-[0.9] mb-4"
-              as="h1"
-            />
-            <InlineEdit
-              sectionId="vision"
-              blockKey="hero"
-              field="content"
-              content={heroBlock?.content || "A living document of intentions, goals, and the future I am actively creating. Not wishes. Commitments."}
-              className="text-lg text-white/40 max-w-xl mx-auto"
-            />
+            <p className="text-[10px] font-black uppercase tracking-widest text-orange-400 mb-2">
+              {heroContent.title}
+            </p>
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black italic uppercase tracking-tighter leading-[0.9] mb-4 text-white">
+              {heroContent.subtitle}
+            </h1>
+            <p className="text-lg text-white/40 max-w-xl mx-auto">
+              A living document of intentions, goals, and the future I am actively creating. Not wishes. Commitments.
+            </p>
           </div>
 
           {/* Actions Bar */}

@@ -4,8 +4,7 @@ import Footer from "@/components/Footer";
 import SubNav, { type SubNavItem } from "@/components/shared/SubNav";
 import BulletList from "@/components/shared/BulletList";
 import InfoCard from "@/components/shared/InfoCard";
-import { useContent } from "@/hooks/useContent";
-import { InlineEdit } from '@/components/admin/InlineEdit';
+// HARDCODED CONTENT - No Supabase imports needed
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Link } from "react-router-dom";
@@ -777,20 +776,7 @@ const HiringCoFounder = ({ onBackToHandbook }: { onBackToHandbook: () => void })
 };
 
 const Handbook = () => {
-  const { blocks, listItems, tags, loading, updateListItem, deleteListItem, addListItem, addTag, deleteTag } = useContent("handbook");
-  
-  const getBlock = (key: string) => blocks.find((b: any) => b.block_key === key);
-  const getList = (key: string) => listItems[key] || [];
-  const getTags = (key: string) => tags[key] || [];
-  
-  if (loading) {
-    return <div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>;
-  }
-  
-  const heroBlock = getBlock("hero");
-  const principlesBlock = getBlock("principles");
-  const mentalModelsBlock = getBlock("mental_models");
-  const [sub, setSub] = useState("intro");
+  // HARDCODED CONTENT FROM PRD - No Supabase dependency
   const subs: SubNavItem[] = [
     "intro",
     "what we do",
@@ -817,23 +803,14 @@ const Handbook = () => {
       <Navbar />
       <main className="pt-28 pb-20">
         <div className="section-container !py-0">
-          {/* Header */}
+          {/* Header - HARDCODED from PRD */}
           <div className="mb-6">
-            <InlineEdit
-              sectionId="handbook"
-              blockKey="hero"
-              field="title"
-              content={heroBlock?.title || "Handbook"}
-              className="text-3xl sm:text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-white mb-3"
-              as="h1"
-            />
-            <InlineEdit
-              sectionId="handbook"
-              blockKey="hero"
-              field="content"
-              content={heroBlock?.content || "Operating principles, mental models, and the frameworks I use to navigate life and build products."}
-              className="text-white/30 font-medium italic"
-            />
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-white mb-3">
+              🚀 MY ALIEN-STYLE STARTUP HANDBOOK
+            </h1>
+            <p className="text-white/30 font-medium italic">
+              Operating principles, mental models, and the frameworks I use to navigate life and build products.
+            </p>
           </div>
 
           <SubNav items={subs} active={sub} onSelect={setSub} accentColor="text-secondary" />
@@ -851,57 +828,37 @@ const Handbook = () => {
                 ]} />
               </GlassCard>
 
-              {/* Principles */}
+              {/* Principles - HARDCODED from PRD */}
               <div className="glass border-orange-500/20 overflow-hidden">
                 <div className="px-6 sm:px-8 py-4 border-b border-white/10 flex items-center gap-2">
-                  <InlineEdit
-                    sectionId="handbook"
-                    blockKey="principles"
-                    field="icon"
-                    content={principlesBlock?.icon || "📋"}
-                    className="text-xl"
-                  />
-                  <InlineEdit
-                    sectionId="handbook"
-                    blockKey="principles"
-                    field="title"
-                    content={principlesBlock?.title || "Core Principles"}
-                    className="text-xl font-black italic uppercase tracking-tighter text-white"
-                    as="h3"
-                  />
+                  <span className="text-xl">📋</span>
+                  <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">Core Principles</h3>
                 </div>
                 <div className="px-6 sm:px-8 py-5">
-                  <EditableList
-                    items={getList("principles")}
-                    blockId={principlesBlock?.id}
-                    accentColor="orange"
-                    onUpdate={updateListItem}
-                    onDelete={deleteListItem}
-                    onAdd={addListItem}
-                  />
+                  <GlassBullets accentColor="text-orange-400" items={[
+                    "Transparency — Build in public. Share the journey.",
+                    "Community First — Human connection over metrics.",
+                    "Ship Fast — Launch, learn, iterate. Perfect is the enemy of shipped.",
+                    "Honor the Chaos — Life is messy. Build for the mess.",
+                    "Alien Mindset — Think differently. Challenge norms.",
+                    "Remote Mastery — Location-independent excellence.",
+                  ]} />
                 </div>
               </div>
 
-              {/* Mental Models */}
+              {/* Mental Models - HARDCODED from PRD */}
               <div className="glass border-orange-500/20 overflow-hidden">
                 <div className="px-6 sm:px-8 py-4 border-b border-white/10">
-                  <InlineEdit
-                    sectionId="handbook"
-                    blockKey="mental_models"
-                    field="title"
-                    content={mentalModelsBlock?.title || "Mental Models"}
-                    className="text-xl font-black italic uppercase tracking-tighter text-white"
-                    as="h3"
-                  />
+                  <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">Mental Models</h3>
                 </div>
                 <div className="px-6 sm:px-8 py-5">
-                  <EditableTags
-                    items={getTags("mental_models")}
-                    blockId={mentalModelsBlock?.id}
-                    accentColor="orange"
-                    onAdd={addTag}
-                    onDelete={deleteTag}
-                  />
+                  <div className="flex flex-wrap gap-2">
+                    {["First Principles Thinking", "Systems Thinking", "Second-Order Thinking", "Inversion", "Occam's Razor", "Pareto Principle (80/20)", "Regret Minimization", "Optionality", "Compounding", "Asymmetric Risk", "Network Effects", "Antifragility"].map((tag) => (
+                      <span key={tag} className="px-3 py-1 rounded-full bg-orange-500/20 text-orange-300 text-sm font-medium">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
 

@@ -375,8 +375,7 @@ hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(249,115,22,0.2)]
 
 **Headline:**
 ```
-Ahmad
-Abdelaziz
+Ahmad Abdelaziz
 ```
 - Styling: `text-5xl sm:text-6xl md:text-8xl font-black italic uppercase tracking-tighter mb-4 text-white`
 - "Abdelaziz" has: `text-green-500 neon-glow`
