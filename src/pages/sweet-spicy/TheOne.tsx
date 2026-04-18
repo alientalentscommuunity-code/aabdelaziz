@@ -4,22 +4,8 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SweetSpiceNavbar from '@/components/SweetSpiceNavbar';
-import { useContent } from '@/hooks/useContent';
-import { InlineEdit, EditableList } from '@/components/admin/InlineEdit';
 
 export default function TheOne() {
-  const { blocks, listItems, loading, updateListItem, deleteListItem, addListItem } = useContent("sweet_spice");
-  
-  const getBlock = (key: string) => blocks.find((b: any) => b.block_key === key);
-  const getList = (key: string) => listItems[key] || [];
-  
-  if (loading) {
-    return <div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>;
-  }
-  
-  const paradoxBlock = getBlock("her_paradox");
-  const physicalBlock = getBlock("her_physical");
-  const traitsBlock = getBlock("her_traits");
   
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">

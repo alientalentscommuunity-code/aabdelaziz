@@ -1186,7 +1186,179 @@ const Handbook = () => {
           )}
 
           {/* HIRING CO-FOUNDER */}
-          {sub === "hiring-co-founder" && <HiringCoFounder onBackToHandbook={backToHandbook} />}
+          {sub === "hiring-co-founder" && (
+            <div className="space-y-8">
+              {/* Header */}
+              <div className="text-center space-y-4 mb-12">
+                <p className="text-[10px] font-black uppercase tracking-widest text-orange-400">🚀 HIRING</p>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-white">
+                  Looking for a <span className="text-orange-400">CO-FOUNDER</span>
+                </h2>
+                <p className="text-lg sm:text-xl font-medium italic text-white/60 max-w-3xl mx-auto">
+                  Partner in Crime to ARCHITECT LIVES & Communities with ART OF HUMANITY
+                </p>
+              </div>
+
+              {/* What We're Looking For */}
+              <div className="glass border-orange-500/20 overflow-hidden">
+                <div className="px-6 sm:px-8 py-5 border-b border-white/10">
+                  <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">What We're Looking For</h3>
+                </div>
+                <div className="px-6 sm:px-8 py-6">
+                  <p className="text-white/60 font-medium italic leading-relaxed mb-4">
+                    🎯 Someone who brings: <span className="text-orange-400">Curiosity, wildness, kindness</span> — and comes with <span className="text-orange-400">Backend & AI competencies</span>.
+                  </p>
+                  <p className="text-white/60 font-medium italic leading-relaxed">
+                    💡 Feel free to reach out if you own a different gift/craft but you think it's awesome.
+                  </p>
+                </div>
+              </div>
+
+              {/* The Approach */}
+              <div className="glass border-orange-500/20 overflow-hidden">
+                <div className="px-6 sm:px-8 py-5 border-b border-white/10">
+                  <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">The Approach</h3>
+                </div>
+                <div className="px-6 sm:px-8 py-6">
+                  <GlassBullets accentColor="text-orange-400" items={[
+                    "🧪 Joining us means you wanna try something out",
+                    "🎭 Doing it Heisenberg style — learning by doing",
+                    "🔄 Breaking into product management through practice",
+                    "🌟 Starting over with something unique and aligned",
+                    "🌍 Opportunity to change people's lives — FOR REAL"
+                  ]} />
+                </div>
+              </div>
+
+              {/* Who We Are */}
+              <div className="glass border-green-500/20 overflow-hidden">
+                <div className="px-6 sm:px-8 py-5 border-b border-white/10">
+                  <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">Who We Are — ALIENs Venture</h3>
+                </div>
+                <div className="px-6 sm:px-8 py-6 space-y-4">
+                  <p className="text-white/60 font-medium italic leading-relaxed">
+                    We're prototyping thoughts, emotions, and chaos using <span className="text-green-400">Code × AI × No-Code tools</span>.
+                  </p>
+                  <p className="text-white/60 font-medium italic leading-relaxed">
+                    Mission: Turn uncertainty in global employment, wealth, and wellbeing into clear wins for talents and hiring managers across MENA and emerging markets.
+                  </p>
+                </div>
+              </div>
+
+              {/* The Problem */}
+              <div className="glass border-orange-500/20 overflow-hidden">
+                <div className="px-6 sm:px-8 py-5 border-b border-white/10">
+                  <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">The Problem We Exist to Solve</h3>
+                  <p className="text-white/40 text-sm font-medium italic mt-2">Across MENA, both talent and hiring managers face:</p>
+                </div>
+                <div className="px-6 sm:px-8 py-6">
+                  <GlassBullets accentColor="text-orange-400" items={[
+                    "Hidden job markets — opportunities never see daylight",
+                    "Fragmented information — scattered across 20+ platforms",
+                    "Low trust — resumes lie, interviews are theatrical, ghosting is standard",
+                    "Unclear growth paths — no guidance on what to learn or where to go"
+                  ]} />
+                  
+                  <div className="mt-8 space-y-4">
+                    <p className="text-sm font-black uppercase tracking-widest text-white/60">Who we serve:</p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="glass border-green-500/20 p-4 rounded-xl">
+                        <p className="text-green-400 font-black mb-2">Talents (B2C)</p>
+                        <p className="text-white/60 text-sm italic">Emerging, unseen, multi-potential humanity</p>
+                      </div>
+                      <div className="glass border-orange-500/20 p-4 rounded-xl">
+                        <p className="text-orange-400 font-black mb-2">Hiring Managers (B2B)</p>
+                        <p className="text-white/60 text-sm italic">Startups, SMEs, remote-first teams</p>
+                      </div>
+                      <div className="glass border-pink-500/20 p-4 rounded-xl">
+                        <p className="text-pink-400 font-black mb-2">Institutions (B2B/B2G)</p>
+                        <p className="text-white/60 text-sm italic">Universities, academies, innovation hubs, NGOs</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* What We're Building */}
+              <div className="glass border-violet-500/20 overflow-hidden">
+                <div className="px-6 sm:px-8 py-5 border-b border-white/10">
+                  <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">What We're Building</h3>
+                </div>
+                <div className="px-6 sm:px-8 py-6">
+                  <p className="text-white/60 font-medium italic leading-relaxed">
+                    An <span className="text-violet-400">AI-enabled, Human-First Venture Hub</span> powered by ALIEN AI — a bestie-style AI for employment, wealth, and wellbeing.
+                  </p>
+                </div>
+              </div>
+
+              {/* The Role */}
+              <div className="glass border-emerald-500/20 overflow-hidden">
+                <div className="px-6 sm:px-8 py-5 border-b border-white/10">
+                  <h3 className="text-xl font-black italic uppercase tracking-tighter text-white">The Role: Backend & AI Co-Founder</h3>
+                </div>
+                <div className="px-6 sm:px-8 py-6 space-y-6">
+                  <div>
+                    <p className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-3">Responsibilities:</p>
+                    <GlassBullets accentColor="text-emerald-400" items={[
+                      "Backend architecture & API design (Supabase/PostgreSQL)",
+                      "AI integration (OpenAI/Claude APIs, prompt engineering)",
+                      "Vector database implementation for semantic search",
+                      "Automation workflows (n8n/Make)",
+                      "Technical co-leadership and product decisions"
+                    ]} />
+                  </div>
+                  
+                  <div>
+                    <p className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-3">Ideal Profile:</p>
+                    <GlassBullets accentColor="text-emerald-400" items={[
+                      "Backend development experience (Node.js/Python/Go)",
+                      "AI/ML familiarity (LLMs, embeddings, RAG)",
+                      "Builder mindset — ships fast, learns faster",
+                      "Human-first approach — cares about impact",
+                      "Curious, wild, kind"
+                    ]} />
+                  </div>
+                  
+                  <div>
+                    <p className="text-sm font-black uppercase tracking-widest text-emerald-400 mb-3">What You Get:</p>
+                    <GlassBullets accentColor="text-emerald-400" items={[
+                      "Equal co-founder status & equity",
+                      "Learning-by-doing environment",
+                      "Portfolio of shipped products",
+                      "Real impact on real people's lives",
+                      "Flexible, remote-first culture"
+                    ]} />
+                  </div>
+                </div>
+              </div>
+
+              {/* CTA */}
+              <div className="glass border-orange-500/20 overflow-hidden text-center">
+                <div className="px-6 sm:px-8 py-8 space-y-6">
+                  <p className="text-2xl font-black italic uppercase tracking-tighter text-white">
+                    Think you're the one?
+                  </p>
+                  <p className="text-white/60 font-medium italic">
+                    Let's build something that matters. Together.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button 
+                      onClick={() => alert('Application form coming soon! Email ahmad@alientalents.com in the meantime.')}
+                      className="bg-orange-500 hover:bg-orange-400 text-black font-black uppercase tracking-wider px-8 py-4 rounded-full transition-all duration-300 hover:scale-105"
+                    >
+                      Apply Now
+                    </button>
+                    <button 
+                      onClick={backToHandbook}
+                      className="border border-white/20 hover:border-white/40 text-white font-bold uppercase tracking-wider px-8 py-4 rounded-full transition-all duration-300"
+                    >
+                      Back to Handbook
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </main>
       <Footer />
