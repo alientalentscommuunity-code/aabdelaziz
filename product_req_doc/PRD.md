@@ -390,7 +390,7 @@ AI-enabled Product Manager | Community-Led Growth
 | Icon | Label | Link |
 |------|-------|------|
 | Mail | ahmad@alientalents.com | mailto:ahmad@alientalents.com |
-| Linkedin | LinkedIn | https://www.linkedin.com/in/ahmad96abdelaziz/ |
+| Linkedin | LinkedIn | https://www.linkedin.com/in/a96abdelaziz/ |
 | MapPin | Egypt • Global Remote | (text only) |
 
 **Summary Bullets:**
@@ -511,7 +511,7 @@ My Journey
 • Skilled in 0 → MVP: Ideate, Discovery, Research, PRD, Strategy, Prototyping with LLMs & Vibe coding tools.
   → Shipped Jobs & companies boards, talent marketplace, Mini ATS, and +2 in-progress MVPs
      ┌─────────────────┐ ┌─────────────────┐
-     │ 📈 20k+ visits  │ │ 🏆 $2k+ ROI     │
+     │ 📈 30k+ visits  │ │ 🏆 $2k+ ROI     │
      │ 3k+ applies     │ │ 100% Profit     │
      │ 500 Signups     │ │                 │
      └─────────────────┘ └─────────────────┘

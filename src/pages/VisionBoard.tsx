@@ -186,7 +186,10 @@ export default function VisionBoard() {
       target_date: '2025-12-31',
       links: [],
       files: [],
-      privacy: 'private',
+      privacy: 'private'
+    }
+  ];
+
   // State declarations
   const [itemsLoading, setItemsLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);

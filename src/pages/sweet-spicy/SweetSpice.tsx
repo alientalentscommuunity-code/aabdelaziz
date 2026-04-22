@@ -1,31 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { useContent } from '@/hooks/useContent';
-import { InlineEdit } from '@/components/admin/InlineEdit';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SweetSpiceNavbar from '@/components/SweetSpiceNavbar';
 
 export default function SweetSpice() {
-  const { blocks, loading } = useContent('sweet');
-  
-  const getBlock = (key: string) => blocks.find((b: any) => b.block_key === key);
-  
-  const heroBlock = getBlock('landing_hero');
-  const whyBlock = getBlock('landing_why');
-  const universesBlock = getBlock('landing_three_universes');
-  const howBlock = getBlock('landing_how_works');
-  const ctaBlock = getBlock('landing_cta');
-  
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        <div className="animate-pulse text-pink-400">Loading...</div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       {/* Pink ambient glow at top */}
@@ -45,39 +25,136 @@ export default function SweetSpice() {
 
           {/* SECTION A — WHY THIS EXISTS (Hero) */}
           <section className="text-center space-y-8 pt-8">
-            <InlineEdit
-              sectionId="sweet"
-              blockKey="landing_hero"
-              field="title"
-              content={heroBlock?.title || "🌶️ SWEET SPICE"}
-              className="text-[10px] font-black uppercase tracking-widest text-pink-400"
-            />
-            <InlineEdit
-              sectionId="sweet"
-              blockKey="landing_hero"
-              field="content"
-              content={heroBlock?.content || "Not Just Business. A way of living. A space for connection. Intentional. Private. Real."}
-              className="text-5xl sm:text-6xl md:text-8xl font-black italic uppercase tracking-tighter leading-[0.9]"
-              as="h1"
-            />
+            <p className="text-[10px] font-black uppercase tracking-widest text-pink-400">
+              🌶️ SWEET SPICE
+            </p>
+            <h1 className="text-5xl sm:text-6xl md:text-8xl font-black italic uppercase tracking-tighter leading-[0.9] text-white">
+              Not Just Business.<br/>
+              <span className="text-pink-400">A way of living.</span><br/>
+              A space for connection.<br/>
+              Intentional. Private. Real.
+            </h1>
             <div className="max-w-2xl mx-auto space-y-6">
-              <InlineEdit
-                sectionId="sweet"
-                blockKey="landing_why"
-                field="content"
-                content={whyBlock?.content || "I am a builder. A product manager. A founder. Someone who has spent years getting clear — financially, professionally, personally. I have been intentional about not rushing into marriage before I was ready.\n\nThat time is over.\n\nI am ready. Mentally. Emotionally. And instead of leaving the search to chance, apps, or social circles that keep delivering the wrong people — I am doing what I do best: architecting the thing I want with intention and craft."}
-                className="text-lg sm:text-xl font-medium italic text-white/60 leading-relaxed whitespace-pre-line"
-                multiline
-              />
+              <p className="text-lg sm:text-xl font-medium italic text-white/60 leading-relaxed whitespace-pre-line">
+                I am a builder. A product manager. A founder. Someone who has spent years getting clear — financially, professionally, personally. I have been intentional about not rushing into marriage before I was ready.
+
+That time is over.
+
+I am ready. Mentally. Emotionally. And instead of leaving the search to chance, apps, or social circles that keep delivering the wrong people — I am doing what I do best: architecting the thing I want with intention and craft.
+              </p>
             </div>
-            <InlineEdit
-              sectionId="sweet"
-              blockKey="landing_hero"
-              field="subtitle"
-              content={heroBlock?.subtitle || "The right woman is not found in an algorithm. She is found when she stumbles across something real and thinks — wait, this is actually me."}
-              className="text-base font-bold italic text-pink-400/80 max-w-xl mx-auto"
-            />
+            <p className="text-base font-bold italic text-pink-400/80 max-w-xl mx-auto">
+              The right woman is not found in an algorithm. She is found when she stumbles across something real and thinks — wait, this is actually me.
+            </p>
           </section>
+
+          {/* SECTION B — THE THREE UNIVERSES */}
+          <section className="space-y-12">
+            <p className="text-[10px] font-black uppercase tracking-widest text-pink-400/60 text-center">
+              THE THREE UNIVERSES
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Aliens Career */}
+              <Link to="/career-galaxy" className="group">
+                <div className="glass border-green-500/20 p-8 rounded-2xl h-full hover:border-green-500/40 transition-all duration-300">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-black uppercase tracking-tight text-green-400 block">
+                      🚀 Aliens Career Galaxy
+                    </h3>
+                    <p className="text-sm text-white/50 font-medium italic">
+                      Career galaxy for talents, hiring managers, and institutions across MENA and emerging markets.
+                    </p>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Sweet & Spicy */}
+              <Link to="/sweet-spice" className="group">
+                <div className="glass border-pink-500/20 p-8 rounded-2xl h-full hover:border-pink-500/40 transition-all duration-300">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-black uppercase tracking-tight text-pink-400 block">
+                      🌶️ Sweet & Spicy
+                    </h3>
+                    <p className="text-sm text-white/50 font-medium italic">
+                      Intentional connection space. A private universe for the right woman to find something real.
+                    </p>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Human Angel */}
+              <Link to="/human-angel" className="group">
+                <div className="glass border-violet-500/20 p-8 rounded-2xl h-full hover:border-violet-500/40 transition-all duration-300">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-black uppercase tracking-tight text-violet-400 block">
+                      👼 Human Angel
+                    </h3>
+                    <p className="text-sm text-white/50 font-medium italic">
+                      Coming soon. A space for meaningful human connection and support.
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            </div>
+          </section>
+
+          {/* SECTION C — HOW THIS WORKS */}
+          <section className="space-y-12">
+            <p className="text-[10px] font-black uppercase tracking-widest text-pink-400/60 text-center">
+              HOW THIS WORKS
+            </p>
+            
+            <div className="space-y-6">
+              <div className="glass border-pink-500/10 p-6 rounded-2xl">
+                <p className="text-white/80 font-medium">
+                  <span className="text-pink-400 font-black">1.</span> Browse the spaces — Each universe has its own energy, purpose, and invitation.
+                </p>
+              </div>
+              <div className="glass border-pink-500/10 p-6 rounded-2xl">
+                <p className="text-white/80 font-medium">
+                  <span className="text-pink-400 font-black">2.</span> Feel the resonance — If something calls to you, trust that. This is built for alignment, not conversion.
+                </p>
+              </div>
+              <div className="glass border-pink-500/10 p-6 rounded-2xl">
+                <p className="text-white/80 font-medium">
+                  <span className="text-pink-400 font-black">3.</span> Enter with intention — Whether you are here for career, connection, or curiosity — show up fully.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* SECTION D — CTA */}
+          <section className="text-center space-y-8">
+            <h2 className="text-3xl sm:text-4xl font-black italic uppercase tracking-tighter text-white">
+              Ready to explore?
+            </h2>
+            <p className="text-lg font-medium italic text-white/60 max-w-xl mx-auto">
+              The doors are open. The question is: which universe calls to you?
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                to="/sweet-spice/the-one"
+                className="inline-flex items-center justify-center gap-2 bg-pink-500 hover:bg-pink-400 text-black font-black uppercase tracking-wider px-8 py-4 rounded-full transition-all duration-300 hover:scale-105"
+              >
+                <span>Meet The One</span>
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link
+                to="/sweet-spice/open-book"
+                className="inline-flex items-center justify-center gap-2 border border-pink-500/50 hover:border-pink-400 text-pink-400 font-bold uppercase tracking-wider px-8 py-4 rounded-full transition-all duration-300"
+              >
+                <span>Read The Open Book</span>
+              </Link>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
 
           {/* SECTION B — THE THREE UNIVERSES */}
           <section className="space-y-12">
@@ -184,112 +261,6 @@ export default function SweetSpice() {
                 />
                 <InlineEdit
                   sectionId="sweet"
-                  blockKey="universe_iii"
-                  field="content"
-                  content="The play. The surrender. The worship. The entire range of who she is — from babygirl to goddess, from kitten to queen. She has never found a man who could hold all of her. Until now."
-                  className="text-sm text-white/50 font-medium italic leading-relaxed"
-                  multiline
-                />
-              </div>
-            </div>
-          </section>
-
-          {/* SECTION C — HOW THIS WORKS */}
-          <section className="space-y-12">
-            <InlineEdit
-              sectionId="sweet"
-              blockKey="landing_how_works"
-              field="title"
-              content={howBlock?.title || "HOW THIS WORKS"}
-              className="text-[10px] font-black uppercase tracking-widest text-pink-400/60 text-center"
-            />
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Step 1 */}
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 rounded-full bg-pink-500/10 flex items-center justify-center mx-auto">
-                  <InlineEdit
-                    sectionId="sweet"
-                    blockKey="how_step_1"
-                    field="icon"
-                    content="1"
-                    className="text-2xl font-black text-pink-400"
-                  />
-                </div>
-                <InlineEdit
-                  sectionId="sweet"
-                  blockKey="how_step_1"
-                  field="title"
-                  content="Read"
-                  className="text-lg font-black uppercase tracking-tight text-white block"
-                  as="h4"
-                />
-                <InlineEdit
-                  sectionId="sweet"
-                  blockKey="how_step_1"
-                  field="content"
-                  content="Start here. Read the Three Universes. See if something moves you."
-                  className="text-sm text-white/50 font-medium italic"
-                  multiline
-                />
-              </div>
-
-              {/* Step 2 */}
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 rounded-full bg-pink-500/10 flex items-center justify-center mx-auto">
-                  <InlineEdit
-                    sectionId="sweet"
-                    blockKey="how_step_2"
-                    field="icon"
-                    content="2"
-                    className="text-2xl font-black text-pink-400"
-                  />
-                </div>
-                <InlineEdit
-                  sectionId="sweet"
-                  blockKey="how_step_2"
-                  field="title"
-                  content="Feel"
-                  className="text-lg font-black uppercase tracking-tight text-white block"
-                  as="h4"
-                />
-                <InlineEdit
-                  sectionId="sweet"
-                  blockKey="how_step_2"
-                  field="content"
-                  content="Go deeper. Read about her — the paradox, the portrait, what she gets."
-                  className="text-sm text-white/50 font-medium italic"
-                  multiline
-                />
-              </div>
-
-              {/* Step 3 */}
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 rounded-full bg-pink-500/10 flex items-center justify-center mx-auto">
-                  <InlineEdit
-                    sectionId="sweet"
-                    blockKey="how_step_3"
-                    field="icon"
-                    content="3"
-                    className="text-2xl font-black text-pink-400"
-                  />
-                </div>
-                <InlineEdit
-                  sectionId="sweet"
-                  blockKey="how_step_3"
-                  field="title"
-                  content="Go Further"
-                  className="text-lg font-black uppercase tracking-tight text-white block"
-                  as="h4"
-                />
-                <InlineEdit
-                  sectionId="sweet"
-                  blockKey="how_step_3"
-                  field="content"
-                  content="If something here moves you — keep going. The deeper version awaits."
-                  className="text-sm text-white/50 font-medium italic"
-                  multiline
-                />
               </div>
             </div>
 
