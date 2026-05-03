@@ -18,7 +18,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useRequests, useAuth } from '@/hooks/useSupabase';
 import { supabase, Request } from '@/lib/supabase';
 import { cn } from '@/lib/utils';
 import { AnalyticsDashboard } from '@/components/AnalyticsDashboard';
@@ -120,8 +119,35 @@ const defaultUniverseSections: UniverseSection[] = [
 ];
 
 export default function AdminDashboard() {
-  const { user, signOut } = useAuth();
-  const { requests, stats, loading: requestsLoading, error, refetch, updateRequest, deleteRequest, markAsViewed } = useRequests();
+  // LocalStorage-based auth (no Supabase dependency)
+  const [user, setUser] = useState<string | null>(localStorage.getItem('admin_user'));
+  const [requests, setRequests] = useState([]);
+  const [stats, setStats] = useState([]);
+  const [requestsLoading, setRequestsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  const signOut = () => {
+    localStorage.removeItem('admin_auth');
+    localStorage.removeItem('admin_user');
+    window.location.href = '/admin';
+  };
+  
+  const refetch = () => {
+    // Mock function - will need to connect to Supabase when needed
+    console.log('Refetch not implemented - Supabase disconnected');
+  };
+  
+  const updateRequest = (id: string, data: any) => {
+    console.log('Update request not implemented - Supabase disconnected', id, data);
+  };
+  
+  const deleteRequest = (id: string) => {
+    console.log('Delete request not implemented - Supabase disconnected', id);
+  };
+  
+  const markAsViewed = (id: string) => {
+    console.log('Mark as viewed not implemented - Supabase disconnected', id);
+  };
   
   // Active tab
   const [activeTab, setActiveTab] = useState<TabType>('requests');

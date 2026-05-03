@@ -1,20 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Mail, Lock, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useAuth } from '@/hooks/useSupabase';
+
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = 'Ahmad2024!';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { user, signIn } = useAuth();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  // Check if already logged in
+  useEffect(() => {
+    const auth = localStorage.getItem('admin_auth');
+    if (auth === 'true') {
+      setIsAuthenticated(true);
+    }
+  }, []);
 
   // Redirect if already logged in
-  if (user) {
+  if (isAuthenticated) {
     return <Navigate to="/admin/dashboard" replace />;
   }
 
@@ -23,11 +33,13 @@ export default function AdminLogin() {
     setLoading(true);
     setError('');
 
-    const { error: signInError } = await signIn(email, password);
-    
-    if (signInError) {
-      console.error('Sign in error:', signInError);
-      setError(signInError.message);
+    // Hardcoded admin authentication
+    if (email === ADMIN_USER && password === ADMIN_PASS) {
+      localStorage.setItem('admin_auth', 'true');
+      localStorage.setItem('admin_user', ADMIN_USER);
+      setIsAuthenticated(true);
+    } else {
+      setError('Invalid username or password');
     }
     
     setLoading(false);
