@@ -93,10 +93,12 @@ const App = () => (
             <Route path="/human" element={<HumanSide />} />
             <Route path="/partners" element={<Partners />} />
             <Route path="/handbook" element={<Handbook />} />
+            {/* Temporarily disabled - fix SweetSpice.tsx then re-enable
             <Route path="/sweet-spice" element={<SweetSpice />} />
-            <Route path="/sweet-spice/her" element={<TheOne />} />
-            <Route path="/sweet-spice/gate" element={<Gate />} />
-            <Route path="/sweet-spice/assessment" element={<Assessment />} />
+            <Route path="/sweet-spice/the-one" element={<TheOne />} />
+            <Route path="/sweet-spice/open-book" element={<OpenBook />} />
+            <Route path="/sweet-spice/open" element={<OpenBook />} />
+            */}
             <Route path="/sweet-spice/contact" element={<ContactCollection />} />
             <Route path="/sweet-spice/rejected" element={<Rejected />} />
             <Route path="/sweet-spice/vibe-check" element={<VibeCheck />} />
