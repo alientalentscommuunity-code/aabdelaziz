@@ -4,9 +4,7 @@ import { Mail, Lock, LogIn } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'Ahmad2024!';
+import { supabase } from '@/lib/supabase';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -17,10 +15,23 @@ export default function AdminLogin() {
 
   // Check if already logged in
   useEffect(() => {
-    const auth = localStorage.getItem('admin_auth');
-    if (auth === 'true') {
-      setIsAuthenticated(true);
-    }
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        // Check if user is admin
+        const { data: adminUser } = await supabase
+          .from('admin_users')
+          .select('*')
+          .eq('user_id', session.user.id)
+          .eq('is_active', true)
+          .single();
+        
+        if (adminUser) {
+          setIsAuthenticated(true);
+        }
+      }
+    };
+    checkSession();
   }, []);
 
   // Redirect if already logged in
@@ -33,16 +44,41 @@ export default function AdminLogin() {
     setLoading(true);
     setError('');
 
-    // Hardcoded admin authentication
-    if (email === ADMIN_USER && password === ADMIN_PASS) {
-      localStorage.setItem('admin_auth', 'true');
-      localStorage.setItem('admin_user', ADMIN_USER);
+    try {
+      // Sign in with Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (authError) {
+        throw authError;
+      }
+
+      if (!authData.user) {
+        throw new Error('Authentication failed');
+      }
+
+      // Check if user is in admin_users table
+      const { data: adminUser, error: adminError } = await supabase
+        .from('admin_users')
+        .select('*')
+        .eq('user_id', authData.user.id)
+        .eq('is_active', true)
+        .single();
+
+      if (adminError || !adminUser) {
+        // Sign out if not an admin
+        await supabase.auth.signOut();
+        throw new Error('Access denied. You are not authorized as an admin.');
+      }
+
       setIsAuthenticated(true);
-    } else {
-      setError('Invalid username or password');
+    } catch (err: any) {
+      setError(err.message || 'Invalid email or password');
+    } finally {
+      setLoading(false);
     }
-    
-    setLoading(false);
   };
 
   return (
